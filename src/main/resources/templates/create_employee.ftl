@@ -28,8 +28,8 @@
                 <input name="email" type="email" class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500" required />
             </div>
             <div class="flex gap-3 pt-2">
-                <button type="submit" class="btn-dark-blue w-full py-3 px-4 font-medium">Сохранить</button>
-                <a href="/" class="btn-dark-blue w-full py-3 px-4 font-medium text-center">Назад</a>
+                <button type="submit" class="btn-dark-blue w-full py-3 px-4 font-medium  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Сохранить</button>
+                <a href="/" class="btn-dark-blue w-full py-3 px-4 font-medium text-center  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Назад</a>
             </div>
         </form>
     </div>

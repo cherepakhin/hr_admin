@@ -39,7 +39,7 @@
             </#if>
         </div>
         <div class="bg-gray-50 px-6 py-4 border-t border-gray-100 text-center">
-            <a href="/" class="btn-dark-blue inline-flex items-center px-4 py-2 font-medium">← Назад</a>
+            <a href="/" class="btn-dark-blue inline-flex items-center px-4 py-2 font-medium hover:bg-sky-50 hover:text-sky-900">← Назад</a>
         </div>
     </div>
 </body>

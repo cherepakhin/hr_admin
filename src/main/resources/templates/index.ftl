@@ -41,13 +41,15 @@
 
         <!-- Navigation -->
         <nav class="mt-4 flex-1 px-3">
-            <a href="/" class="sidebar-link active flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition">
+            <a href="/"
+                class="sidebar-link flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
                 </svg>
                 Сотрудники
             </a>
-            <a href="/employees/new" class="sidebar-link flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition">
+            <a href="/employees/new"
+                class="sidebar-link flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
@@ -73,7 +75,7 @@
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl font-semibold text-gray-800">Все сотрудники</h2>
                 <a href="/employees/new"
-                   class="btn-dark-blue px-5 py-2 font-medium shadow transition flex items-center gap-2">
+                   class="btn-dark-blue px-5 py-2 font-medium shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
