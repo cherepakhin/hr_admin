@@ -91,7 +91,7 @@
                                 <td class="px-6 py-4">${emp.email}</td>
                                 <td class="px-6 py-4 flex justify-center gap-4">
                                     <!-- Edit Action -->
-                                    <a href="http://127.0.0.1:8080/employees/edit/${emp.id}"
+                                    <a href="/employees/edit/${emp.id}"
                                        class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
                                        title="Редактировать">
                                         <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke="currentColor">

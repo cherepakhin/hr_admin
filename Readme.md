@@ -58,7 +58,7 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 Запуск на другом порту:
 
 ````shell
-$ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freemarker-0.0.1-SNAPSHOT.jar --server.port=8082
+$ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freemarker-0.0.1-SNAPSHOT.jar --server.port=8088
 ````
 
 ### Использование
