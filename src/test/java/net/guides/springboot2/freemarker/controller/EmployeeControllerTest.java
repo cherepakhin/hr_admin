@@ -7,13 +7,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
+import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,14 +37,25 @@ public class EmployeeControllerTest {
 		// given
 		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com");
 		emp1.setId(1L);
-		given(employeeRepository.findAll()).willReturn(List.of(emp1));
+		Employee emp2 = new Employee("Jane", "Smith", "jane.smith@example.com");
+		emp2.setId(2L);
+
+		// Создаём список сотрудников
+		// Example: Pageable pageable = PageRequest.of(0, 10, Sort.by("firstName").ascending());
+		Pageable pageable = PageRequest.of(0, 1);
+		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), pageable, 2);
+
+		// Мокаем репозиторий
+		given(employeeRepository.findAll((Pageable) any())).willReturn(employeePage);
 
 		// when + then
 		mockMvc.perform(get("/"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("index"))
 				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("employees", hasSize(1)))
+				.andExpect(model().attribute("currentPage", 0))
+				.andExpect(model().attribute("totalPages", 2))
+				.andExpect(model().attribute("employees", hasSize(2)))
 				.andExpect(model().attribute("employees", hasItem(
 						allOf(
 								hasProperty("firstName", is("John")),
@@ -135,13 +150,31 @@ public class EmployeeControllerTest {
 		// given
 		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com");
 		emp1.setId(1L);
-		given(employeeRepository.findAll()).willReturn(Arrays.asList(emp1));
+		Employee emp2 = new Employee("Jane", "Smith", "jane.smith@example.com");
+		emp2.setId(2L);
+
+		// Создаём список сотрудников
+		// Example: Pageable pageable = PageRequest.of(0, 10, Sort.by("firstName").ascending());
+		Pageable pageable = PageRequest.of(0, 1);
+		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), pageable, 2);
+
+		// Мокаем репозиторий
+		given(employeeRepository.findAll((Pageable) any())).willReturn(employeePage);
 
 		// when + then
 		mockMvc.perform(get("/showEmployees"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("showEmployees"))
 				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("employees", hasSize(1)));
+				.andExpect(model().attribute("currentPage", 0))
+				.andExpect(model().attribute("totalPages", 2))
+				.andExpect(model().attribute("employees", hasSize(2)))
+				.andExpect(model().attribute("employees", hasItem(
+						allOf(
+								hasProperty("firstName", is("John")),
+								hasProperty("lastName", is("Doe")),
+								hasProperty("email", is("john.doe@example.com"))
+						)
+				)));
 	}
 }
