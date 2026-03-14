@@ -27,7 +27,17 @@
             @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium;
         }
         .pagination-current {
-            font-weight: 900;
+            @apply px-3 py-1
+                   bg-gradient-to-r from-red-500 to-red-700
+                   text-white
+                   font-bold
+                   rounded
+                   shadow-inner
+                   border border-red-600
+                   ring-1 ring-red-300;
+        }
+        .pagination-first-last {
+            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium text-xs;
         }
     </style>
 </head>
@@ -114,46 +124,46 @@
                         </tbody>
                     </table>
 
-                    <!-- Pagination -->
-                    <div class="flex justify-between items-center mt-6">
-                        <div class="text-sm text-gray-600">
-                            Показано ${(currentPage * 10) + 1}–${(currentPage * 10) + employees?size} из ${totalElements}
-                        </div>
-
-                        <ul class="inline-flex space-x-1">
-                            <!-- Previous Button -->
-                            <#if currentPage gt 0>
-                                <li>
-                                    <a href="/showEmployees?page=${currentPage - 1}" class="pagination-link">← Назад</a>
-                                </li>
-                            <#else>
-                                <li><span class="pagination-link opacity-50 cursor-not-allowed">← Назад</span></li>
-                            </#if>
-
-                            <!-- Page Numbers with Current Highlighted -->
-                            <#assign startPage = [currentPage - 2, 0]?max />
-                            <#assign endPage = [(startPage + 4), totalPages - 1]?min />
-
-                            <#list startPage..endPage as p>
-                                <li>
-                                    <#if p == currentPage>
-                                        <span class="pagination-current">${p + 1}</span>
-                                    <#else>
-                                        <a href="/showEmployees?page=${p}" class="pagination-link">${p + 1}</a>
-                                    </#if>
-                                </li>
-                            </#list>
-
-                            <!-- Next Button -->
-                            <#if currentPage lt totalPages - 1>
-                                <li>
-                                    <a href="/showEmployees?page=${currentPage + 1}" class="pagination-link">Вперёд →</a>
-                                </li>
-                            <#else>
-                                <li><span class="pagination-link opacity-50 cursor-not-allowed">Вперёд →</span></li>
-                            </#if>
-                        </ul>
+                <!-- Pagination -->
+                <div class="flex justify-between items-center mt-6">
+                    <div class="text-sm text-gray-600">
+                        Показано ${(currentPage * 10) + 1}–${(currentPage * 10) + employees?size} из ${totalElements}
                     </div>
+
+                    <ul class="inline-flex space-x-1">
+                        <!-- Previous Button -->
+                        <#if currentPage gt 0>
+                            <li>
+                                <a href="/?page=${currentPage - 1}" class="pagination-link">← Назад</a>
+                            </li>
+                        <#else>
+                            <li><span class="pagination-link opacity-50 cursor-not-allowed">← Назад</span></li>
+                        </#if>
+
+                        <!-- Page Numbers -->
+                        <#assign startPage = [currentPage - 2, 0]?max />
+                        <#assign endPage = [(startPage + 4), totalPages - 1]?min />
+
+                        <#list startPage..endPage as p>
+                            <li>
+                                <#if p == currentPage>
+                                    <span class="pagination-current">${p + 1}</span>
+                                <#else>
+                                    <a href="/?page=${p}" class="pagination-link">${p + 1}</a>
+                                </#if>
+                            </li>
+                        </#list>
+
+                        <!-- Next Button -->
+                        <#if currentPage lt totalPages - 1>
+                            <li>
+                                <a href="/?page=${currentPage + 1}" class="pagination-link">Вперёд →</a>
+                            </li>
+                        <#else>
+                            <li><span class="pagination-link opacity-50 cursor-not-allowed">Вперёд →</span></li>
+                        </#if>
+                    </ul>
+                </div>
                 <#else>
                     <p class="text-center py-6 text-gray-500">Сотрудники не найдены.</p>
                 </#if>
