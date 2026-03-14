@@ -27,7 +27,7 @@
             @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium;
         }
         .pagination-current {
-            @apply px-3 py-1 bg-sky-900 text-white font-bold rounded;
+            font-weight: 900;
         }
     </style>
 </head>
@@ -130,16 +130,17 @@
                                 <li><span class="pagination-link opacity-50 cursor-not-allowed">← Назад</span></li>
                             </#if>
 
-                            <!-- Page Numbers -->
+                            <!-- Page Numbers with Current Highlighted -->
                             <#assign startPage = [currentPage - 2, 0]?max />
                             <#assign endPage = [(startPage + 4), totalPages - 1]?min />
 
                             <#list startPage..endPage as p>
                                 <li>
-                                    <a href="/showEmployees?page=${p}"
-                                       class="<#if p == currentPage>pagination-current<#else>pagination-link</#if>">
-                                        ${p + 1}
-                                    </a>
+                                    <#if p == currentPage>
+                                        <span class="pagination-current">${p + 1}</span>
+                                    <#else>
+                                        <a href="/showEmployees?page=${p}" class="pagination-link">${p + 1}</a>
+                                    </#if>
                                 </li>
                             </#list>
 
