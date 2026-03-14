@@ -4,50 +4,121 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>All Employees - HR Admin</title>
+    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>body{font-family:'Inter',sans-serif;}.btn-dark-blue{@apply bg-sky-900 hover:bg-sky-800 text-white;}</style>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-dark-blue {
+            @apply bg-sky-900 hover:bg-sky-800 text-white;
+        }
+        .action-icon {
+            @apply w-5 h-5 transition-colors duration-200;
+        }
+        .action-edit {
+            @apply text-sky-900 hover:text-sky-700;
+        }
+        .action-delete {
+            @apply text-red-600 hover:text-red-800;
+        }
+        /* Ensure SVG stroke is visible */
+        .action-icon svg {
+            stroke-width: 2;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex">
 
-    <!-- Include Sidebar Fragment -->
-    <#include "/fragments/sidebar.ftl" />
+    <!-- Sidebar Fragment -->
+    <div class="w-64 bg-white shadow-lg flex flex-col border-r border-gray-100">
+        <div class="p-6 text-center border-b border-gray-100">
+            <h1 class="text-xl font-bold text-sky-900">Отдел кадров</h1>
+            <p class="text-xs text-gray-500 mt-1">v1.0</p>
+        </div>
+        <nav class="mt-4 flex-1 px-3">
+            <a href="/"
+                class="flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                </svg>
+                Сотрудники
+            </a>
+            <a href="/employees/new"
+                class="flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Добавить
+            </a>
+            <a href="/showEmployees"
+               class="flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                Показать всех
+            </a>
+        </nav>
+    </div>
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
-    <div class="w-full max-w-6xl bg-white shadow-xl border border-gray-100">
-        <div class="bg-sky-900 px-6 py-8 text-white text-center">
-            <h2 class="text-2xl font-semibold">Список всех сотрудников</h2>
-            <p class="text-sky-200">Все записи в базе данных</p>
+        <div class="w-full max-w-6xl mx-auto bg-white shadow-xl border border-gray-100">
+            <div class="bg-sky-900 px-6 py-8 text-white text-center">
+                <h2 class="text-2xl font-semibold">Список всех сотрудников</h2>
+                <p class="text-sky-200">Все записи в базе данных</p>
+            </div>
+            <div class="p-6 overflow-x-auto">
+                <#if employees?has_content>
+                    <table class="w-full text-sm text-left text-gray-700">
+                        <thead class="uppercase border-t border-gray-100 bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 font-medium">Имя</th>
+                                <th class="px-6 py-3 font-medium">Фамилия</th>
+                                <th class="px-6 py-3 font-medium">Email</th>
+                                <th class="px-6 py-3 font-medium text-center">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <#list employees as emp>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 font-medium">${emp.firstName}</td>
+                                <td class="px-6 py-4">${emp.lastName}</td>
+                                <td class="px-6 py-4">${emp.email}</td>
+                                <td class="px-6 py-4 flex justify-center gap-4">
+                                    <!-- Edit Action -->
+                                    <a href="http://127.0.0.1:8080/employees/edit/${emp.id}"
+                                       class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
+                                       title="Редактировать">
+                                        <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                        </svg>
+                                    </a>
+
+                                    <!-- Delete Action -->
+                                    <a href="/employees/delete/${emp.id}"
+                                       onclick="return confirm('Вы уверены, что хотите удалить сотрудника ${emp.firstName} ${emp.lastName}?');"
+                                       class="action-delete inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-100 transition"
+                                       title="Удалить">
+                                        <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                            </#list>
+                        </tbody>
+                    </table>
+                <#else>
+                    <p class="text-center py-6 text-gray-500">Сотрудники не найдены.</p>
+                </#if>
+            </div>
+            <div class="bg-gray-50 px-6 py-4 border-t border-gray-100 text-center">
+                <a href="/" class="btn-dark-blue inline-flex items-center px-4 py-2 font-medium hover:bg-sky-50 hover:text-sky-900">← Назад</a>
+            </div>
         </div>
-        <div class="p-6 overflow-x-auto">
-            <#if employees?has_content>
-                <table class="w-full text-sm text-left text-gray-700">
-                    <thead class="uppercase border-t border-gray-100">
-                        <tr>
-                            <th class="px-6 py-3 font-medium">Имя</th>
-                            <th class="px-6 py-3 font-medium">Фамилия</th>
-                            <th class="px-6 py-3 font-medium">Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <#list employees as emp>
-                        <tr class="border-b border-gray-100">
-                            <td class="px-6 py-4">${emp.firstName}</td>
-                            <td class="px-6 py-4">${emp.lastName}</td>
-                            <td class="px-6 py-4">${emp.email}</td>
-                        </tr>
-                        </#list>
-                    </tbody>
-                </table>
-            <#else>
-                <p class="text-center py-6 text-gray-500">No employees found.</p>
-            </#if>
-        </div>
-        <div class="bg-gray-50 px-6 py-4 border-t border-gray-100 text-center">
-            <a href="/" class="btn-dark-blue inline-flex items-center px-4 py-2 font-medium hover:bg-sky-50 hover:text-sky-900">← Назад</a>
-        </div>
-    </div>
     </div>
 </body>
 </html>
