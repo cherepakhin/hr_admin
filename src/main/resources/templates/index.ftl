@@ -27,6 +27,13 @@
         .sidebar-link:hover svg, .sidebar-link.active svg {
             @apply text-sky-900;
         }
+        .pagination-link {
+            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium;
+        }
+        .pagination-current {
+            font-weight: 900;
+            color: cornflowerblue;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex">
@@ -54,7 +61,7 @@
         <!-- Employee List -->
         <main class="flex-1 p-6 overflow-y-auto">
             <#if employees?has_content>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                     <#list employees as employee>
                     <div class="bg-white p-6 shadow-md border border-gray-100 transition-all duration-200">
                         <div class="flex items-center mb-4">
@@ -75,7 +82,7 @@
                                 Изменить
                             </a>
                             <a href="/employees/delete/${employee.id}"
-                               onclick="return confirm('Are you sure you want to delete ${employee.firstName}?');"
+                               onclick="return confirm('Вы уверены, что хотите удалить ${employee.firstName}?');"
                                class="text-sky-900 hover:text-sky-700 font-medium text-sm transition flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -86,13 +93,54 @@
                     </div>
                     </#list>
                 </div>
+
+                <!-- Pagination -->
+                <div class="flex justify-between items-center mt-6">
+                    <div class="text-sm text-gray-600">
+                        Показано ${(currentPage * 10) + 1}–${(currentPage * 10) + employees?size} из ${totalElements}
+                    </div>
+
+                    <ul class="inline-flex space-x-1">
+                        <!-- Previous Button -->
+                        <#if currentPage gt 0>
+                            <li>
+                                <a href="/?page=${currentPage - 1}" class="pagination-link">← Назад</a>
+                            </li>
+                        <#else>
+                            <li><span class="pagination-link opacity-50 cursor-not-allowed">← Назад</span></li>
+                        </#if>
+
+                        <!-- Page Numbers -->
+                        <#assign startPage = [currentPage - 2, 0]?max />
+                        <#assign endPage = [(startPage + 4), totalPages - 1]?min />
+
+                        <#list startPage..endPage as p>
+                            <li>
+                                <#if p == currentPage>
+                                    <span class="pagination-current">${p + 1}</span>
+                                <#else>
+                                    <a href="/?page=${p}" class="pagination-link">${p + 1}</a>
+                                </#if>
+                            </li>
+                        </#list>
+
+                        <!-- Next Button -->
+                        <#if currentPage lt totalPages - 1>
+                            <li>
+                                <a href="/?page=${currentPage + 1}" class="pagination-link">Вперёд →</a>
+                            </li>
+                        <#else>
+                            <li><span class="pagination-link opacity-50 cursor-not-allowed">Вперёд →</span></li>
+                        </#if>
+                    </ul>
+                </div>
             <#else>
                 <div class="bg-white p-10 shadow text-center border border-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-sky-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    <h3 class="mt-4 text-lg font-medium text-gray-700">No employees found</h3>
-                    <p class="text-gray-500 mt-1">Get started by adding a new employee.</p>
+                    <h3 class="mt-4 text-lg font-medium text-gray-700">Сотрудники не найдены</h3>
+                    <p class="text-gray-500 mt-1">Добавьте первого сотрудника.</p>
                     <a href="/employees/new"
                        class="btn-dark-blue inline-flex items-center px-4 py-2 text-sm font-medium shadow transition mt-4">
                         Добавить сотрудника

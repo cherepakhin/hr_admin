@@ -19,12 +19,19 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @GetMapping("/")
-    public String home(Model model) {
-        List<Employee> employees = employeeRepository.findAll();
-        model.addAttribute("employees", employees);
-        return "index";
-    }
+	@GetMapping("/")
+	public String listEmployees(Model model,
+                           @RequestParam(defaultValue = "0") int page,
+                           @RequestParam(defaultValue = "10") int size) {
+    	Pageable pageable = PageRequest.of(page, size);
+    	Page<Employee> employeePage = employeeRepository.findAll(pageable);
+		model.addAttribute("employees", employeePage.getContent());
+		model.addAttribute("currentPage", employeePage.getNumber());
+		model.addAttribute("totalPages", employeePage.getTotalPages());
+		model.addAttribute("totalElements", employeePage.getTotalElements());
+
+		return "index";
+	}
 
     @GetMapping("/employees/new")
     public String showCreateForm(Model model) {
