@@ -1,6 +1,9 @@
 package net.guides.springboot2.freemarker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -60,9 +63,19 @@ public class EmployeeController {
         return "redirect:/";
     }
 
-    @GetMapping("/showEmployees")
-    public String showAllEmployees(Model model) {
-        model.addAttribute("employees", employeeRepository.findAll());
-        return "showEmployees";
-    }
+	@GetMapping("/showEmployees")
+	public String showAllEmployees(Model model,
+								   @RequestParam(defaultValue = "0") int page,
+								   @RequestParam(defaultValue = "10") int size) {
+
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Employee> employeePage = employeeRepository.findAll(pageable);
+
+		model.addAttribute("employees", employeePage.getContent());
+		model.addAttribute("currentPage", employeePage.getNumber());
+		model.addAttribute("totalPages", employeePage.getTotalPages());
+		model.addAttribute("totalElements", employeePage.getTotalElements());
+
+		return "showEmployees";
+	}
 }
