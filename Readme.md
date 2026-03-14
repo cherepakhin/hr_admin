@@ -4,7 +4,9 @@
 - Простой CRUD. База данных H2.
 - Использован Tailwind - CSS-фреймворк для оформления интерфейсов.
 - При тестировании использован AssertJ.
-- Файлы из gigachat.
+- Использован gigachat.
+- __BDD Mockito__ в EmployeeControllerTest.java
+- __DataJpaTest__ в EmployeeRepositoryTest.java
 
 Основной экран:
 
@@ -45,7 +47,7 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 
 Собранный __FAT__ jar будет в target/springboot2-freemarker-0.0.1-SNAPSHOT.jar .
 
-Использован org.springframework.boot:spring-boot-maven-plugin .
+Использован __org.springframework.boot:spring-boot-maven-plugin__ .
 
 ### Запуск
 
@@ -53,3 +55,21 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
  /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freemarker-0.0.1-SNAPSHOT.jar
 ````
 
+Запуск на другом порту:
+
+````shell
+$ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freemarker-0.0.1-SNAPSHOT.jar --server.port=8082
+````
+
+### Использование
+
+Открыть [http://127.0.0.1:8080/](http://127.0.0.1:8080/)
+
+### Разное
+
+SQL запросы логируются. Для этого сделена настройка:
+
+````text
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+````
