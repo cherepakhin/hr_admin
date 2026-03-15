@@ -9,9 +9,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+/*
+С DataJpaTest программа будет загружена полностью
+ */
 public class EmployeeRepositoryTest {
 
     @Autowired
@@ -27,13 +29,13 @@ public class EmployeeRepositoryTest {
         entityManager.persistAndFlush(employee);
 
         // when
-        Optional<Employee> found = employeeRepository.findById(employee.getId());
+        Optional<Employee> foundEmployee = employeeRepository.findById(employee.getId());
 
         // then
-        Assertions.assertThat(found).isPresent();
-        Assertions.assertThat(found.get().getFirstName()).isEqualTo("John");
-        Assertions.assertThat(found.get().getLastName()).isEqualTo("Doe");
-        Assertions.assertThat(found.get().getEmail()).isEqualTo("john.doe@example.com");
+        Assertions.assertThat(foundEmployee).isPresent();
+        Assertions.assertThat(foundEmployee.get().getFirstName()).isEqualTo("John");
+        Assertions.assertThat(foundEmployee.get().getLastName()).isEqualTo("Doe");
+        Assertions.assertThat(foundEmployee.get().getEmail()).isEqualTo("john.doe@example.com");
     }
 
     @Test
@@ -42,13 +44,13 @@ public class EmployeeRepositoryTest {
         Employee employee = new Employee("Jane", "Smith", "jane.smith@example.com");
 
         // when
-        Employee saved = employeeRepository.save(employee);
+        Employee savedEmployee = employeeRepository.save(employee);
 
         // then
-        Assertions.assertThat(saved.getId()).isNotNull();
-        Assertions.assertThat(saved.getFirstName()).isEqualTo("Jane");
-        Assertions.assertThat(saved.getLastName()).isEqualTo("Smith");
-        Assertions.assertThat(saved.getEmail()).isEqualTo("jane.smith@example.com");
+        Assertions.assertThat(savedEmployee.getId()).isNotNull();
+        Assertions.assertThat(savedEmployee.getFirstName()).isEqualTo("Jane");
+        Assertions.assertThat(savedEmployee.getLastName()).isEqualTo("Smith");
+        Assertions.assertThat(savedEmployee.getEmail()).isEqualTo("jane.smith@example.com");
     }
 
     @Test
@@ -59,10 +61,10 @@ public class EmployeeRepositoryTest {
 
         // when
         employeeRepository.deleteById(employee.getId());
-        Optional<Employee> found = employeeRepository.findById(employee.getId());
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employee.getId());
 
         // then
-        Assertions.assertThat(found).isEmpty();
+        Assertions.assertThat(optionalEmployee).isEmpty();
     }
 
     @Test
@@ -74,10 +76,10 @@ public class EmployeeRepositoryTest {
         // when
         employee.setFirstName("Robert");
         employee.setEmail("robert.brown@example.com");
-        Employee updated = employeeRepository.save(employee);
+        Employee updatedEmployee = employeeRepository.save(employee);
 
         // then
-        Assertions.assertThat(updated.getFirstName()).isEqualTo("Robert");
-        Assertions.assertThat(updated.getEmail()).isEqualTo("robert.brown@example.com");
+        Assertions.assertThat(updatedEmployee.getFirstName()).isEqualTo("Robert");
+        Assertions.assertThat(updatedEmployee.getEmail()).isEqualTo("robert.brown@example.com");
     }
 }
