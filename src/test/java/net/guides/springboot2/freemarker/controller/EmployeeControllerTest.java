@@ -23,6 +23,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Тестирование в BDD (given, when, then) стиле с org.mockito.BDDMockito
+ */
 @WebMvcTest(EmployeeController.class)
 public class EmployeeControllerTest {
 
