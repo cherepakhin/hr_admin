@@ -41,36 +41,48 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex">
+<body class="bg-gray-50 min-h-screen flex" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
 
     <!-- Sidebar Fragment -->
-    <div class="w-64 bg-white shadow-lg flex flex-col border-r border-gray-100">
-        <div class="p-6 text-center border-b border-gray-100">
-            <h1 class="text-xl font-bold text-sky-900">Отдел кадров</h1>
-            <p class="text-xs text-gray-500 mt-1">v1.0</p>
+    <div
+        :class="{ 'w-16': !sidebarOpen, 'w-64': sidebarOpen }"
+        class="bg-white shadow-lg flex flex-col border-r border-gray-100 transition-all duration-300 overflow-hidden relative">
+
+        <!-- Logo -->
+        <div class="p-4 text-center border-b border-gray-100 flex items-center justify-center">
+            <div class="w-8 h-8 bg-sky-900 text-white flex items-center justify-center font-bold rounded">
+                HR
+            </div>
+            <span
+                x-show="sidebarOpen"
+                class="ml-3 text-sm font-semibold text-sky-900 whitespace-nowrap transition-opacity duration-300">
+                Отдел кадров
+            </span>
         </div>
-        <nav class="mt-4 flex-1 px-3">
+
+        <!-- Navigation -->
+        <nav class="mt-4 flex-1 px-2">
             <a href="/"
-                class="flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               class="flex items-center px-3 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
                 </svg>
-                Сотрудники
+                <span x-show="sidebarOpen" class="ml-3 whitespace-nowrap">Сотрудники</span>
             </a>
             <a href="/employees/new"
-                class="flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               class="flex items-center px-3 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                 </svg>
-                Добавить
+                <span x-show="sidebarOpen" class="ml-3 whitespace-nowrap">Добавить</span>
             </a>
             <a href="/showEmployees"
-               class="flex items-center px-4 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               class="flex items-center px-3 py-3 text-gray-700 mb-2 font-medium transition rounded-none hover:bg-sky-50 hover:text-sky-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                 </svg>
-                Показать всех
+                <span x-show="sidebarOpen" class="ml-3 whitespace-nowrap">Показать всех</span>
             </a>
         </nav>
     </div>
@@ -124,46 +136,64 @@
                         </tbody>
                     </table>
 
-                <!-- Pagination -->
-                <div class="flex justify-between items-center mt-6">
-                    <div class="text-sm text-gray-600">
-                        Показано ${(currentPage * 10) + 1}–${(currentPage * 10) + employees?size} из ${totalElements}
+                    <!-- Pagination -->
+                    <div class="flex justify-between items-center mt-6">
+                        <div class="text-sm text-gray-600">
+                            Показано ${(currentPage * 10) + 1}–${(currentPage * 10) + employees?size} из ${totalElements}
+                        </div>
+
+                        <ul class="inline-flex space-x-1">
+                            <!-- First Page Button -->
+                            <#if currentPage gt 0>
+                                <li>
+                                    <a href="/showEmployees?page=0" class="pagination-first-last">≪</a>
+                                </li>
+                            <#else>
+                                <li><span class="pagination-first-last opacity-50 cursor-not-allowed">≪</span></li>
+                            </#if>
+
+                            <!-- Previous Button -->
+                            <#if currentPage gt 0>
+                                <li>
+                                    <a href="/showEmployees?page=${currentPage - 1}" class="pagination-link">←</a>
+                                </li>
+                            <#else>
+                                <li><span class="pagination-link opacity-50 cursor-not-allowed">←</span></li>
+                            </#if>
+
+                            <!-- Page Numbers with Current Highlighted -->
+                            <#assign startPage = [currentPage - 2, 0]?max />
+                            <#assign endPage = [(startPage + 4), totalPages - 1]?min />
+
+                            <#list startPage..endPage as p>
+                                <li>
+                                    <#if p == currentPage>
+                                        <span class="pagination-current">${p + 1}</span>
+                                    <#else>
+                                        <a href="/showEmployees?page=${p}" class="pagination-link">${p + 1}</a>
+                                    </#if>
+                                </li>
+                            </#list>
+
+                            <!-- Next Button -->
+                            <#if currentPage lt totalPages - 1>
+                                <li>
+                                    <a href="/showEmployees?page=${currentPage + 1}" class="pagination-link">→</a>
+                                </li>
+                            <#else>
+                                <li><span class="pagination-link opacity-50 cursor-not-allowed">→</span></li>
+                            </#if>
+
+                            <!-- Last Page Button -->
+                            <#if currentPage lt totalPages - 1>
+                                <li>
+                                    <a href="/showEmployees?page=${totalPages - 1}" class="pagination-first-last">≫</a>
+                                </li>
+                            <#else>
+                                <li><span class="pagination-first-last opacity-50 cursor-not-allowed">≫</span></li>
+                            </#if>
+                        </ul>
                     </div>
-
-                    <ul class="inline-flex space-x-1">
-                        <!-- Previous Button -->
-                        <#if currentPage gt 0>
-                            <li>
-                                <a href="/?page=${currentPage - 1}" class="pagination-link">← Назад</a>
-                            </li>
-                        <#else>
-                            <li><span class="pagination-link opacity-50 cursor-not-allowed">← Назад</span></li>
-                        </#if>
-
-                        <!-- Page Numbers -->
-                        <#assign startPage = [currentPage - 2, 0]?max />
-                        <#assign endPage = [(startPage + 4), totalPages - 1]?min />
-
-                        <#list startPage..endPage as p>
-                            <li>
-                                <#if p == currentPage>
-                                    <span class="pagination-current">${p + 1}</span>
-                                <#else>
-                                    <a href="/?page=${p}" class="pagination-link">${p + 1}</a>
-                                </#if>
-                            </li>
-                        </#list>
-
-                        <!-- Next Button -->
-                        <#if currentPage lt totalPages - 1>
-                            <li>
-                                <a href="/?page=${currentPage + 1}" class="pagination-link">Вперёд →</a>
-                            </li>
-                        <#else>
-                            <li><span class="pagination-link opacity-50 cursor-not-allowed">Вперёд →</span></li>
-                        </#if>
-                    </ul>
-                </div>
                 <#else>
                     <p class="text-center py-6 text-gray-500">Сотрудники не найдены.</p>
                 </#if>
@@ -173,5 +203,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Alpine.js for sidebar toggle -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 </html>
