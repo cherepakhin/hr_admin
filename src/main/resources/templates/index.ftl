@@ -38,6 +38,7 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen flex" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
+
     <!-- Sidebar Fragment -->
     <div
         :class="{ 'w-16': !sidebarOpen, 'w-64': sidebarOpen }"

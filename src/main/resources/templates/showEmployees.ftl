@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>All Employees - HR Admin</title>
+    <title>Employees - HR Admin</title>
+
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -14,33 +18,25 @@
         .btn-dark-blue {
             @apply bg-sky-900 hover:bg-sky-800 text-white;
         }
-        .action-icon {
-            @apply w-5 h-5 transition-colors duration-200;
+        .sidebar-link:hover, .sidebar-link.active {
+            @apply bg-gray-100 text-sky-900;
         }
-        .action-edit {
-            @apply text-sky-900 hover:text-sky-700;
+        .sidebar-link svg {
+            @apply transition-colors duration-200;
         }
-        .action-delete {
-            @apply text-red-600 hover:text-red-800;
+        .sidebar-link:hover svg, .sidebar-link.active svg {
+            @apply text-sky-900;
         }
         .pagination-link {
             @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium;
         }
         .pagination-current {
-            @apply px-3 py-1
-                   bg-gradient-to-r from-red-500 to-red-700
-                   text-white
-                   font-bold
-                   rounded
-                   shadow-inner
-                   border border-red-600
-                   ring-1 ring-red-300;
-        }
-        .pagination-first-last {
-            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium text-xs;
+            font-weight: 900;
+            color: cornflowerblue;
         }
     </style>
 </head>
+
 <body class="bg-gray-50 min-h-screen flex" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
 
     <!-- Sidebar Fragment -->
@@ -203,8 +199,5 @@
             </div>
         </div>
     </div>
-
-    <!-- Alpine.js for sidebar toggle -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 </html>
