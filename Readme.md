@@ -77,3 +77,197 @@ SQL запросы логируются. Для этого сделена нас
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 ````
+
+Не переносить слова __whitespace-nowrap__: 
+
+````text
+<span class="ml-3 whitespace-nowrap">Скрыть панель</span>
+````
+### О Freemarker
+
+[https://habr.com/ru/articles/420549/](https://habr.com/ru/articles/420549/)
+
+Алтернатива velocity.
+#### Пример 1:
+
+````html
+<ul>
+  <#list father as item>
+      <li>${item}</li>
+  </#list>
+</ul>
+````
+
+````java
+Map<String, Object> root = new HashMap<>();
+....
+root.put("father", Arrays.asList("Alexander", "Petrov", 47));
+````
+
+
+#### Пример 2:
+
+Шаблон hello_test.ftl:
+
+````html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello ${name}!</title>
+</head>
+<body>
+
+<input type="text" placeholder="${name}">
+
+<table>
+    <#list persons as row>
+    <tr>
+        <#list row as field>
+            <td>${field}</td>
+        </#list>
+    </tr>
+    </#list>
+</table>
+
+</body>
+</html>
+
+````
+
+````java
+@Component
+public class CommandLine implements CommandLineRunner {
+
+    @Autowired
+    private Configuration configuration;
+
+    public void run(String... args) {
+        Map<String, Object> root = new HashMap<>();
+        // для ${name}
+        root.put("name", "Fremarker");
+        // для <#list persons
+        List<List> persons = new ArrayList<>();
+        persons.add(Arrays.asList("Alexander", "Petrov", 47));
+        persons.add(Arrays.asList("Slava", "Petrov", 13));
+        root.put("persons", persons);
+
+        try {
+            Template template = configuration.getTemplate("hello_test.ftl");
+            Writer out = new OutputStreamWriter(System.out);
+            try {
+                template.process(root, out);
+            } catch (TemplateException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+````
+
+Результат:
+
+````html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Fremarker!</title>
+</head>
+<body>
+
+<input type="text" placeholder="Fremarker">
+
+<table>
+    <tr>
+            <td>Alexander</td>
+            <td>Petrov</td>
+            <td>47</td>
+    </tr>
+    <tr>
+            <td>Slava</td>
+            <td>Petrov</td>
+            <td>13</td>
+    </tr>
+</table>
+</body>
+````
+
+### Макросы:
+
+#### Пример 1
+Объявление макроса __textInput__ в файле __"ui.ftl"__:
+
+````html
+<#macro textInput id value="-">
+  <input type="text" id="${id}" value="${value}">
+</#macro>
+````
+Ключевое слово __<#macro>__ , __</#macro>__.
+__textInput__ имя макроса.
+__id__ и __value__ - параметры макроса (value="-" - значение по умолчанию).
+
+Подключение макроса через __import__:
+(ключевое слово __#import__)
+
+````html
+<#import "ui.ftl" as ui/>
+````
+"ui" - алиас для использования.
+
+В шаблоне макрос "textInput" из импорта "ui" вызывается так:
+
+````html
+<@ui.textInput id="name" value="${name}"/>
+````
+
+### Пример 2:
+
+Файл макрос__ОВ__ __ui.ftl__:
+
+````html
+<#-- textInput macro for html input -->
+<#macro textInput id placeholder="" value="">
+  <input type="text" id="${id}" placeholder="${placeholder}" value="${value}">
+</#macro>
+
+<#-- table macro for html table -->
+<#macro table id rows>
+<table id="${id}">
+    <#list rows as row>            <#-- ЦИКЛ!!! -->                   
+    <tr>
+        <td>${row?index + 1}</td>  <#-- ВЫЧИСЛЕНИЕ!!! -->
+        <#list row as field>       <#-- ЦИКЛ!!! -->
+            <td>${field}</td>
+        </#list>
+    </tr>
+    </#list>
+</table>
+</#macro>
+````
+
+Использование __ui.ftl__ в __hello.ftl__:
+
+````html
+<#import "ui.ftl" as ui/>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello ${name}!</title>
+</head>
+<body>
+
+<@ui.textInput id="name" placeholder="Enter name" value="${name}"/>
+<@ui.table id="table1" rows=persons/>
+
+</body>
+</html>
+````
+
+### Ссылки
+
+[FreeMarker шаблоны (habr)](https://habr.com/ru/articles/420549/)
