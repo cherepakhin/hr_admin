@@ -83,6 +83,10 @@ spring.jpa.properties.hibernate.format_sql=true
 ````text
 <span class="ml-3 whitespace-nowrap">Скрыть панель</span>
 ````
+
+В контроллерах использовать __RequestMapping__ вместо __GetMapping__. Почему? 
+Потому что здесь не простой REST Controller, а управление страницами. Методы те же, но нужна дополнительная функциональность типа "redirect". 
+
 ### О Freemarker
 
 [https://habr.com/ru/articles/420549/](https://habr.com/ru/articles/420549/)
