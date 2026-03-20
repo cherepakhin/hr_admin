@@ -91,7 +91,7 @@
     <div class="flex-1 flex flex-col overflow-hidden">
 
         <!-- Header -->
-        <header class="bg-white shadow-sm p-6 border-b border-gray-100">
+        <header class="bg-white shadow-sm p-6 border-b border-gray-100 py-3">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl font-semibold text-gray-800">Все сотрудники</h2>
                 <a href="/employees/new"
