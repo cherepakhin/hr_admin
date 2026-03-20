@@ -1,1 +1,1 @@
- /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freemarker-0.0.1-SNAPSHOT.jar
+ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freemarker-0.0.2.jar

@@ -51,7 +51,7 @@
     <div class="flex-1 flex flex-col overflow-hidden">
         <div class="w-full max-w-6xl mx-auto bg-white shadow-xl border border-gray-100">
             <div class="bg-sky-900 px-6 py-1 text-white text-center">
-                <h2 class="text-2xl font-semibold">Список всех сотрудников</h2>
+                <h2 class="text-2xl font-semibold">Список сотрудников</h2>
                 <p class="text-sky-200">Страница ${currentPage + 1} из ${totalPages}, всего: ${totalElements} записей</p>
             </div>
             <div class="p-6 overflow-x-auto">
