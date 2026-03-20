@@ -10,7 +10,7 @@
 
 	<groupId>net.guides.springboot2</groupId>
 	<artifactId>springboot2-freemarker</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>springboot2-freemarker</name>
 
 	<properties>
