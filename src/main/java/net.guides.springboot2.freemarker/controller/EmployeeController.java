@@ -1,5 +1,7 @@
 package net.guides.springboot2.freemarker.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,11 +17,12 @@ import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 
 @Controller
 public class EmployeeController {
-
+	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
+	private String currentIndexPage = "/";
     @Autowired
     private EmployeeRepository employeeRepository;
 
-	@GetMapping("/")
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String listEmployees(Model model,
                            @RequestParam(defaultValue = "0") int page,
                            @RequestParam(defaultValue = "10") int size) {
@@ -30,24 +33,33 @@ public class EmployeeController {
 		model.addAttribute("totalPages", employeePage.getTotalPages());
 		model.addAttribute("totalElements", employeePage.getTotalElements());
 
+		log.info("/ ->" + currentIndexPage);
+		currentIndexPage = "/";
+		log.info("/ ->" + currentIndexPage);
+
 		return "index";
 	}
 
-    @GetMapping("/employees/new")
+	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
     public String showCreateForm(Model model) {
         model.addAttribute("employee", new Employee());
+		log.info("/employees/new: " + currentIndexPage);
         return "create_employee";
     }
 
-    @PostMapping("/employees")
+    @RequestMapping(value = "/employees", method = RequestMethod.POST )
     public String createEmployee(@ModelAttribute Employee employee, Model model) {
         employeeRepository.save(employee);
-        return "redirect:/";
+
+		log.info("post /employees/:" + currentIndexPage);
+
+        return "redirect:" + currentIndexPage;
     }
 
-    @GetMapping("/employees/edit/{id}")
+    @RequestMapping(value = "/employees/edit/{id}", method = RequestMethod.GET)
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         Optional<Employee> optional = employeeRepository.findById(id);
+		log.info("/employees/edit/{id}:" + currentIndexPage);
 		if(optional.isPresent()) {
 			model.addAttribute("employee", optional.get());
 			return "edit_employee";
@@ -55,22 +67,30 @@ public class EmployeeController {
 		throw new IllegalArgumentException("Employee not exist with id=" + id);
     }
 
-    @PostMapping("/employees/update/{id}")
+	@RequestMapping(value = "/employees/update/{id}", method = RequestMethod.POST)
     public String updateEmployee(@PathVariable("id") Long id,
                                  @ModelAttribute Employee employee,
                                  Model model) {
         employee.setId(id);
         employeeRepository.save(employee);
-        return "redirect:/";
+		log.info("/employees/update/{id}:" + currentIndexPage);
+		log.info(currentIndexPage);
+		if(!currentIndexPage.startsWith("/")) {
+			currentIndexPage = "/" + currentIndexPage;
+		}
+        return "redirect:" + currentIndexPage;
     }
 
-    @GetMapping("/employees/delete/{id}")
+	@RequestMapping(value = "/employees/delete/{id}", method = RequestMethod.DELETE )
     public String deleteEmployee(@PathVariable("id") Long id, Model model) {
         employeeRepository.deleteById(id);
+		log.info("/employees/delete/{id}:" + currentIndexPage);
+		log.info(currentIndexPage);
         return "redirect:/";
+//        return "showEmployees";
     }
 
-	@GetMapping("/showEmployees")
+	@RequestMapping(value = "showEmployees", method = RequestMethod.GET )
 	public String showAllEmployees(Model model,
 								   @RequestParam(defaultValue = "0") int page,
 								   @RequestParam(defaultValue = "10") int size) {
@@ -82,7 +102,9 @@ public class EmployeeController {
 		model.addAttribute("currentPage", employeePage.getNumber());
 		model.addAttribute("totalPages", employeePage.getTotalPages());
 		model.addAttribute("totalElements", employeePage.getTotalElements());
-
+		log.info(currentIndexPage);
+		currentIndexPage = "showEmployees";
+		log.info("from /showEmployees:" + currentIndexPage);
 		return "showEmployees";
 	}
 
