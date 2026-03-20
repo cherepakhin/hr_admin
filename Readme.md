@@ -69,6 +69,22 @@ $ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freema
 
 (см. application.yaml)
 
+### Размещение на tomcat сервере
+
+Сборка:
+
+````shell
+./mvnw clean package -DskipTests
+````
+
+Полученный файл target//springboot2-freemarker-0.0.2.war задеплоить в Tomcat через панель управления Tomcat.
+
+![tomcat.png](doc/tomcat.png)
+
+Доступ [http://v.perm.ru:8088/](http://v.perm.ru:8088/)
+
+не HTTPS!
+
 ### Разное
 
 SQL запросы логируются. Для этого сделена настройка:
@@ -91,7 +107,6 @@ spring.jpa.properties.hibernate.format_sql=true
 
 [https://habr.com/ru/articles/420549/](https://habr.com/ru/articles/420549/)
 
-Алтернатива velocity.
 #### Пример 1:
 
 ````html
@@ -275,3 +290,4 @@ __id__ и __value__ - параметры макроса (value="-" - значе�
 ### Ссылки
 
 [FreeMarker шаблоны (habr)](https://habr.com/ru/articles/420549/)
+[Альтернатива Freemarker - Velocity](https://velocity.apache.org/).
