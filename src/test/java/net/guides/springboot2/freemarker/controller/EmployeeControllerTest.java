@@ -161,16 +161,19 @@ public class EmployeeControllerTest {
 		Pageable pageable = PageRequest.of(0, 1);
 		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), pageable, 2);
 
-		// Мокаем репозиторий
-		given(employeeRepository.findAll((Pageable) any())).willReturn(employeePage);
+		given(employeeRepository.findByFilters(null, null, null, PageRequest.of(0, 10)))
+				.willReturn(employeePage);
 
 		// when + then
-		mockMvc.perform(get("/showEmployees"))
+		mockMvc.perform(get("/showEmployees")
+						.param("page", "0")
+						.param("size", "10"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("showEmployees"))
 				.andExpect(model().attributeExists("employees"))
 				.andExpect(model().attribute("currentPage", 0))
 				.andExpect(model().attribute("totalPages", 2))
+				.andExpect(model().attribute("totalElements", 2L))
 				.andExpect(model().attribute("employees", hasSize(2)))
 				.andExpect(model().attribute("employees", hasItem(
 						allOf(
@@ -179,5 +182,72 @@ public class EmployeeControllerTest {
 								hasProperty("email", is("john.doe@example.com"))
 						)
 				)));
+	}
+
+	@Test
+	public void shouldReturnFilteredEmployeesPage() throws Exception {
+		// Given
+		Employee emp1 = new Employee();
+		emp1.setId(1L);
+		emp1.setFirstName("Анна");
+		emp1.setLastName("Иванова");
+		emp1.setEmail("anna@example.com");
+
+		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1), PageRequest.of(0, 10), 1);
+
+		given(employeeRepository.findByFilters(
+				"Анна", null, null, PageRequest.of(0, 10)))
+				.willReturn(employeePage);
+
+		// When & Then
+		mockMvc.perform(get("/showEmployees")
+						.param("firstName", "Анна")
+						.param("page", "0")
+						.param("size", "10"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("showEmployees"))
+				.andExpect(model().attributeExists("employees"))
+				.andExpect(model().attribute("currentPage", 0))
+				.andExpect(model().attribute("totalPages", 1))
+				.andExpect(model().attribute("totalElements", 1L))
+				.andExpect(model().attribute("firstName", "Анна"))
+				.andExpect(model().attribute("lastName", (Object) null))
+				.andExpect(model().attribute("email", (Object) null))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Анна")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Иванова")));
+	}
+
+	@Test
+	public void shouldReturnAllEmployeesWhenNoFilters() throws Exception {
+		// Given
+		Employee emp1 = new Employee();
+		emp1.setId(1L);
+		emp1.setFirstName("Анна");
+		emp1.setLastName("Иванова");
+		emp1.setEmail("anna@example.com");
+
+		Employee emp2 = new Employee();
+		emp2.setId(2L);
+		emp2.setFirstName("Петр");
+		emp2.setLastName("Сидоров");
+		emp2.setEmail("petr@example.com");
+
+		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), PageRequest.of(0, 10), 2);
+
+		given(employeeRepository.findByFilters(null, null, null, PageRequest.of(0, 10)))
+				.willReturn(employeePage);
+
+		// When & Then
+		mockMvc.perform(get("/showEmployees")
+						.param("page", "0")
+						.param("size", "10"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("showEmployees"))
+				.andExpect(model().attributeExists("employees"))
+				.andExpect(model().attribute("currentPage", 0))
+				.andExpect(model().attribute("totalPages", 1))
+				.andExpect(model().attribute("totalElements",2L))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Анна")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Петр")));
 	}
 }
