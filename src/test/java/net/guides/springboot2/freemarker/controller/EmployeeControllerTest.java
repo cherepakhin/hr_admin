@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
@@ -107,7 +108,7 @@ public class EmployeeControllerTest {
 	}
 
 	@Test
-	public void whenGETEditFormWithInvalidId_thenThrowException() throws Exception {
+	public void whenGETEditFormWithInvalidId_thenThrowException() {
 		given(employeeRepository.findById(999L)).willReturn(Optional.empty());
 		String errorMessage = "";
 
@@ -193,7 +194,7 @@ public class EmployeeControllerTest {
 		emp1.setLastName("Иванова");
 		emp1.setEmail("anna@example.com");
 
-		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1), PageRequest.of(0, 10), 1);
+		Page<Employee> employeePage = new PageImpl<>(List.of(emp1), PageRequest.of(0, 10), 1);
 
 		given(employeeRepository.findByFilters(
 				"Анна", null, null, PageRequest.of(0, 10)))
@@ -246,7 +247,7 @@ public class EmployeeControllerTest {
 				.andExpect(model().attributeExists("employees"))
 				.andExpect(model().attribute("currentPage", 0))
 				.andExpect(model().attribute("totalPages", 1))
-				.andExpect(model().attribute("totalElements",2L))
+				.andExpect(model().attribute("totalElements", 2L))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Анна")))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Петр")));
 	}
