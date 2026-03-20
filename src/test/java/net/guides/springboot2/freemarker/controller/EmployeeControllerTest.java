@@ -86,7 +86,7 @@ public class EmployeeControllerTest {
 		mockMvc.perform(post("/employees")
 						.flashAttr("employee", employee))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/"));
+				.andExpect(redirectedUrl(""));
 
 		then(employeeRepository).should().save(employee);
 	}

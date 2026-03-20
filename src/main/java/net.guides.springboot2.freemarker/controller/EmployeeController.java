@@ -88,6 +88,7 @@ public class EmployeeController {
 		return "redirect:/" + currentIndexPage;
 	}
 
+	/*
 	@RequestMapping(value = "showEmployees", method = RequestMethod.GET)
 	public String showAllEmployees(Model model,
 								   @RequestParam(defaultValue = "0") int page,
@@ -99,7 +100,7 @@ public class EmployeeController {
 		log.info("from /showEmployees:" + currentIndexPage);
 		return "showEmployees";
 	}
-
+*/
 	@RequestMapping(value = "/hideToolbar", method = RequestMethod.GET)
 	public String hideToolbar() {
 		log.info("hideToolbar");
@@ -116,4 +117,35 @@ public class EmployeeController {
 		model.addAttribute("totalElements", employeePage.getTotalElements());
 	}
 
+	// Отображение формы фильтра
+	@GetMapping("/filter")
+	public String showFilterPage(Model model) {
+		return "filter";
+	}
+
+	// Показать всех сотрудников с фильтрацией
+	@GetMapping("/showEmployees")
+	public String showAllEmployees(
+			Model model,
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size,
+			@RequestParam(required = false) String firstName,
+			@RequestParam(required = false) String lastName,
+			@RequestParam(required = false) String email) {
+
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Employee> employeePage = employeeRepository.findByFilters(firstName, lastName, email, pageable);
+
+		model.addAttribute("employees", employeePage.getContent());
+		model.addAttribute("currentPage", employeePage.getNumber());
+		model.addAttribute("totalPages", employeePage.getTotalPages());
+		model.addAttribute("totalElements", employeePage.getTotalElements());
+
+		// Передаём значения фильтров обратно в шаблон (для сохранения в форме при пагинации)
+		model.addAttribute("firstName", firstName);
+		model.addAttribute("lastName", lastName);
+		model.addAttribute("email", email);
+
+		return "showEmployees";
+	}
 }
