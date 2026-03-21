@@ -9,7 +9,7 @@
 	</parent>
 
 	<groupId>net.guides.springboot2</groupId>
-	<artifactId>springboot2-freemarker</artifactId>
+	<artifactId>hr-admin</artifactId>
 	<version>0.0.2</version>
 	<name>springboot2-freemarker</name>
 	<packaging>jar</packaging>

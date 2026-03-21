@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -131,10 +132,39 @@ public class EmployeeController {
 			@RequestParam(defaultValue = "10") int size,
 			@RequestParam(required = false) String firstName,
 			@RequestParam(required = false) String lastName,
-			@RequestParam(required = false) String email) {
+			@RequestParam(required = false) String email,
+			@RequestParam(required = false) String sortField,
+			@RequestParam(required = false) String direction
+	) {
+		log.info("sortField:" + sortField);
+		log.info("direction:" + direction);
 
-		Pageable pageable = PageRequest.of(page, size);
-		Page<Employee> employeePage = employeeRepository.findByFilters(firstName, lastName, email, pageable);
+		// sort
+		if (sortField == null || sortField.equals("")) {
+			sortField = "id";
+		}
+		if (sortField == null || sortField.equals("n")) {
+			sortField = "id";
+		}
+		if (sortField != null && sortField.equals("firstName")) {
+			sortField = "firstName";
+		}
+		if (sortField != null && sortField.equals("lastName")) {
+			sortField = "lastName";
+		}
+		if (sortField != null && sortField.equals("email")) {
+			sortField = "email";
+		}
+		if (direction == null || direction.equals("")) {
+			direction = "asc";
+		}
+		log.info("sortField:" + sortField);
+		log.info("direction:" + direction);
+
+		Sort sort = Sort.by(direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+		Pageable pageable = PageRequest.of(page, size, sort);
+
+		Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(firstName, lastName, email, pageable);
 
 		model.addAttribute("employees", employeePage.getContent());
 		model.addAttribute("currentPage", employeePage.getNumber());
@@ -145,6 +175,9 @@ public class EmployeeController {
 		model.addAttribute("firstName", firstName);
 		model.addAttribute("lastName", lastName);
 		model.addAttribute("email", email);
+
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDirection", direction);
 
 		return "showEmployees";
 	}

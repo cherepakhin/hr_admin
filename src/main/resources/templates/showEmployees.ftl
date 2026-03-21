@@ -40,6 +40,15 @@
         .pagination-first-last {
             @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-bold;
         }
+        .sort-icon {
+            @apply inline-block text-xs text-gray-400 ml-1 transition-transform duration-200;
+        }
+        .sort-asc .sort-icon {
+            @apply text-sky-700 transform rotate-0;
+        }
+        .sort-desc .sort-icon {
+            @apply text-sky-700 transform rotate-180;
+        }
     </style>
 </head>
 
@@ -59,9 +68,42 @@
                     <table class="w-full text-sm text-left text-gray-700">
                         <thead class="uppercase border-t border-gray-100 bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 font-medium">Имя</th>
-                                <th class="px-6 py-3 font-medium">Фамилия</th>
-                                <th class="px-6 py-3 font-medium">Email</th>
+                                <!-- First Name -->
+                                <th class="px-6 py-3 font-medium cursor-pointer group"
+                                    onclick="window.location.href='?page=${currentPage}&sortField=firstName&direction=${(sortField == 'firstName' && sortDirection == 'asc')?string('desc','asc')}'">
+                                    Имя
+                                    <span class="text-xs text-gray-800 text-2xl">
+                                        <#if sortField == "firstName">
+                                            <#if sortDirection == "asc">↓</#if>
+                                            <#if sortDirection == "desc">↑</#if>
+                                        </#if>
+                                    </span>
+                                </th>
+
+                                <!-- Last Name -->
+                                <th class="px-6 py-3 font-medium cursor-pointer group"
+                                    onclick="window.location.href='?page=${currentPage}&sortField=lastName&direction=${(sortField == 'lastName' && sortDirection == 'asc')?string('desc','asc')}'">
+                                    Фамилия
+                                    <span class="text-xs text-gray-800 text-2xl">
+                                        <#if sortField == "lastName">
+                                            <#if sortDirection == "asc">↓</#if>
+                                            <#if sortDirection == "desc">↑</#if>
+                                        </#if>
+                                    </span>
+                                </th>
+
+                                <!-- Email -->
+                                <th class="px-6 py-3 font-medium cursor-pointer group"
+                                    onclick="window.location.href='?page=${currentPage}&sortField=email&direction=${(sortField == 'email' && sortDirection == 'asc')?string('desc','asc')}'">
+                                    Email
+                                    <span class="text-xs text-gray-800 text-2xl">
+                                        <#if sortField == "email">
+                                            <#if sortDirection == "asc">↓</#if>
+                                            <#if sortDirection == "desc">↑</#if>
+                                        </#if>
+                                    </span>
+                                </th>
+
                                 <th class="px-6 py-3 font-medium text-center">Действия</th>
                             </tr>
                         </thead>
@@ -106,7 +148,7 @@
                             <!-- First Page Button -->
                             <#if currentPage gt 0>
                                 <li>
-                                    <a href="/showEmployees?page=0" class="pagination-first-last">≪</a>
+                                    <a href="?page=0${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=firstName&direction=asc'}" class="pagination-first-last">≪</a>
                                 </li>
                             <#else>
                                 <li><span class="pagination-first-last opacity-50 cursor-not-allowed">≪</span></li>
@@ -115,7 +157,7 @@
                             <!-- Previous Button -->
                             <#if currentPage gt 0>
                                 <li>
-                                    <a href="/showEmployees?page=${currentPage - 1}" class="pagination-link">←</a>
+                                    <a href="?page=${currentPage - 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=firstName&direction=asc'}" class="pagination-link">←</a>
                                 </li>
                             <#else>
                                 <li><span class="pagination-link opacity-50 cursor-not-allowed">←</span></li>
@@ -130,7 +172,7 @@
                                     <#if p == currentPage>
                                         <span class="pagination-current">${p + 1}</span>
                                     <#else>
-                                        <a href="/showEmployees?page=${p}" class="pagination-link">${p + 1}</a>
+                                        <a href="?page=${p}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=firstName&direction=asc'}" class="pagination-link">${p + 1}</a>
                                     </#if>
                                 </li>
                             </#list>
@@ -138,7 +180,7 @@
                             <!-- Next Button -->
                             <#if currentPage lt totalPages - 1>
                                 <li>
-                                    <a href="/showEmployees?page=${currentPage + 1}" class="pagination-link">→</a>
+                                    <a href="?page=${currentPage + 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=firstName&direction=asc'}" class="pagination-link">→</a>
                                 </li>
                             <#else>
                                 <li><span class="pagination-link opacity-50 cursor-not-allowed">→</span></li>
@@ -147,7 +189,7 @@
                             <!-- Last Page Button -->
                             <#if currentPage lt totalPages - 1>
                                 <li>
-                                    <a href="/showEmployees?page=${totalPages - 1}" class="pagination-first-last">≫</a>
+                                    <a href="?page=${totalPages - 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=firstName&direction=asc'}" class="pagination-first-last">≫</a>
                                 </li>
                             <#else>
                                 <li><span class="pagination-first-last opacity-50 cursor-not-allowed">≫</span></li>
