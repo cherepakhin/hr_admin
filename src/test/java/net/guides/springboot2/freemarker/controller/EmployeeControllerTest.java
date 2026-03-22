@@ -84,7 +84,7 @@ public class EmployeeControllerTest {
 		mockMvc.perform(post("/employees")
 						.flashAttr("employee", employee))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl(""));
+				.andExpect(redirectedUrl("/showEmployees"));
 
 		then(employeeRepository).should().save(employee);
 	}
@@ -141,7 +141,7 @@ public class EmployeeControllerTest {
 		// when + then
 		mockMvc.perform(get("/employees/delete/1"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/"));
+				.andExpect(redirectedUrl("/showEmployees"));
 
 		then(employeeRepository).should().deleteById(1L);
 	}

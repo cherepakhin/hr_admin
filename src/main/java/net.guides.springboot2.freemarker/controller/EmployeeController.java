@@ -87,7 +87,7 @@ public class EmployeeController {
 		if (currentIndexPage.equals("/")) {
 			currentIndexPage = "";
 		}
-		return "redirect:/" + currentIndexPage;
+		return "redirect:" + currentIndexPage;
 	}
 
 	/*
