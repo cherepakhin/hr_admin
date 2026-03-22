@@ -59,6 +59,7 @@ public class EmployeeController {
 		log.info("/employees/edit/{id}:" + currentIndexPage);
 		if (optional.isPresent()) {
 			model.addAttribute("employee", optional.get());
+			model.addAttribute("prevPage", currentIndexPage);
 			return "edit_employee";
 		}
 		throw new IllegalArgumentException("Employee not exist with id=" + id);
@@ -141,6 +142,8 @@ public class EmployeeController {
 		log.info("email:" + email);
 		log.info("sortField:" + sortField);
 		log.info("direction:" + direction);
+
+		currentIndexPage = "/showEmployees";
 
 		// sort
 		if (sortField == null || sortField.equals("")) {

@@ -291,3 +291,7 @@ __id__ и __value__ - параметры макроса (value="-" - значе�
 
 [FreeMarker шаблоны (habr)](https://habr.com/ru/articles/420549/)
 [Альтернатива Freemarker - Velocity](https://velocity.apache.org/).
+
+### TODO
+
+Мелкий шрифт на пагинации на телефоне.

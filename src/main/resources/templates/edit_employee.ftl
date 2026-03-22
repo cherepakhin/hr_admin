@@ -30,7 +30,7 @@
             </div>
             <div class="flex gap-3 pt-2">
                 <button type="submit" class="btn-dark-blue w-full py-3 px-4 font-medium  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Обновить</button>
-                <a href="/" class="btn-dark-blue w-full py-3 px-4 font-medium text-center  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Назад</a>
+                <a href=${prevPage} class="btn-dark-blue w-full py-3 px-4 font-medium text-center  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Назад</a>
             </div>
         </form>
     </div>
