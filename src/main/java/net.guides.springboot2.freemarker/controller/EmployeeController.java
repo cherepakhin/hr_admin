@@ -136,6 +136,9 @@ public class EmployeeController {
 			@RequestParam(required = false) String sortField,
 			@RequestParam(required = false) String direction
 	) {
+		log.info("firstName:" + firstName);
+		log.info("lastName:" + lastName);
+		log.info("email:" + email);
 		log.info("sortField:" + sortField);
 		log.info("direction:" + direction);
 

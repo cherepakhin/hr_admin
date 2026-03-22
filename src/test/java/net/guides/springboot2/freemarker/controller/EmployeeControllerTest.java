@@ -7,10 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -150,42 +147,6 @@ public class EmployeeControllerTest {
 	}
 
 	@Test
-	public void whenGETShowEmployees_thenShowAllEmployeesPage() throws Exception {
-		// given
-		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com");
-		emp1.setId(1L);
-		Employee emp2 = new Employee("Jane", "Smith", "jane.smith@example.com");
-		emp2.setId(2L);
-
-		// Создаём список сотрудников
-		// Example: Pageable pageable = PageRequest.of(0, 10, Sort.by("firstName").ascending());
-		Pageable pageable = PageRequest.of(0, 1);
-		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), pageable, 2);
-
-		given(employeeRepository.findByFilters(null, null, null, PageRequest.of(0, 10)))
-				.willReturn(employeePage);
-
-		// when + then
-		mockMvc.perform(get("/showEmployees")
-						.param("page", "0")
-						.param("size", "10"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("showEmployees"))
-				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("currentPage", 0))
-				.andExpect(model().attribute("totalPages", 2))
-				.andExpect(model().attribute("totalElements", 2L))
-				.andExpect(model().attribute("employees", hasSize(2)))
-				.andExpect(model().attribute("employees", hasItem(
-						allOf(
-								hasProperty("firstName", is("John")),
-								hasProperty("lastName", is("Doe")),
-								hasProperty("email", is("john.doe@example.com"))
-						)
-				)));
-	}
-
-	@Test
 	public void shouldReturnFilteredEmployeesPage() throws Exception {
 		// Given
 		Employee emp1 = new Employee();
@@ -196,13 +157,15 @@ public class EmployeeControllerTest {
 
 		Page<Employee> employeePage = new PageImpl<>(List.of(emp1), PageRequest.of(0, 10), 1);
 
-		given(employeeRepository.findByFilters(
-				"Анна", null, null, PageRequest.of(0, 10)))
+		given(employeeRepository.findByFiltersAndSort(
+				eq("Анна"), eq("Иванова"), eq("anna@example.com"), any(Pageable.class)))
 				.willReturn(employeePage);
 
 		// When & Then
 		mockMvc.perform(get("/showEmployees")
 						.param("firstName", "Анна")
+						.param("lastName", "Иванова")
+						.param("email", "anna@example.com")
 						.param("page", "0")
 						.param("size", "10"))
 				.andExpect(status().isOk())
@@ -212,14 +175,49 @@ public class EmployeeControllerTest {
 				.andExpect(model().attribute("totalPages", 1))
 				.andExpect(model().attribute("totalElements", 1L))
 				.andExpect(model().attribute("firstName", "Анна"))
-				.andExpect(model().attribute("lastName", (Object) null))
-				.andExpect(model().attribute("email", (Object) null))
+				.andExpect(model().attribute("lastName", "Иванова"))
+				.andExpect(model().attribute("email", "anna@example.com"))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Анна")))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Иванова")));
 	}
 
 	@Test
 	public void shouldReturnAllEmployeesWhenNoFilters() throws Exception {
+		// Мой тест
+		Employee emp1 = new Employee();
+		emp1.setId(1L);
+		emp1.setFirstName("Анна");
+		emp1.setLastName("Иванова");
+		emp1.setEmail("anna@example.com");
+
+		Employee emp2 = new Employee();
+		emp2.setId(2L);
+		emp2.setFirstName("Петр");
+		emp2.setLastName("Сидоров");
+		emp2.setEmail("petr@example.com");
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "id"));
+		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), pageable, 2);
+
+		given(employeeRepository.findByFiltersAndSort(isNull(), isNull(), isNull(), any(Pageable.class)))
+				.willReturn(employeePage);
+
+		mockMvc.perform(get("/showEmployees")
+						.param("page", "0")
+						.param("size", "10"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("showEmployees"))
+				.andExpect(model().attributeExists("employees"))
+				.andExpect(model().attribute("currentPage", 0))
+				.andExpect(model().attribute("totalPages", 1))
+				.andExpect(model().attribute("totalElements", 2L))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Анна")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Петр")));
+	}
+
+	@Test
+	public void shouldReturnAllEmployeesWhenNoFilters_Giga() throws Exception {
+		// Test from GidaCode
 		// Given
 		Employee emp1 = new Employee();
 		emp1.setId(1L);
@@ -233,9 +231,12 @@ public class EmployeeControllerTest {
 		emp2.setLastName("Сидоров");
 		emp2.setEmail("petr@example.com");
 
-		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), PageRequest.of(0, 10), 2);
+		Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "id"));
+		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), pageable, 2);
 
-		given(employeeRepository.findByFilters(null, null, null, PageRequest.of(0, 10)))
+		// Исправлено: метод findByFiltersAndSort с учётом sort
+		given(employeeRepository.findByFiltersAndSort(
+				isNull(), isNull(), isNull(), any(Pageable.class)))
 				.willReturn(employeePage);
 
 		// When & Then
@@ -248,6 +249,8 @@ public class EmployeeControllerTest {
 				.andExpect(model().attribute("currentPage", 0))
 				.andExpect(model().attribute("totalPages", 1))
 				.andExpect(model().attribute("totalElements", 2L))
+				.andExpect(model().attribute("sortField", "id"))
+				.andExpect(model().attribute("sortDirection", "asc"))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Анна")))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Петр")));
 	}
