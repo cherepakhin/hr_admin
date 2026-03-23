@@ -41,6 +41,22 @@ OS name: "linux", version: "6.14.0-37-generic", arch: "amd64", family: "unix"
 
 ````
 
+### Тестирование
+
+````shell
+./mvnw clean test
+````
+
+Подключен плагин JaCoCo report для создания отчета покрытия тестами.
+
+Для генерации отчета выполнить:
+
+````shell
+./mvnw jacoco:report
+````
+
+Отчет в [target/site/jacoco/index.html](target/site/jacoco/index.html).
+
 ### Сборка
 
 ````shell
