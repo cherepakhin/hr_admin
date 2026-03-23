@@ -30,9 +30,9 @@ public class EmployeeController {
 								@RequestParam(defaultValue = "10") int size) {
 		refreshEmployees(model, page, size);
 
-		log.info("/ ->" + currentIndexPage);
+		log.info("/ ->{}", currentIndexPage);
 		currentIndexPage = "/";
-		log.info("/ ->" + currentIndexPage);
+		log.info("/ -> {}", currentIndexPage);
 
 		return "index";
 	}
@@ -40,7 +40,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
 	public String showCreateForm(Model model) {
 		model.addAttribute("employee", new Employee());
-		log.info("/employees/new: " + currentIndexPage);
+		log.info("/employees/new: from page={}", currentIndexPage);
 		return "create_employee";
 	}
 
@@ -48,7 +48,7 @@ public class EmployeeController {
 	public String createEmployee(@ModelAttribute Employee employee, Model model) {
 		employeeRepository.save(employee);
 
-		log.info("post /employees/:" + currentIndexPage);
+		log.info("post /employees/: from page={}", currentIndexPage);
 
 		return "redirect:" + currentIndexPage;
 	}
@@ -56,8 +56,9 @@ public class EmployeeController {
 	@RequestMapping(value = "/employees/edit/{id}", method = RequestMethod.GET)
 	public String showEditForm(@PathVariable("id") Long id, Model model) {
 		Optional<Employee> optional = employeeRepository.findById(id);
-		log.info("/employees/edit/{id}:" + currentIndexPage);
+		log.info("/employees/edit/{id}: from page={}", currentIndexPage);
 		if (optional.isPresent()) {
+			log.info("Edit employee = {}", optional.get());
 			model.addAttribute("employee", optional.get());
 			model.addAttribute("prevPage", currentIndexPage);
 			return "edit_employee";
@@ -71,8 +72,9 @@ public class EmployeeController {
 								 Model model) {
 		employee.setId(id);
 		employeeRepository.save(employee);
-		log.info("/employees/update/{id}:" + currentIndexPage);
+		log.info("/employees/update/{}:", currentIndexPage);
 		log.info(currentIndexPage);
+		log.info("Update employee = {}", employee);
 		if (!currentIndexPage.startsWith("/")) {
 			currentIndexPage = "/" + currentIndexPage;
 		}
@@ -82,11 +84,8 @@ public class EmployeeController {
 	@RequestMapping(value = "/employees/delete/{id}", method = RequestMethod.GET)
 	public String deleteEmployee(@PathVariable("id") Long id, Model model) {
 		employeeRepository.deleteById(id);
-		log.info(format("/employees/delete/%s:", id) + currentIndexPage);
-		log.info("currentIndexPage:" + currentIndexPage);
-		if (currentIndexPage.equals("/")) {
-			currentIndexPage = "";
-		}
+		log.info("/employees/delete/{}", id);
+		log.info("currentIndexPage: {}", currentIndexPage);
 		return "redirect:" + currentIndexPage;
 	}
 
@@ -137,35 +136,36 @@ public class EmployeeController {
 			@RequestParam(required = false) String sortField,
 			@RequestParam(required = false) String direction
 	) {
-		log.info("firstName:" + firstName);
-		log.info("lastName:" + lastName);
-		log.info("email:" + email);
-		log.info("sortField:" + sortField);
-		log.info("direction:" + direction);
+		log.info("Page showAllEmployees");
+		log.info("firstName: {}", firstName);
+		log.info("lastName: {}", lastName);
+		log.info("email: {}", email);
+		log.info("sortField: {}", sortField);
+		log.info("direction: {}" ,direction);
 
 		currentIndexPage = "/showEmployees";
 
 		// sort
-		if (sortField == null || sortField.equals("")) {
+		if (sortField == null || sortField.isEmpty()) {
 			sortField = "id";
 		}
-		if (sortField == null || sortField.equals("n")) {
+		if (sortField.equals("n")) {
 			sortField = "id";
 		}
-		if (sortField != null && sortField.equals("firstName")) {
+		if (sortField.equals("firstName")) {
 			sortField = "firstName";
 		}
-		if (sortField != null && sortField.equals("lastName")) {
+		if (sortField.equals("lastName")) {
 			sortField = "lastName";
 		}
-		if (sortField != null && sortField.equals("email")) {
+		if (sortField.equals("email")) {
 			sortField = "email";
 		}
 		if (direction == null || direction.equals("")) {
 			direction = "asc";
 		}
-		log.info("sortField:" + sortField);
-		log.info("direction:" + direction);
+		log.info("sortField: {}", sortField);
+		log.info("direction: {}", direction);
 
 		Sort sort = Sort.by(direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
