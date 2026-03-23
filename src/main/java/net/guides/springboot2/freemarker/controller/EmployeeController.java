@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-import static java.lang.String.format;
-
 @Controller
 public class EmployeeController {
 	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
@@ -161,7 +159,7 @@ public class EmployeeController {
 		if (sortField.equals("email")) {
 			sortField = "email";
 		}
-		if (direction == null || direction.equals("")) {
+		if (direction == null || direction.isEmpty()) {
 			direction = "asc";
 		}
 		log.info("sortField: {}", sortField);
