@@ -71,7 +71,7 @@
                     <div class="flex gap-3 pt-2">
                         <button type="submit"
                                 class="flex-1 bg-sky-900 text-white py-2 px-4 rounded-md font-medium hover:bg-sky-800 transition">
-                            Применить
+                            Найти
                         </button>
                         <a href="/showEmployees"
                            class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-md font-medium text-center hover:bg-gray-300 transition">
