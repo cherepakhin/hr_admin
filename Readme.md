@@ -311,3 +311,8 @@ __id__ и __value__ - параметры макроса (value="-" - значе�
 ### TODO
 
 Мелкий шрифт на пагинации на телефоне.
+
+Отступы:
+- py-2 = padding 8 px
+- px-3 = padding 12 px
+- mb-2 = margin buttom 8 px

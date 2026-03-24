@@ -108,13 +108,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Employee Details -->
                             <#list employees as emp>
                             <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-                                <td class="px-6 py-4 font-medium">${emp.firstName}</td>
-                                <td class="px-6 py-4">${emp.lastName}</td>
-                                <td class="px-6 py-4">${emp.email}</td>
-                                <td class="px-6 py-4">${emp.position.name}</td>
-                                <td class="px-6 py-4 flex justify-center gap-4">
+                                <!-- py-2 = padding 8 px -->
+                                <!-- px-3 = padding 12 px -->
+                                <td class="px-3 py-2 font-medium">${emp.firstName}</td>
+                                <td class="px-3 py-2">${emp.lastName}</td>
+                                <td class="px-3 py-2">${emp.email}</td>
+                                <td class="px-3 py-2">${emp.position.name}</td>
+                                <td class="px-3 py-2 flex justify-center gap-4">
                                     <!-- Edit Action -->
                                     <a href="/employees/edit/${emp.id}"
                                        class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
