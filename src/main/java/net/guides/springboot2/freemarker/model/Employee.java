@@ -13,13 +13,17 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String email;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "position_id", nullable = false)
+	private Position position = new Position(-1L, "");
 
     public Employee() {}
 
-    public Employee(String firstName, String lastName, String email) {
+    public Employee(String firstName, String lastName, String email, Position position) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+		this.position = position;
     }
 
     // Getters and Setters
@@ -35,16 +39,24 @@ public class Employee {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof Employee employee)) return false;
-		return Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName) && Objects.equals(email, employee.email);
+		return Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName) && Objects.equals(email, employee.email) && Objects.equals(position, employee.position);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, firstName, lastName, email);
+		return Objects.hash(id, firstName, lastName, email, position);
 	}
 
 	@Override
@@ -54,6 +66,7 @@ public class Employee {
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
 				", email='" + email + '\'' +
+				", position=" + position +
 				'}';
 	}
 }

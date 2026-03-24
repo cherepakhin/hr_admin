@@ -1,6 +1,7 @@
 package net.guides.springboot2.freemarker.repository;
 
 import net.guides.springboot2.freemarker.model.Employee;
+import net.guides.springboot2.freemarker.model.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,9 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void whenFindById_thenReturnEmployee() {
+		Position position = new Position(-1L, "-");
         // given
-        Employee employee = new Employee("John", "Doe", "john.doe@example.com");
+        Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
         entityManager.persistAndFlush(employee);
 
         // when
@@ -40,8 +42,9 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void whenSaveEmployee_thenEmployeeShouldBePersisted() {
+		Position position = new Position(-1L, "-");
         // given
-        Employee employee = new Employee("Jane", "Smith", "jane.smith@example.com");
+        Employee employee = new Employee("Jane", "Smith", "jane.smith@example.com", position);
 
         // when
         Employee savedEmployee = employeeRepository.save(employee);
@@ -51,12 +54,14 @@ public class EmployeeRepositoryTest {
         Assertions.assertThat(savedEmployee.getFirstName()).isEqualTo("Jane");
         Assertions.assertThat(savedEmployee.getLastName()).isEqualTo("Smith");
         Assertions.assertThat(savedEmployee.getEmail()).isEqualTo("jane.smith@example.com");
+		Assertions.assertThat(savedEmployee.getPosition()).isEqualTo(position);
     }
 
     @Test
     public void whenDeleteById_thenEmployeeShouldBeRemoved() {
+		Position position = new Position(-1L, "-");
         // given
-        Employee employee = new Employee("Alice", "Johnson", "alice.j@example.com");
+        Employee employee = new Employee("Alice", "Johnson", "alice.j@example.com", position);
         entityManager.persistAndFlush(employee);
 
         // when
@@ -69,8 +74,9 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void whenUpdateEmployee_thenEmployeeShouldBeUpdated() {
+		Position position = new Position(-1L, "-");
         // given
-        Employee employee = new Employee("Bob", "Brown", "bob.b@example.com");
+        Employee employee = new Employee("Bob", "Brown", "bob.b@example.com", position);
         entityManager.persistAndFlush(employee);
 
         // when

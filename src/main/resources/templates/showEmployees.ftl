@@ -103,7 +103,7 @@
                                         </#if>
                                     </span>
                                 </th>
-
+                                <th class="px-6 py-3 font-medium cursor-pointer group">Должность</th>
                                 <th class="px-6 py-3 font-medium text-center">Действия</th>
                             </tr>
                         </thead>
@@ -113,6 +113,7 @@
                                 <td class="px-6 py-4 font-medium">${emp.firstName}</td>
                                 <td class="px-6 py-4">${emp.lastName}</td>
                                 <td class="px-6 py-4">${emp.email}</td>
+                                <td class="px-6 py-4">${emp.position.name}</td>
                                 <td class="px-6 py-4 flex justify-center gap-4">
                                     <!-- Edit Action -->
                                     <a href="/employees/edit/${emp.id}"

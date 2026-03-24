@@ -66,7 +66,17 @@
                                placeholder="Например: anna@example.com"
                                class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                     </div>
-
+                    <!-- Position Filter -->
+                    <div>
+                        <label class="block text-xs text-gray-600 uppercase tracking-wide">Должность</label>
+                        <select name="positionId" class="w-full border border-gray-300 rounded px-3 py-1 text-sm"
+                                onchange="this.form.submit()">
+                            <option value="">Все</option>
+                            <#list positions as pos>
+                                <option value="${pos.id}" <#if (positionId?c == pos.id?c)>selected</#if>>${pos.name}</option>
+                            </#list>
+                        </select>
+                    </div>
                     <!-- Buttons -->
                     <div class="flex gap-3 pt-2">
                         <button type="submit"

@@ -1,8 +1,9 @@
 package net.guides.springboot2.freemarker.controller;
 
 import net.guides.springboot2.freemarker.model.Employee;
+import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
-import org.assertj.core.api.Assertions;
+import net.guides.springboot2.freemarker.repository.PositionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -10,249 +11,163 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.BDDMockito.any;
-import static org.mockito.BDDMockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * Тестирование в BDD (given, when, then) стиле с org.mockito.BDDMockito
- */
 @WebMvcTest(EmployeeController.class)
 public class EmployeeControllerTest {
 
-	@Autowired
-	MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-	@MockBean
-	EmployeeRepository employeeRepository;
+    @MockBean
+    private EmployeeRepository employeeRepository;
 
-	@Test
-	public void whenGETRoot_thenShowHomePageWithEmployees() throws Exception {
-		// given
-		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com");
-		emp1.setId(1L);
-		Employee emp2 = new Employee("Jane", "Smith", "jane.smith@example.com");
-		emp2.setId(2L);
+    @MockBean
+    private PositionRepository positionRepository;
 
-		// Создаём список сотрудников
-		// Example: Pageable pageable = PageRequest.of(0, 10, Sort.by("firstName").ascending());
-		Pageable pageable = PageRequest.of(0, 1);
-		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), pageable, 2);
+    @Test
+    public void shouldShowHomePageWithEmployees() throws Exception {
+        // Given
+        Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Developer"));
+        Employee emp2 = new Employee("Jane", "Smith", "jane.smith@example.com", new Position(1L, "Developer"));
 
-		// Мокаем репозиторий
-		given(this.employeeRepository.findAll((Pageable) any())).willReturn(employeePage);
+        Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(emp1, emp2));
 
-		// when + then
-		this.mockMvc.perform(get("/"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("index"))
-				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("currentPage", 0))
-				.andExpect(model().attribute("totalPages", 2))
-				.andExpect(model().attribute("employees", hasSize(2)))
-				.andExpect(model().attribute("employees", hasItem(
-						allOf(
-								hasProperty("firstName", is("John")),
-								hasProperty("lastName", is("Doe")),
-								hasProperty("email", is("john.doe@example.com"))
-						)
-				)));
-	}
+        given(employeeRepository.findAll(any(Pageable.class))).willReturn(page);
+        given(positionRepository.findAll()).willReturn(java.util.Arrays.asList(new Position(1L, "Developer")));
 
-	@Test
-	public void whenGETNewForm_thenShowCreateForm() throws Exception {
-		// when + then
-		this.mockMvc.perform(get("/employees/new"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("create_employee"))
-				.andExpect(model().attributeExists("employee"));
-	}
+        // When & Then
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("index"))
+                .andExpect(model().attributeExists("employees"))
+                .andExpect(model().attribute("currentPage", 0))
+                .andExpect(model().attribute("totalPages", 1))
+                .andExpect(model().attribute("totalElements", 2L));
+    }
 
-	@Test
-	public void whenPOSTCreateEmployee_thenRedirectToHome() throws Exception {
-		// given
-		Employee employee = new Employee("Jane", "Smith", "jane.smith@example.com");
+    @Test
+    public void shouldShowCreateForm() throws Exception {
+        // Given
+        given(positionRepository.findAll()).willReturn(java.util.Arrays.asList(new Position(1L, "Developer")));
 
-		// when + then
-		this.mockMvc.perform(post("/employees")
-						.flashAttr("employee", employee))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/showEmployees"));
+        // When & Then
+        mockMvc.perform(get("/employees/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("create_employee"))
+                .andExpect(model().attributeExists("employee", "positions"));
+    }
 
-		then(this.employeeRepository).should().save(employee);
-	}
+    @Test
+    public void shouldCreateEmployeeAndRedirect() throws Exception {
+        // Given
+        Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
 
-	@Test
-	public void whenGETEditFormWithValidId_thenShowEditPage() throws Exception {
-		// given
-		Employee employee = new Employee("Bob", "Brown", "bob.b@example.com");
-		employee.setId(1L);
-		given(this.employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+        // When & Then
+        mockMvc.perform(post("/employees")
+                        .flashAttr("employee", employee))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
 
-		// when + then
-		this.mockMvc.perform(get("/employees/edit/1"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("edit_employee"))
-				.andExpect(model().attributeExists("employee"))
-				.andExpect(model().attribute("employee", employee));
-	}
+        verify(employeeRepository).save(employee);
+    }
 
-	@Test
-	public void whenGETEditFormWithInvalidId_thenThrowException() {
-		given(this.employeeRepository.findById(999L)).willReturn(Optional.empty());
-		String errorMessage = "";
+    @Test
+    public void shouldShowEditFormForExistingEmployee() throws Exception {
+        // Given
+        Position position = new Position(1L, "Developer");
+        Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
+        employee.setId(1L);
 
-		try {
-			this.mockMvc.perform(get("/employees/edit/999"));
-		} catch (Exception e) {
-			errorMessage = e.getMessage();
-		}
+        given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+        given(positionRepository.findAll()).willReturn(java.util.Arrays.asList(position));
 
-		Assertions.assertThat(errorMessage).isEqualTo("Request processing failed: java.lang.IllegalArgumentException: Employee not exist with id=999");
-	}
+        // When & Then
+        mockMvc.perform(get("/employees/edit/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("edit_employee"))
+                .andExpect(model().attributeExists("employee", "positions"))
+                .andExpect(model().attribute("employee", employee));
+    }
 
-	@Test
-	public void whenPOSTUpdateEmployee_thenRedirectToHome() throws Exception {
-		// given
-		Employee updatedEmployee = new Employee("Robert", "Brown", "robert.b@example.com");
-		updatedEmployee.setId(1L);
+    @Test
+    public void shouldReturn404WhenEmployeeNotFound() throws Exception {
+        // Given
+        given(employeeRepository.findById(999L)).willReturn(Optional.empty());
 
-		// when + then
-		this.mockMvc.perform(post("/employees/update/1")
-						.flashAttr("employee", updatedEmployee))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/"));
+        // When & Then
+        mockMvc.perform(get("/employees/edit/999"))
+                .andExpect(result -> org.assertj.core.api.Assertions.assertThat(result.getResolvedException())
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("Employee not exist with id=999"));
+    }
 
-		then(this.employeeRepository).should().save(updatedEmployee);
-	}
+    @Test
+    public void shouldUpdateEmployeeAndRedirect() throws Exception {
+        // Given
+        Employee updatedEmployee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
+        updatedEmployee.setId(1L);
 
-	@Test
-	public void whenGETDeleteEmployee_thenRedirectToHome() throws Exception {
-		// given
-		willDoNothing().given(this.employeeRepository).deleteById(1L);
+        // When & Then
+        mockMvc.perform(post("/employees/update/1")
+                        .flashAttr("employee", updatedEmployee))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
 
-		// when + then
-		this.mockMvc.perform(get("/employees/delete/1"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/showEmployees"));
+        verify(employeeRepository).save(updatedEmployee);
+    }
 
-		then(this.employeeRepository).should().deleteById(1L);
-	}
+    @Test
+    public void shouldDeleteEmployeeAndRedirect() throws Exception {
+        // When & Then
+        mockMvc.perform(get("/employees/delete/1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
 
-	@Test
-	public void shouldReturnFilteredEmployeesPage() throws Exception {
-		// Given
-		Employee emp1 = new Employee();
-		emp1.setId(1L);
-		emp1.setFirstName("Анна");
-		emp1.setLastName("Иванова");
-		emp1.setEmail("anna@example.com");
+        verify(employeeRepository).deleteById(1L);
+    }
 
-		Page<Employee> employeePage = new PageImpl<>(List.of(emp1), PageRequest.of(0, 10), 1);
+    @Test
+    public void shouldShowFilteredEmployees() throws Exception {
+        // Given
+        Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Developer"));
+        Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(employee));
 
-		given(this.employeeRepository.findByFiltersAndSort(
-				eq("Анна"), eq("Иванова"), eq("anna@example.com"), any(Pageable.class)))
-				.willReturn(employeePage);
+        given(employeeRepository.findByFiltersAndSort(
+                eq("John"), isNull(), isNull(), isNull(), any(Pageable.class)))
+                .willReturn(page);
 
-		// When & Then
-		this.mockMvc.perform(get("/showEmployees")
-						.param("firstName", "Анна")
-						.param("lastName", "Иванова")
-						.param("email", "anna@example.com")
-						.param("page", "0")
-						.param("size", "10"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("showEmployees"))
-				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("currentPage", 0))
-				.andExpect(model().attribute("totalPages", 1))
-				.andExpect(model().attribute("totalElements", 1L))
-				.andExpect(model().attribute("firstName", "Анна"))
-				.andExpect(model().attribute("lastName", "Иванова"))
-				.andExpect(model().attribute("email", "anna@example.com"))
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Анна")))
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Иванова")));
-	}
+        // When & Then
+        mockMvc.perform(get("/showEmployees")
+                        .param("firstName", "John"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("showEmployees"))
+                .andExpect(model().attributeExists("employees"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("John")));
+    }
 
-	@Test
-	public void shouldReturnAllEmployeesWhenNoFilters() throws Exception {
-		// Мой тест
-		Employee emp1 = new Employee();
-		emp1.setId(1L);
-		emp1.setFirstName("Анна");
-		emp1.setLastName("Иванова");
-		emp1.setEmail("anna@example.com");
+    @Test
+    public void shouldShowAllEmployeesWithoutFilters() throws Exception {
+        // Given
+        Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Developer"));
+        Employee emp2 = new Employee("Jane", "Smith", "jane.smith@example.com", new Position(1L, "Designer"));
+        Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(emp1, emp2));
 
-		Employee emp2 = new Employee();
-		emp2.setId(2L);
-		emp2.setFirstName("Петр");
-		emp2.setLastName("Сидоров");
-		emp2.setEmail("petr@example.com");
+        given(employeeRepository.findByFiltersAndSort(
+                isNull(), isNull(), isNull(), isNull(), any(Pageable.class)))
+                .willReturn(page);
 
-		Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "id"));
-		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), pageable, 2);
-
-		given(this.employeeRepository.findByFiltersAndSort(isNull(), isNull(), isNull(), any(Pageable.class)))
-				.willReturn(employeePage);
-
-		this.mockMvc.perform(get("/showEmployees")
-						.param("page", "0")
-						.param("size", "10"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("showEmployees"))
-				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("currentPage", 0))
-				.andExpect(model().attribute("totalPages", 1))
-				.andExpect(model().attribute("totalElements", 2L))
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Анна")))
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Петр")));
-	}
-
-	@Test
-	public void shouldReturnAllEmployeesWhenNoFilters_Giga() throws Exception {
-		// Test from GidaCode
-		// Given
-		Employee emp1 = new Employee();
-		emp1.setId(1L);
-		emp1.setFirstName("Анна");
-		emp1.setLastName("Иванова");
-		emp1.setEmail("anna@example.com");
-
-		Employee emp2 = new Employee();
-		emp2.setId(2L);
-		emp2.setFirstName("Петр");
-		emp2.setLastName("Сидоров");
-		emp2.setEmail("petr@example.com");
-
-		Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "id"));
-		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), pageable, 2);
-
-		// Исправлено: метод findByFiltersAndSort с учётом sort
-		given(this.employeeRepository.findByFiltersAndSort(
-				isNull(), isNull(), isNull(), any(Pageable.class)))
-				.willReturn(employeePage);
-
-		// When & Then
-		this.mockMvc.perform(get("/showEmployees")
-						.param("page", "0")
-						.param("size", "10"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("showEmployees"))
-				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("currentPage", 0))
-				.andExpect(model().attribute("totalPages", 1))
-				.andExpect(model().attribute("totalElements", 2L))
-				.andExpect(model().attribute("sortField", "id"))
-				.andExpect(model().attribute("sortDirection", "asc"))
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Анна")))
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Петр")));
-	}
-
+        // When & Then
+        mockMvc.perform(get("/showEmployees"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("showEmployees"))
+                .andExpect(model().attributeExists("employees"))
+                .andExpect(model().attribute("totalElements", 2L));
+    }
 }

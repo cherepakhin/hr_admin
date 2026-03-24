@@ -2,6 +2,7 @@ package net.guides.springboot2.freemarker.controller;
 
 import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
+import net.guides.springboot2.freemarker.repository.PositionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class EmployeeController {
 	private String currentIndexPage = "/";
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	@Autowired
+	private PositionRepository positionRepository;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String listEmployees(Model model,
@@ -38,6 +41,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
 	public String showCreateForm(Model model) {
 		model.addAttribute("employee", new Employee());
+		model.addAttribute("positions", positionRepository.findAll());
 		log.info("/employees/new: from page={}", currentIndexPage);
 		return "create_employee";
 	}
@@ -58,6 +62,7 @@ public class EmployeeController {
 		if (optional.isPresent()) {
 			log.info("Edit employee = {}", optional.get());
 			model.addAttribute("employee", optional.get());
+			model.addAttribute("positions", positionRepository.findAll()); // ←
 			model.addAttribute("prevPage", currentIndexPage);
 			return "edit_employee";
 		}
@@ -131,6 +136,7 @@ public class EmployeeController {
 			@RequestParam(required = false) String firstName,
 			@RequestParam(required = false) String lastName,
 			@RequestParam(required = false) String email,
+			@RequestParam(required = false) Long positionId,
 			@RequestParam(required = false) String sortField,
 			@RequestParam(required = false) String direction
 	) {
@@ -138,47 +144,37 @@ public class EmployeeController {
 		log.info("firstName: {}", firstName);
 		log.info("lastName: {}", lastName);
 		log.info("email: {}", email);
+		log.info("positionId: {}", positionId);
 		log.info("sortField: {}", sortField);
-		log.info("direction: {}" ,direction);
+		log.info("direction: {}", direction);
 
 		currentIndexPage = "/showEmployees";
 
-		// sort
-		if (sortField == null || sortField.isEmpty()) {
+		// Сортировка
+		if (sortField == null || sortField.isEmpty() || sortField.equals("n")) {
 			sortField = "id";
-		}
-		if (sortField.equals("n")) {
-			sortField = "id";
-		}
-		if (sortField.equals("firstName")) {
-			sortField = "firstName";
-		}
-		if (sortField.equals("lastName")) {
-			sortField = "lastName";
-		}
-		if (sortField.equals("email")) {
-			sortField = "email";
 		}
 		if (direction == null || direction.isEmpty()) {
 			direction = "asc";
 		}
-		log.info("sortField: {}", sortField);
-		log.info("direction: {}", direction);
 
 		Sort sort = Sort.by(direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
 
-		Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(firstName, lastName, email, pageable);
+		// Передаём positionId в репозиторий
+		Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(
+				firstName, lastName, email, positionId, pageable);
 
 		model.addAttribute("employees", employeePage.getContent());
 		model.addAttribute("currentPage", employeePage.getNumber());
 		model.addAttribute("totalPages", employeePage.getTotalPages());
 		model.addAttribute("totalElements", employeePage.getTotalElements());
 
-		// Передаём значения фильтров обратно в шаблон (для сохранения в форме при пагинации)
+		// Сохраняем значения фильтров
 		model.addAttribute("firstName", firstName);
 		model.addAttribute("lastName", lastName);
 		model.addAttribute("email", email);
+		model.addAttribute("positionId", positionId); // ← важно
 
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDirection", direction);

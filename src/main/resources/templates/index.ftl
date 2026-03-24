@@ -77,6 +77,7 @@
                             </div>
                             <div class="ml-4">
                                 <h3 class="text-lg font-semibold text-gray-800">${employee.firstName} ${employee.lastName}</h3>
+                                <p class="text-sm text-gray-500">${employee.position.name}</p>
                                 <p class="text-sm text-gray-500">${employee.email}</p>
                             </div>
                         </div>
