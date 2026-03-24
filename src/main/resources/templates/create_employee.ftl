@@ -15,18 +15,36 @@
             <p class="text-sky-200">Введите данные о новом сотруднике</p>
         </div>
         <form action="/employees" method="post" class="p-6 space-y-6">
+
+            <!-- First Name -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
                 <input name="firstName" class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500" required autofocus />
             </div>
+
+            <!-- Last Name -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Фамилия</label>
                 <input name="lastName" class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500" required />
             </div>
+
+            <!-- Email -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input name="email" type="email" class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500" required />
             </div>
+
+            <!-- Position -->
+            <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Должность</label>
+            <select name="position.id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500" required>
+                <#list positions as pos>
+                    <option value="${pos.id}" <#if employee.position.id == pos.id>selected</#if>>${pos.name}</option>
+                </#list>
+            </select>
+            </div>
+
+            <!-- Submit -->
             <div class="flex gap-3 pt-2">
                 <button type="submit" class="btn-dark-blue w-full py-3 px-4 font-medium  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Сохранить</button>
                 <a href="/" class="btn-dark-blue w-full py-3 px-4 font-medium text-center  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Назад</a>
