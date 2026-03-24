@@ -13,7 +13,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden p-6">
-        <div class="max-w-md mx-auto bg-white shadow-xl rounded-lg overflow-hidden w-full">
+        <div class="max-w-md mx-auto bg-white shadow-xl overflow-hidden w-full">
             <div class="bg-sky-900 text-white p-6">
                 <h1 class="text-xl font-semibold">Редактировать должность</h1>
             </div>
@@ -24,18 +24,18 @@
                            name="name"
                            value="${position.name}"
                            required
-                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500">
+                           class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500">
                     <#if error??>
                         <p class="text-red-600 text-xs mt-1">${error}</p>
                     </#if>
                 </div>
                 <div class="flex gap-3 pt-2">
                     <button type="submit"
-                            class="flex-1 bg-sky-900 text-white py-2 px-4 rounded font-medium hover:bg-sky-800">
+                            class="flex-1 bg-sky-900 text-white py-2 px-4 font-medium hover:bg-sky-800">
                         Обновить
                     </button>
                     <a href="/positions"
-                       class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded font-medium text-center hover:bg-gray-300">
+                       class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 font-medium text-center hover:bg-gray-300">
                         Отмена
                     </a>
                 </div>
