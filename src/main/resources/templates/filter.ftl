@@ -36,7 +36,7 @@
         <main class="flex-1 p-6 flex items-start justify-center">
             <div class="bg-white shadow-xl rounded-lg border border-gray-100 w-full max-w-md p-6 space-y-6">
 
-                <h3 class="text-xl font-medium text-gray-800 text-center">Настройте фильтры</h3>
+                <h3 class="text-xl font-medium text-gray-800 text-center">Найти сотрудников</h3>
 
                 <form method="GET" action="/showEmployees" class="space-y-5">
 
@@ -68,12 +68,12 @@
                     </div>
                     <!-- Position Filter -->
                     <div>
-                        <label class="block text-xs text-gray-600 uppercase tracking-wide">Должность</label>
-                        <select name="positionId" class="w-full border border-gray-300 rounded px-3 py-1 text-sm"
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Должность</label>
+                        <select name="positionId" class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
                                 onchange="this.form.submit()">
                             <option value="">Все</option>
                             <#list positions as pos>
-                                <option value="${pos.id}" <#if (positionId?c == pos.id?c)>selected</#if>>${pos.name}</option>
+                                <option value="${pos.id}">${pos.name}</option>
                             </#list>
                         </select>
                     </div>

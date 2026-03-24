@@ -124,6 +124,7 @@ public class EmployeeController {
 	// Отображение формы фильтра
 	@GetMapping("/filter")
 	public String showFilterPage(Model model) {
+		model.addAttribute("positions", positionRepository.findAll() );
 		return "filter";
 	}
 
