@@ -2,7 +2,7 @@
      :class="open ? 'w-64' : 'w-16'">
 
     <!-- Logo -->
-    <div class="p-4 text-center border-b border-gray-100 flex items-center justify-center">
+    <div class="px-4 text-center border-b border-gray-100 flex items-center justify-center logo-padding">
         <div class="w-8 h-8 bg-sky-900 text-white flex items-center justify-center font-bold rounded">
             HR
         </div>

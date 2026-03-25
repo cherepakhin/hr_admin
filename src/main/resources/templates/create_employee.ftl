@@ -13,6 +13,21 @@
         .btn-dark-blue {
             @apply bg-sky-900 hover:bg-sky-800 text-white;
         }
+        .logo-padding {
+            padding-top: 0.9em;
+            padding-bottom: 0.9em;
+        }
+        .all-employees {
+            padding-top: 0.6em;
+            padding-bottom: 0.6em;
+            padding-left: 1.5em;
+            padding-right: 1.5em;
+        }
+        .logo-padding {
+            padding-top: 0.9em;
+            padding-bottom: 0.9em;
+        }
+
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex">
@@ -21,10 +36,11 @@
 
     <!-- Main Content -->
     <div class="flex flex-1 flex-col overflow-hidden">
-        <div class="w-full max-w-6xl mx-0 bg-white shadow-xl border border-gray-100">
-            <div class="bg-sky-900 px-6 py-4 text-white text-center">
-                <h2 class="text-2xl font-semibold">Введите данные о новом сотруднике</h2>
-            </div>
+         <div class="bg-sky-900 px-6 logo-padding text-white text-center">
+             <h2 class="text-2xl font-semibold">Введите данные о новом сотруднике</h2>
+         </div>
+
+        <div class="w-full max-w-6xl mx-0 bg-white shadow-xl border border-gray-100 all-employees">
             <div class="p-6 overflow-x-auto">
                 <form action="/employees" method="post" class="p-4 bg-white rounded-lg space-y-4">
                     <!-- First Name -->

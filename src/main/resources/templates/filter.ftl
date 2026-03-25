@@ -17,6 +17,18 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         .btn-dark-blue { @apply bg-sky-900 hover:bg-sky-800 text-white; }
+        .py-0.5 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        .p-09rem {
+            padding-top: 0.9rem;
+            padding-bottom: 0.9rem;
+        }
+        .logo-padding {
+            padding-top: 0.9em;
+            padding-bottom: 0.9em;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex">
@@ -27,11 +39,15 @@
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
 
-        <!-- Header -->
+         <div class="bg-sky-900 px-6 logo-padding text-white text-center">
+             <h2 class="text-2xl font-semibold">Найти сотрудников</h2>
+         </div>
+
+        <!-- Header
         <header class="bg-white shadow-sm p-6 border-b border-gray-100 py-3">
             <h2 class="text-2xl p-1 font-semibold text-gray-800">Найти сотрудников</h2>
         </header>
-
+        -->
         <!-- Filter Form -->
         <main class="flex flex-1 flex-col p-6 flex items-start">
             <div class="bg-white shadow-xl border border-gray-100 w-full max-w-md p-6 space-y-6">

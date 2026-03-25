@@ -51,7 +51,15 @@
         }
         .py-0.5 {
             padding-top: 0.5rem;
-            padding-bottom: 0,5rem;
+            padding-bottom: 0.5rem;
+        }
+        .p-09rem {
+            padding-top: 0.9rem;
+            padding-bottom: 0.9rem;
+        }
+        .logo-padding {
+            padding-top: 0.9em;
+            padding-bottom: 0.9em;
         }
     </style>
 </head>
@@ -62,6 +70,7 @@
 
     <!-- Main Content -->
     <div class="flex flex-1 flex-col overflow-hidden">
+        <!-- Header -->
         <div class="w-full max-w-6xl mx-auto bg-white shadow-xl border border-gray-100">
             <div class="bg-sky-900 px-6 py-0.5 text-white text-center">
                 <h2 class="text-2xl font-semibold">Список сотрудников</h2>

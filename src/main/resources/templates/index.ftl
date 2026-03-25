@@ -41,6 +41,17 @@
             font-weight: 900;
             color: cornflowerblue;
         }
+        .logo-padding {
+            padding-top: 0.9em;
+            padding-bottom: 0.9em;
+        }
+
+        .all-employees {
+            padding-top: 0.6em;
+            padding-bottom: 0.6em;
+            padding-left: 1.5em;
+            padding-right: 1.5em;
+        }
     </style>
 </head>
 
@@ -52,7 +63,7 @@
     <div class="flex-1 flex flex-col overflow-hidden">
 
         <!-- Header -->
-        <header class="bg-white shadow-sm p-6 border-b border-gray-100 py-3">
+        <header class="bg-white shadow-sm border-b border-gray-100 all-employees">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl font-semibold text-gray-800">Все сотрудники</h2>
                 <a href="/employees/new"
