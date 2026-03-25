@@ -10,7 +10,7 @@
 
 	<groupId>net.guides.springboot2</groupId>
 	<artifactId>hr-admin</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>springboot2-freemarker</name>
 	<packaging>jar</packaging>
 
