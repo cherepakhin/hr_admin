@@ -187,10 +187,10 @@ public class EmployeeControllerTest {
         mockMvc.perform(get("/show_employees")
                         .param("firstName", "Firstname1")
 				)
-                .andExpect(status().isOk());
-//                .andExpect(view().name("show_employees"))
-//                .andExpect(model().attributeExists("employees"))
-//                .andExpect(content().string(org.hamcrest.Matchers.containsString("John")));
+                .andExpect(status().isOk())
+                .andExpect(view().name("show_employees"))
+                .andExpect(model().attributeExists("employees"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname1")));
     }
 
     @Test
