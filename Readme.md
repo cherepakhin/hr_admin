@@ -321,4 +321,5 @@ class="flex-1" - класс в Tailwind CSS, который позволяет �
 - py-2 = padding 8 px
 - px-3 = padding 12 px
 - mb-2 = margin buttom 8 px
+- w-full - растянуть на всю доступную ширину
 - justify-center - динамическое центрирование по вертикали
