@@ -152,7 +152,7 @@ public class EmployeeController {
 		currentIndexPage = "/show_employees";
 
 		// Сортировка
-		if (sortField == null || sortField.isEmpty() || sortField.equals("n")) {
+		if (sortField == null || sortField.isEmpty()) {
 			sortField = "id";
 		}
 		if (direction == null || direction.isEmpty()) {
