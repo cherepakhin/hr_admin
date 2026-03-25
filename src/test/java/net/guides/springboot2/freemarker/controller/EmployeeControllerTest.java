@@ -144,10 +144,10 @@ public class EmployeeControllerTest {
                 .willReturn(page);
 
         // When & Then
-        mockMvc.perform(get("/showEmployees")
+        mockMvc.perform(get("/show_employees")
                         .param("firstName", "John"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("showEmployees"))
+                .andExpect(view().name("show_employees"))
                 .andExpect(model().attributeExists("employees"))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("John")));
     }
@@ -164,9 +164,9 @@ public class EmployeeControllerTest {
                 .willReturn(page);
 
         // When & Then
-        mockMvc.perform(get("/showEmployees"))
+        mockMvc.perform(get("/show_employees"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("showEmployees"))
+                .andExpect(view().name("show_employees"))
                 .andExpect(model().attributeExists("employees"))
                 .andExpect(model().attribute("totalElements", 2L));
     }

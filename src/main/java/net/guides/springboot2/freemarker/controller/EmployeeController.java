@@ -129,7 +129,7 @@ public class EmployeeController {
 	}
 
 	// Показать всех сотрудников с фильтрацией
-	@GetMapping("/showEmployees")
+	@GetMapping("/show_employees")
 	public String showAllEmployees(
 			Model model,
 			@RequestParam(defaultValue = "0") int page,
@@ -141,7 +141,7 @@ public class EmployeeController {
 			@RequestParam(required = false) String sortField,
 			@RequestParam(required = false) String direction
 	) {
-		log.info("Page showAllEmployees");
+		log.info("Page show_employees");
 		log.info("firstName: {}", firstName);
 		log.info("lastName: {}", lastName);
 		log.info("email: {}", email);
@@ -149,7 +149,7 @@ public class EmployeeController {
 		log.info("sortField: {}", sortField);
 		log.info("direction: {}", direction);
 
-		currentIndexPage = "/showEmployees";
+		currentIndexPage = "/show_employees";
 
 		// Сортировка
 		if (sortField == null || sortField.isEmpty() || sortField.equals("n")) {
@@ -180,6 +180,6 @@ public class EmployeeController {
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDirection", direction);
 
-		return "showEmployees";
+		return "show_employees";
 	}
 }
