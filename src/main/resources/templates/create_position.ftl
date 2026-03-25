@@ -23,7 +23,7 @@
                     <input type="text"
                            name="name"
                            required
-                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500">
+                           class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500">
                     <#if error??>
                         <p class="text-red-600 text-xs mt-1">${error}</p>
                     </#if>

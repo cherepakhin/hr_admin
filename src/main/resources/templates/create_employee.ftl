@@ -37,7 +37,7 @@
             <!-- Position -->
             <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700">Должность</label>
-            <select name="position.id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500" required>
+            <select name="position.id" class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500" required>
                 <#list positions as pos>
                     <option value="${pos.id}" <#if employee.position.id == pos.id>selected</#if>>${pos.name}</option>
                 </#list>

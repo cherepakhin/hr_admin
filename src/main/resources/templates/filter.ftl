@@ -34,7 +34,7 @@
 
         <!-- Filter Form -->
         <main class="flex-1 p-6 flex items-start justify-center">
-            <div class="bg-white shadow-xl rounded-lg border border-gray-100 w-full max-w-md p-6 space-y-6">
+            <div class="bg-white shadow-xl border border-gray-100 w-full max-w-md p-6 space-y-6">
 
                 <h3 class="text-xl font-medium text-gray-800 text-center">Найти сотрудников</h3>
 
@@ -46,7 +46,7 @@
                         <input type="text"
                                name="firstName"
                                placeholder="Например: Анна"
-                               class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                               class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                     </div>
 
                     <!-- Last Name -->
@@ -55,7 +55,7 @@
                         <input type="text"
                                name="lastName"
                                placeholder="Например: Иванова"
-                               class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                               class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                     </div>
 
                     <!-- Email -->
@@ -64,12 +64,12 @@
                         <input type="text"
                                name="email"
                                placeholder="Например: anna@example.com"
-                               class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                               class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                     </div>
                     <!-- Position Filter -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Должность</label>
-                        <select name="positionId" class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+                        <select name="positionId" class="w-full border border-gray-300 shadow-sm py-2 px-3"
                                 onchange="this.form.submit()">
                             <option value="">Все</option>
                             <#list positions as pos>
@@ -80,11 +80,11 @@
                     <!-- Buttons -->
                     <div class="flex gap-3 pt-2">
                         <button type="submit"
-                                class="flex-1 bg-sky-900 text-white py-2 px-4 rounded-md font-medium hover:bg-sky-800 transition">
+                                class="flex-1 bg-sky-900 text-white py-2 px-4 font-medium hover:bg-sky-800 transition">
                             Найти
                         </button>
                         <a href="/showEmployees"
-                           class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-md font-medium text-center hover:bg-gray-300 transition">
+                           class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 font-medium text-center hover:bg-gray-300 transition">
                             Сбросить
                         </a>
                     </div>
