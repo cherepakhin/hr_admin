@@ -49,6 +49,10 @@
         .sort-desc .sort-icon {
             @apply text-sky-700 transform rotate-180;
         }
+        .py-0.5 {
+            padding-top: 0.5rem;
+            padding-bottom: 0,5rem;
+        }
     </style>
 </head>
 
@@ -59,7 +63,7 @@
     <!-- Main Content -->
     <div class="flex flex-1 flex-col overflow-hidden">
         <div class="w-full max-w-6xl mx-auto bg-white shadow-xl border border-gray-100">
-            <div class="bg-sky-900 px-6 py-4 text-white text-center">
+            <div class="bg-sky-900 px-6 py-0.5 text-white text-center">
                 <h2 class="text-2xl font-semibold">Список сотрудников</h2>
                 <p class="text-sky-200">Страница ${currentPage + 1} из ${totalPages}, всего: ${totalElements} записей</p>
             </div>
