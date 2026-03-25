@@ -29,14 +29,12 @@
 
         <!-- Header -->
         <header class="bg-white shadow-sm p-6 border-b border-gray-100 py-3">
-            <h2 class="text-2xl font-semibold text-gray-800">Фильтр сотрудников</h2>
+            <h2 class="text-2xl p-1 font-semibold text-gray-800">Найти сотрудников</h2>
         </header>
 
         <!-- Filter Form -->
-        <main class="flex-1 p-6 flex items-start justify-center">
+        <main class="flex flex-1 flex-col p-6 flex items-start">
             <div class="bg-white shadow-xl border border-gray-100 w-full max-w-md p-6 space-y-6">
-
-                <h3 class="text-xl font-medium text-gray-800 text-center">Найти сотрудников</h3>
 
                 <form method="GET" action="/showEmployees" class="space-y-5">
 

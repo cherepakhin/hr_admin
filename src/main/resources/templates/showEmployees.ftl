@@ -57,7 +57,7 @@
     <#include "fragments/sidebar.ftl">
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <div class=" flex flex-1 flex-col overflow-hidden">
         <div class="w-full max-w-6xl mx-auto bg-white shadow-xl border border-gray-100">
             <div class="bg-sky-900 px-6 py-1 text-white text-center">
                 <h2 class="text-2xl font-semibold">Список сотрудников</h2>
