@@ -13,6 +13,7 @@ import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -216,4 +217,21 @@ public class EmployeeControllerTest {
                 .andExpect(model().attributeExists("employees"))
                 .andExpect(model().attribute("totalElements", 2L));
     }
+
+	@Test
+	public void showFilterPage() throws Exception {
+		Position position = new Position(1L, "Developer");
+		Employee emp1 = new Employee("Firstname1", "Lastname1", "emp1@example.com", position);
+		emp1.setId(1L);
+		Employee emp2 = new Employee("Firstname2", "Lastname2", "emp2@example.com", position);
+		emp2.setId(2L);
+		Mockito.when(this.employeeRepository.findAll()).thenReturn(List.of(emp1, emp2));
+
+		mockMvc.perform(get("/filter" ))
+				.andExpect(status().isOk())
+				.andExpect(view().name("filter"))
+				.andExpect(model().attributeExists("positions"));
+
+		verify(positionRepository, times(1)).findAll();
+	}
 }

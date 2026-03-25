@@ -105,12 +105,15 @@ public class EmployeeController {
 		return "showEmployees";
 	}
 */
+
+	/*
 	@RequestMapping(value = "/hideToolbar", method = RequestMethod.GET)
 	public String hideToolbar() {
 		log.info("hideToolbar");
 		log.info(currentIndexPage);
 		return currentIndexPage;
 	}
+   */
 
 	private void refreshEmployees(Model model, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
