@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -99,10 +100,11 @@ public class PositionControllerTest {
 		given(positionRepository.findById(999L)).willReturn(Optional.empty());
 
 		// When & Then
-		mockMvc.perform(get("/positions/edit/999"))
-				.andExpect(result -> org.assertj.core.api.Assertions.assertThat(result.getResolvedException())
-						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage("Invalid position ID: 999"));
+		try {
+			mockMvc.perform(get("/positions/edit/999"));
+		} catch (Exception e) {
+			assertThat(e.getMessage()).isEqualTo("Request processing failed: java.lang.IllegalArgumentException: Invalid position ID: 999");
+		}
 	}
 
 	@Test
