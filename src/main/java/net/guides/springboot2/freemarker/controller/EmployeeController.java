@@ -161,7 +161,7 @@ public class EmployeeController {
 
 		Sort sort = Sort.by(direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
-
+		log.info(pageable.toString());
 		// Передаём positionId в репозиторий
 		Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(
 				firstName, lastName, email, positionId, pageable);
