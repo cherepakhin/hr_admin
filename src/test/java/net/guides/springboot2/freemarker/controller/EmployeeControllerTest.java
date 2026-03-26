@@ -121,7 +121,7 @@ public class EmployeeControllerTest {
         employee.setId(1L);
 
         given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
-        given(positionRepository.findAll()).willReturn(java.util.Arrays.asList(position));
+        given(positionRepository.findAll()).willReturn(List.of(position));
 
         // When & Then
         mockMvc.perform(get("/employees/edit/1"))
@@ -177,7 +177,7 @@ public class EmployeeControllerTest {
     public void shouldShowFilteredEmployees() throws Exception {
         // Given
         Employee employee = new Employee(1L,"Firstname1", "Lastname1", "email1@example.com", new Position(1L, "Developer"));
-        Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(employee));
+        Page<Employee> page = new PageImpl<>(List.of(employee));
 
         given(employeeRepository.findByFiltersAndSort(
                 eq("Firstname1"), any(), any(), any(), any(Pageable.class)))
