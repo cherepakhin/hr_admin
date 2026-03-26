@@ -6,7 +6,7 @@
         <div class="w-8 h-8 bg-sky-900 text-white flex items-center justify-center font-bold rounded">
             HR
         </div>
-        <span x-show="open" class="ml-3 text-sm font-semibold text-sky-900 whitespace-nowrap">
+        <span x-show="open" class="ml-3 text-2xl font-semibold text-sky-900 whitespace-nowrap">
             Отдел кадров
         </span>
     </div>
