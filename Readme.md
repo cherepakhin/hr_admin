@@ -303,6 +303,33 @@ __id__ и __value__ - параметры макроса (value="-" - значе�
 </html>
 ````
 
+### HTTPS
+
+````shell
+keytool -genkeypair -alias tomcat -keyalg RSA -keystore keystore.p12 -storetype PKCS12 -validity 365 -storepass changeit
+````
+Создастся файл ./keystore.p12 
+Сохраните его в src/main/resources:
+
+````shell
+cp keystore.p12 src/main/resources
+````
+
+Добавьте настройки в application.yaml.
+````yaml
+# Включить HTTPS
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    key-alias: tomcat
+````
+4. Запустите приложение
+
+Теперь доступно по: [https://localhost:8443](https://localhost:8443)
+
 ### Ссылки
 
 [FreeMarker шаблоны (habr)](https://habr.com/ru/articles/420549/)
