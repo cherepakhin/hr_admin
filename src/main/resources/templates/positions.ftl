@@ -91,7 +91,7 @@
             </div>
         </header>
         <!-- Positions List -->
-        <main class="flex-1 p-6 overflow-y-auto">
+        <main class="flex-1 p-6 overflow-y-auto bg-white">
             <#if positions?has_content>
                     <table class="w-full text-sm text-left text-gray-700">
                         <tbody>
