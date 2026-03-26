@@ -261,7 +261,7 @@ public class EmployeeControllerTest {
 				.andExpect(model().attribute("totalElements", 2L));
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				"f", "l", "e", any(), pageable);
+				eq("f"), eq("l"), eq("e"), any(), eq(pageable));
 	}
 
 	@Test
