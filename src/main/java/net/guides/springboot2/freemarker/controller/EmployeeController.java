@@ -162,6 +162,7 @@ public class EmployeeController {
 			direction = "asc";
 		}
 
+		// define sort direction by field
 		Sort sort = Sort.by(direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
 		log.info(pageable.toString());

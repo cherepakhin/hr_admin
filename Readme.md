@@ -313,6 +313,14 @@ __id__ и __value__ - параметры макроса (value="-" - значе�
 <div class="rounded-md"> - скругленный углы
 class="flex-1" - класс в Tailwind CSS, который позволяет элементу занимать равную долю доступного пространства в контейнере Flexbox.
 
+При тестировании с mock, если используется any...(), то остальные поля должны быть заданы в виде типа eq(...)
+Пример:
+
+````java
+verify(this.employeeRepository, times(1)).findByFiltersAndSort(eq("firstName1"), eq("lastName1"), eq("email1"), any());
+````
+
+
 ### TODO
 
 Мелкий шрифт на пагинации на телефоне.
