@@ -13,7 +13,7 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String email;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER) // EAGER!!! - атрибут нужен всегда, нет смысла его делать lazy
 	@JoinColumn(name = "position_id", nullable = false)
 	private Position position = new Position(-1L, "");
 

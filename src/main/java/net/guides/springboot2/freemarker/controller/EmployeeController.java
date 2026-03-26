@@ -47,7 +47,7 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "/employees", method = RequestMethod.POST)
-	public String createEmployee(@ModelAttribute Employee employee, Model model) {
+	public String createEmployee(@ModelAttribute Employee employee) {
 		employeeRepository.save(employee);
 
 		log.info("post /employees/: from page={}", currentIndexPage);
@@ -85,7 +85,7 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "/employees/delete/{id}", method = RequestMethod.GET)
-	public String deleteEmployee(@PathVariable("id") Long id, Model model) {
+	public String deleteEmployee(@PathVariable("id") Long id) {
 		employeeRepository.deleteById(id);
 		log.info("/employees/delete/{}", id);
 		log.info("currentIndexPage: {}", currentIndexPage);
