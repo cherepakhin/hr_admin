@@ -320,6 +320,12 @@ class="flex-1" - класс в Tailwind CSS, который позволяет �
 verify(this.employeeRepository, times(1)).findByFiltersAndSort(eq("firstName1"), eq("lastName1"), eq("email1"), any());
 ````
 
+[SVG иконки (пример стрелки вниз)](https://svgicons.com/icon/180/arrow-down)
+
+````text
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Arrow-down SVG Icon</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 9l7 7l7-7"/></svg>
+````
+
 
 ### TODO
 

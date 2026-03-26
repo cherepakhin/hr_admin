@@ -28,8 +28,14 @@ public class EmployeeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String listEmployees(Model model,
 								@RequestParam(defaultValue = "0") int page,
-								@RequestParam(defaultValue = "10") int size) {
-		refreshEmployees(model, page, size);
+								@RequestParam(defaultValue = "10") int size,
+								@RequestParam(defaultValue = "id") String sortField,
+								@RequestParam(defaultValue = "asc") String direction
+
+								) {
+		log.info("listEmployees");
+		log.info("sortField: {}, direction: {}", sortField, direction);
+		refreshEmployees(model, page, size, sortField, direction);
 
 		log.info("/ ->{}", currentIndexPage);
 		currentIndexPage = "/";
@@ -40,6 +46,7 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
 	public String showCreateForm(Model model) {
+		log.info("showCreateForm");
 		model.addAttribute("employee", new Employee());
 		model.addAttribute("positions", positionRepository.findAll());
 		log.info("/employees/new: from page={}", currentIndexPage);
@@ -48,6 +55,7 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/employees", method = RequestMethod.POST)
 	public String createEmployee(@ModelAttribute Employee employee) {
+		log.info("createEmployee");
 		employeeRepository.save(employee);
 
 		log.info("post /employees/: from page={}", currentIndexPage);
@@ -57,6 +65,7 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/employees/edit/{id}", method = RequestMethod.GET)
 	public String showEditForm(@PathVariable("id") Long id, Model model) {
+		log.info("showEditForm");
 		Optional<Employee> optional = employeeRepository.findById(id);
 		log.info("/employees/edit/{id}: from page={}", currentIndexPage);
 		if (optional.isPresent()) {
@@ -73,6 +82,7 @@ public class EmployeeController {
 	public String updateEmployee(@PathVariable("id") Long id,
 								 @ModelAttribute Employee employee,
 								 Model model) {
+		log.info("updateEmployee");
 		employee.setId(id);
 		employeeRepository.save(employee);
 		log.info("/employees/update/{}:", currentIndexPage);
@@ -86,6 +96,7 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/employees/delete/{id}", method = RequestMethod.GET)
 	public String deleteEmployee(@PathVariable("id") Long id) {
+		log.info("deleteEmployee");
 		employeeRepository.deleteById(id);
 		log.info("/employees/delete/{}", id);
 		log.info("currentIndexPage: {}", currentIndexPage);
@@ -115,10 +126,28 @@ public class EmployeeController {
 	}
    */
 
-	private void refreshEmployees(Model model, int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
+	private void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
+		if(sortField.isEmpty()) {
+			sortField = "id";
+		}
+
+		if(direction.isEmpty()) {
+			direction = "asc";
+		}
+
+		Sort.Direction directionSort = Sort.Direction.ASC;
+
+		if (direction!=null && direction.equals("desc")) {
+			directionSort = Sort.Direction.DESC;
+		}
+
+		log.info("refreshEmployees");
+		Sort sort = Sort.by(directionSort, sortField);
+		Pageable pageable = PageRequest.of(page, size, sort);
 		Page<Employee> employeePage = employeeRepository.findAll(pageable);
 		model.addAttribute("employees", employeePage.getContent());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("direction", direction);
 		model.addAttribute("currentPage", employeePage.getNumber());
 		model.addAttribute("totalPages", employeePage.getTotalPages());
 		model.addAttribute("totalElements", employeePage.getTotalElements());
@@ -127,6 +156,7 @@ public class EmployeeController {
 	// Отображение формы фильтра
 	@GetMapping("/filter")
 	public String showFilterPage(Model model) {
+		log.info("showFilterPage");
 		model.addAttribute("positions", positionRepository.findAll() );
 		return "filter";
 	}
@@ -144,7 +174,7 @@ public class EmployeeController {
 			@RequestParam(required = false) String sortField,
 			@RequestParam(required = false) String direction
 	) {
-		log.info("Page show_employees");
+		log.info("showAllEmployees");
 		log.info("firstName: {}", firstName);
 		log.info("lastName: {}", lastName);
 		log.info("email: {}", email);

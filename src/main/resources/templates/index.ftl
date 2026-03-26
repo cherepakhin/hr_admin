@@ -64,15 +64,37 @@
 
         <!-- Header -->
         <header class="bg-white shadow-sm border-b border-gray-100 all-employees">
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-left">
                 <h2 class="text-2xl font-semibold text-gray-800">Все сотрудники</h2>
+            <div class="flex justify-between items-right">
                 <a href="/employees/new"
-                   class="btn-dark-blue px-5 py-2 font-medium shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
+                   class="btn-dark-blue px-5 py-2 font-medium shadow transition flex items-right gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900  w-40">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     Добавить
                 </a>
+
+                <h3 class="text-1xl py-2 px-4 font-semibold text-gray-800">Сортировать по:</h3>
+                <!-- Combobox для сортировки с поддержкой выбранного значения -->
+                <div class="relative">
+                    <select
+                        id="sortSelect"
+                        onchange="window.location.href='?sortField=' + this.value + '&direction=asc'"
+                        class="block w-40 px-5 py-2 bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 appearance-none rounded-none">
+                        <option value="">Выберите поле</option>
+                        <option value="firstName" <#if sortField?has_content && sortField == "firstName">selected</#if>>Имени</option>
+                        <option value="lastName" <#if sortField?has_content && sortField == "lastName">selected</#if>>Фамилии</option>
+                        <option value="email" <#if sortField?has_content && sortField == "email">selected</#if>>Email</option>
+                        <option value="position.name" <#if sortField?has_content && sortField == "position.name">selected</#if>>Должности</option>
+                    </select>
+                    <!-- Кастомная стрелка -->
+                    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                </div>
             </div>
         </header>
 
