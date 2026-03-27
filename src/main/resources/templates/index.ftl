@@ -144,10 +144,10 @@
                         <!-- Previous Button -->
                         <#if currentPage gt 0>
                             <li>
-                                <a href="/?page=${currentPage - 1}&sortField=${sortField}&direction=${direction}" class="pagination-link">← Назад</a>
+                                <a href="/?page=${currentPage - 1}&sortField=${sortField}&direction=${direction}" class="pagination-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Предыдущая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/></svg></a>
                             </li>
                         <#else>
-                            <li><span class="pagination-link opacity-50 cursor-not-allowed">← Назад</span></li>
+                            <li><span class="pagination-link opacity-50 cursor-not-allowed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Предыдущая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/></svg></span></li>
                         </#if>
 
                         <!-- Page Numbers -->
@@ -167,10 +167,10 @@
                         <!-- Next Button -->
                         <#if currentPage lt totalPages - 1>
                             <li>
-                                <a href="/?page=${currentPage + 1}&sortField=${sortField}&direction=${direction}" class="pagination-link">Вперёд →</a>
+                                <a href="/?page=${currentPage + 1}&sortField=${sortField}&direction=${direction}" class="pagination-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Следующая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/></svg></a>
                             </li>
                         <#else>
-                            <li><span class="pagination-link opacity-50 cursor-not-allowed">Вперёд →</span></li>
+                            <li><span class="pagination-link opacity-50 cursor-not-allowed"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/></svg></span></li>
                         </#if>
                     </ul>
                 </div>
