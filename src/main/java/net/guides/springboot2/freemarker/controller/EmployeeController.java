@@ -20,6 +20,11 @@ import java.util.Optional;
 public class EmployeeController {
 	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 	private String currentIndexPage = "/";
+
+	private int page = 0;
+	private String sortField = "id";
+	private String direction = "asc";
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	@Autowired
@@ -34,7 +39,17 @@ public class EmployeeController {
 
 								) {
 		log.info("listEmployees");
-		log.info("sortField: {}, direction: {}", sortField, direction);
+		this.page = page;
+
+		if(!sortField.isEmpty()) {
+			this.sortField = sortField;
+		}
+		if(!direction.isEmpty()) {
+			this.direction = direction;
+		}
+
+		log.info("page: {}, sortField: {}, direction: {}", page, sortField, direction);
+		this.
 		refreshEmployees(model, page, size, sortField, direction);
 
 		log.info("/ ->{}", currentIndexPage);
@@ -127,18 +142,23 @@ public class EmployeeController {
    */
 
 	private void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
-		if(sortField.isEmpty()) {
-			sortField = "id";
+		if(!sortField.isEmpty()) {
+			this.sortField = sortField;
+		} else {
+			this.sortField = "id";
 		}
 
-		if(direction.isEmpty()) {
-			direction = "asc";
+		if(!direction.isEmpty()) {
+			this.direction = direction;
+		} else {
+			this.direction = "asc";
 		}
 
-		Sort.Direction directionSort = Sort.Direction.ASC;
-
-		if (direction!=null && direction.equals("desc")) {
+		Sort.Direction directionSort;
+		if (this.direction.equals("desc")) {
 			directionSort = Sort.Direction.DESC;
+		} else {
+			directionSort = Sort.Direction.ASC;
 		}
 
 		log.info("refreshEmployees");

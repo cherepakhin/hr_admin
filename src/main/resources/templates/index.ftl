@@ -82,11 +82,10 @@
                         id="sortSelect"
                         onchange="window.location.href='?sortField=' + this.value + '&direction=asc'"
                         class="block w-40 px-5 py-2 bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 appearance-none rounded-none">
-                        <option value="">Выберите поле</option>
-                        <option value="firstName" <#if sortField?has_content && sortField == "firstName">selected</#if>>Имени</option>
-                        <option value="lastName" <#if sortField?has_content && sortField == "lastName">selected</#if>>Фамилии</option>
-                        <option value="email" <#if sortField?has_content && sortField == "email">selected</#if>>Email</option>
-                        <option value="position.name" <#if sortField?has_content && sortField == "position.name">selected</#if>>Должности</option>
+                        <option value="firstName" <#if sortField?? && sortField == "firstName">selected</#if>>Имени</option>
+                        <option value="lastName" <#if sortField?? && sortField == "lastName">selected</#if>>Фамилии</option>
+                        <option value="email" <#if sortField?? && sortField == "email">selected</#if>>Email</option>
+                        <option value="position.name" <#if sortField?? && sortField == "position.name">selected</#if>>Должности</option>
                     </select>
                     <!-- Кастомная стрелка -->
                     <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
@@ -145,7 +144,7 @@
                         <!-- Previous Button -->
                         <#if currentPage gt 0>
                             <li>
-                                <a href="/?page=${currentPage - 1}" class="pagination-link">← Назад</a>
+                                <a href="/?page=${currentPage - 1}&sortField=${sortField}&direction=${direction}" class="pagination-link">← Назад</a>
                             </li>
                         <#else>
                             <li><span class="pagination-link opacity-50 cursor-not-allowed">← Назад</span></li>
@@ -160,7 +159,7 @@
                                 <#if p == currentPage>
                                     <span class="pagination-current">${p + 1}</span>
                                 <#else>
-                                    <a href="/?page=${p}" class="pagination-link">${p + 1}</a>
+                                    <a href="/?page=${p}&sortField=${sortField}&direction=${direction}" class="pagination-link">${p + 1}</a>
                                 </#if>
                             </li>
                         </#list>
@@ -168,7 +167,7 @@
                         <!-- Next Button -->
                         <#if currentPage lt totalPages - 1>
                             <li>
-                                <a href="/?page=${currentPage + 1}" class="pagination-link">Вперёд →</a>
+                                <a href="/?page=${currentPage + 1}&sortField=${sortField}&direction=${direction}" class="pagination-link">Вперёд →</a>
                             </li>
                         <#else>
                             <li><span class="pagination-link opacity-50 cursor-not-allowed">Вперёд →</span></li>

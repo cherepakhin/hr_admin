@@ -330,6 +330,41 @@ server:
 
 Теперь доступно по: [https://localhost:8443](https://localhost:8443)
 
+Если хотите, чтобы HTTP → перенаправлялся на HTTPS, добавьте конфигурацию:
+SecurityConfig.java:
+
+````java
+package net.guides.springboot2.freemarker.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .requiresChannel(channel -> channel
+                .requestMatchers(AntPathRequestMatcher.antMatcher("/secure/**"))
+                .requiresSecure()
+            )
+            .authorizeHttpRequests(authz -> authz
+                .anyRequest().permitAll()
+            )
+            .portMapper(mapper -> mapper
+                .http(8080).mapsTo(8443)
+            );
+        return http.build();
+    }
+}
+````
+
 ### Ссылки
 
 [FreeMarker шаблоны (habr)](https://habr.com/ru/articles/420549/)
