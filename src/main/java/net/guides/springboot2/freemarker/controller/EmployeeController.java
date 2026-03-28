@@ -169,7 +169,7 @@ public class EmployeeController {
 			@RequestParam(required = false, defaultValue = "") String firstName,
 			@RequestParam(required = false, defaultValue = "") String lastName,
 			@RequestParam(required = false, defaultValue = "") String email,
-			@RequestParam(required = false, defaultValue = "0") Long positionId,
+			@RequestParam(required = false, defaultValue = "") Long positionId,
 			@RequestParam(required = false, defaultValue = "") String sortField,
 			@RequestParam(required = false, defaultValue = "") String direction
 	) {
