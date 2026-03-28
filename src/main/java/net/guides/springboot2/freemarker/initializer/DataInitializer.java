@@ -26,17 +26,18 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+		Position nullPosition = null;
 		Position director = null;
 		Position accounter = null;
 		Position worker = null;
 		if(positionRepository.count() == 0) {
 			log.info("Initialize positions");
-			positionRepository.save(new Position(-1L, "-"));
+			nullPosition =positionRepository.save(new Position(-1L, "-"));
 			director = positionRepository.save(new Position(1L, "Директор"));
 			accounter = positionRepository.save(new Position(2L, "Бухгалтер"));
 			worker = positionRepository.save(new Position(3L, "Рабочий"));
 		}
-        // Проверяем, пуста ли таблица
+
         if (employeeRepository.count() == 0) {
 			log.info("Initialize employees");
             employeeRepository.save(new Employee("Иван", "Иванов", "ivan@example.com", director));
@@ -51,5 +52,6 @@ public class DataInitializer implements CommandLineRunner {
         } else {
 			log.info("The database already contains data. Initialization has been skipped.");
         }
+
     }
 }
