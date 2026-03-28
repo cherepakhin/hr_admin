@@ -21,8 +21,8 @@ public class EmployeeController {
 	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 	private String currentIndexPage = "/";
 
-	private String sortField = "id";
-	private String direction = "asc";
+	private String sortField = Fields.ID;
+	private String direction = Direction.ASC;
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
@@ -42,12 +42,12 @@ public class EmployeeController {
 		if(!sortField.isEmpty()) {
 			this.sortField = sortField;
 		} else {
-			this.sortField = "id";
+			this.sortField = Fields.ID;
 		}
 		if(!direction.isEmpty()) {
 			this.direction = direction;
 		} else {
-			this.direction = "asc";
+			this.direction = Direction.ASC;
 		}
 
 		log.info("page: {}, sortField: {}, direction: {}", page, sortField, direction);
