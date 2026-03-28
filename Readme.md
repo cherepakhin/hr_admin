@@ -8,10 +8,10 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 
 Основная цель __ТОЛЬКО FRONTEND__.
 
-- В качестве template использован Freemarker (__spring-boot-starter-freemarker__).
-- Простой CRUD. База данных H2.
-- Использован Tailwind - CSS-фреймворк для оформления интерфейсов.
-- При тестировании использован AssertJ.
+- В качестве template использован __Freemarker__ (__spring-boot-starter-freemarker__).
+- Простой CRUD. База данных __H2__.
+- Использован __Tailwind__ - CSS-фреймворк для оформления интерфейсов.
+- При тестировании использован __AssertJ__.
 - Использован __GigaChat__.
 - тесты в __BDD__ стиле с __Mockito__ в EmployeeControllerTest.java
 - __DataJpaTest__ в EmployeeRepositoryTest.java
@@ -39,6 +39,63 @@ Java version: 17.0.17, vendor: Ubuntu, runtime: /usr/lib/jvm/java-17-openjdk-amd
 Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "6.14.0-37-generic", arch: "amd64", family: "unix"
 
+````
+### ModelAndView
+
+В стандартном подходе Spring Boot Web должны возвращаться __ModelAndView__:
+
+````java
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping("catalog/products")
+public class ProductController {
+    
+    @GetMapping("list")
+    ModelAndView list() {
+        return new ModelAndView("catalog/products/list", 
+            Map.of("products", this.productRepository.findAll()), 
+            HttpStatus.OK);
+    }
+}
+````
+
+В этом проекте возвращаются имена __view__. 
+
+````java
+	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
+	public String showCreateForm(Model model) {
+		log.info("showCreateForm");
+		model.addAttribute("employee", new Employee());
+		model.addAttribute("positions", positionRepository.findAll());
+		log.info("/employees/new: from page={}", currentIndexPage);
+		return "create_employee"; // имя template из src/main/resources/templates
+	}
+````
+
+
+При этом подходе есть особенности тестирования. Пример:
+
+````java
+    @Test
+    public void shouldShowEditFormForExistingEmployee() throws Exception {
+        // Given
+        Position position = new Position(1L, "Developer");
+        Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
+        employee.setId(1L);
+
+        given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+        given(positionRepository.findAll()).willReturn(List.of(position));
+
+        // When & Then
+        mockMvc.perform(get("/employees/edit/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("edit_employee"))
+                .andExpect(model().attributeExists("employee", "positions"))
+                .andExpect(model().attribute("employee", employee));
+    }
 ````
 
 ### Тестирование
@@ -81,7 +138,7 @@ $ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freema
 
 ### Использование
 
-Открыть [http://127.0.0.1:8088/](http://127.0.0.1:8088/)
+Открыть [https://192.168.1.79:8443/?sortField=lastName&direction=asc&page=1](https://192.168.1.79:8443/?sortField=lastName&direction=asc&page=1)
 
 (см. application.yaml)
 
@@ -328,7 +385,7 @@ server:
 ````
 4. Запустите приложение
 
-Теперь доступно по: [https://localhost:8443](https://localhost:8443)
+Теперь доступно по: [https://<IP computer>:8443](https://192.168.1.79:8443)
 
 Если хотите, чтобы HTTP → перенаправлялся на HTTPS, добавьте конфигурацию:
 SecurityConfig.java:

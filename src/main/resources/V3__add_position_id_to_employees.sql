@@ -3,7 +3,7 @@ ALTER TABLE employees
 ADD COLUMN position_id BIGINT;
 
 -- Устанавливаем значение по умолчанию (должность 'Сотрудник' — id=1)
-UPDATE employees SET position_id = 1 WHERE position_id IS NULL;
+-- UPDATE employees SET position_id = 1 WHERE position_id IS NULL;
 
 -- Делаем колонку NOT NULL и добавляем внешний ключ
 ALTER TABLE employees

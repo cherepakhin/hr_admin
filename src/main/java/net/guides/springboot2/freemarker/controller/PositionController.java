@@ -38,6 +38,8 @@ public class PositionController {
         if (result.hasErrors()) {
             return NamesView.CREATE_POSITION;
         }
+		Long id = positionRepository.getNextId();
+		position.setId(id);
         positionRepository.save(position);
         return "redirect:/" + NamesView.POSITIONS;
     }

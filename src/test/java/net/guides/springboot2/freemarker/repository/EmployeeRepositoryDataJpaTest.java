@@ -29,8 +29,8 @@ public class EmployeeRepositoryDataJpaTest {
 
 	@Test
 	public void whenFindById_thenReturnEmployee() {
-		// Given: Сначала сохраняем позицию, чтобы избежать JpaObjectRetrievalFailureException
 		Position position = new Position();
+		position.setId(-100L);
 		position.setName("Developer");
 		position = positionRepository.save(position); // Сохраняем и получаем ID
 

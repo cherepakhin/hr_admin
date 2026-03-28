@@ -12,4 +12,7 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
 
     @Query("SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END FROM Position p WHERE LOWER(p.name) = LOWER(:name) AND p.id <> :id")
     boolean existsByNameAndIdNot(@Param("name") String name, @Param("id") Long id);
+
+	@Query("select max(id)+1 from Position")
+	Long getNextId();
 }

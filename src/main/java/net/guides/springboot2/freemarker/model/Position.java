@@ -8,7 +8,6 @@ import java.util.Objects;
 @Table(name = "positions")
 public class Position {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true, length = 100)
