@@ -166,12 +166,12 @@ public class EmployeeController {
 			Model model,
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size,
-			@RequestParam(required = false) String firstName,
-			@RequestParam(required = false) String lastName,
-			@RequestParam(required = false) String email,
-			@RequestParam(required = false) Long positionId,
-			@RequestParam(required = false) String sortField,
-			@RequestParam(required = false) String direction
+			@RequestParam(required = false, defaultValue = "") String firstName,
+			@RequestParam(required = false, defaultValue = "") String lastName,
+			@RequestParam(required = false, defaultValue = "") String email,
+			@RequestParam(required = false, defaultValue = "0") Long positionId,
+			@RequestParam(required = false, defaultValue = "") String sortField,
+			@RequestParam(required = false, defaultValue = "") String direction
 	) {
 		log.info("showAllEmployees");
 		log.info("firstName: {}", firstName);
@@ -196,6 +196,7 @@ public class EmployeeController {
 		Pageable pageable = PageRequest.of(page, size, sort);
 		log.info(pageable.toString());
 		// Передаём positionId в репозиторий
+		// TODO: НАСТРОИТЬ DEFAULT ЗНАЧЕНИЯ для пустых значений
 		Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(
 				firstName, lastName, email, positionId, pageable);
 
