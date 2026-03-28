@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +33,7 @@ public class PositionControllerTest {
 	public void shouldListPositions() throws Exception {
 		// Given
 		Position dev = new Position(1L, "Developer");
-		given(positionRepository.findAll()).willReturn(Arrays.asList(dev));
+		given(positionRepository.findAll()).willReturn(Collections.singletonList(dev));
 
 		// When & Then
 		mockMvc.perform(get("/positions"))
@@ -95,7 +96,7 @@ public class PositionControllerTest {
 	}
 
 	@Test
-	public void shouldReturn404WhenPositionNotFoundForEdit() throws Exception {
+	public void shouldReturn404WhenPositionNotFoundForEdit() {
 		// Given
 		given(positionRepository.findById(999L)).willReturn(Optional.empty());
 

@@ -13,6 +13,7 @@ import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,7 +91,7 @@ public class EmployeeControllerTest {
     @Test
     public void shouldShowCreateForm() throws Exception {
         // Given
-        given(positionRepository.findAll()).willReturn(java.util.Arrays.asList(new Position(1L, "Developer")));
+        given(positionRepository.findAll()).willReturn(Collections.singletonList(new Position(1L, "Developer")));
 
         // When & Then
         mockMvc.perform(get("/employees/new"))
@@ -132,7 +133,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void shouldReturn404WhenEditEmployeeNotFound() throws Exception {
+    public void shouldReturn404WhenEditEmployeeNotFound() {
         // Given
         given(employeeRepository.findById(999L)).willReturn(Optional.empty());
 

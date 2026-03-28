@@ -21,7 +21,6 @@ public class EmployeeController {
 	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 	private String currentIndexPage = "/";
 
-	private int page = 0;
 	private String sortField = "id";
 	private String direction = "asc";
 
@@ -39,13 +38,16 @@ public class EmployeeController {
 
 								) {
 		log.info("listEmployees");
-		this.page = page;
 
 		if(!sortField.isEmpty()) {
 			this.sortField = sortField;
+		} else {
+			this.sortField = "id";
 		}
 		if(!direction.isEmpty()) {
 			this.direction = direction;
+		} else {
+			this.direction = "asc";
 		}
 
 		log.info("page: {}, sortField: {}, direction: {}", page, sortField, direction);
@@ -56,7 +58,7 @@ public class EmployeeController {
 		currentIndexPage = "/";
 		log.info("/ -> {}", currentIndexPage);
 
-		return "index";
+		return NamesView.INDEX;
 	}
 
 	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
@@ -65,7 +67,7 @@ public class EmployeeController {
 		model.addAttribute("employee", new Employee());
 		model.addAttribute("positions", positionRepository.findAll());
 		log.info("/employees/new: from page={}", currentIndexPage);
-		return "create_employee";
+		return NamesView.CREATE_EMPLOYEE;
 	}
 
 	@RequestMapping(value = "/employees", method = RequestMethod.POST)
@@ -88,7 +90,7 @@ public class EmployeeController {
 			model.addAttribute("employee", optional.get());
 			model.addAttribute("positions", positionRepository.findAll()); // ←
 			model.addAttribute("prevPage", currentIndexPage);
-			return "edit_employee";
+			return NamesView.EDIT_EMPLOYEE;
 		}
 		throw new IllegalArgumentException("Employee not exist with id=" + id);
 	}
@@ -118,44 +120,21 @@ public class EmployeeController {
 		return "redirect:" + currentIndexPage;
 	}
 
-	/*
-	@RequestMapping(value = "showEmployees", method = RequestMethod.GET)
-	public String showAllEmployees(Model model,
-								   @RequestParam(defaultValue = "0") int page,
-								   @RequestParam(defaultValue = "10") int size) {
-
-		refreshEmployees(model, page, size);
-		log.info(currentIndexPage);
-		currentIndexPage = "showEmployees";
-		log.info("from /showEmployees:" + currentIndexPage);
-		return "showEmployees";
-	}
-*/
-
-	/*
-	@RequestMapping(value = "/hideToolbar", method = RequestMethod.GET)
-	public String hideToolbar() {
-		log.info("hideToolbar");
-		log.info(currentIndexPage);
-		return currentIndexPage;
-	}
-   */
-
 	private void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
 		if(!sortField.isEmpty()) {
 			this.sortField = sortField;
 		} else {
-			this.sortField = "id";
+			this.sortField = Fields.ID;
 		}
 
 		if(!direction.isEmpty()) {
 			this.direction = direction;
 		} else {
-			this.direction = "asc";
+			this.direction = Direction.ASC;
 		}
 
 		Sort.Direction directionSort;
-		if (this.direction.equals("desc")) {
+		if (this.direction.equals(Direction.DESC)) {
 			directionSort = Sort.Direction.DESC;
 		} else {
 			directionSort = Sort.Direction.ASC;
@@ -178,7 +157,7 @@ public class EmployeeController {
 	public String showFilterPage(Model model) {
 		log.info("showFilterPage");
 		model.addAttribute("positions", positionRepository.findAll() );
-		return "filter";
+		return NamesView.FILTER_EMPLOYEE;
 	}
 
 	// Показать всех сотрудников с фильтрацией
@@ -202,18 +181,18 @@ public class EmployeeController {
 		log.info("sortField: {}", sortField);
 		log.info("direction: {}", direction);
 
-		currentIndexPage = "/show_employees";
+		currentIndexPage = "/" + NamesView.SHOW_EMPLOYEES;
 
 		// Сортировка
 		if (sortField == null || sortField.isEmpty()) {
-			sortField = "id";
+			sortField = Fields.ID;
 		}
 		if (direction == null || direction.isEmpty()) {
-			direction = "asc";
+			direction = Direction.ASC;
 		}
 
 		// define sort direction by field
-		Sort sort = Sort.by(direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+		Sort sort = Sort.by(direction.equals(Direction.ASC) ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
 		log.info(pageable.toString());
 		// Передаём positionId в репозиторий
@@ -234,6 +213,6 @@ public class EmployeeController {
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDirection", direction);
 
-		return "show_employees";
+		return NamesView.SHOW_EMPLOYEES;
 	}
 }

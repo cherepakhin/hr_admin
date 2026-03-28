@@ -19,13 +19,13 @@ public class PositionController {
     @GetMapping
     public String listPositions(Model model) {
         model.addAttribute("positions", positionRepository.findAll());
-        return "positions";
+        return NamesView.POSITIONS;
     }
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("position", new Position());
-        return "create_position";
+        return NamesView.CREATE_POSITION;
     }
 
     @PostMapping
@@ -36,10 +36,10 @@ public class PositionController {
             result.rejectValue("name", "error.position", "Должность с таким названием уже существует.");
         }
         if (result.hasErrors()) {
-            return "create_position";
+            return NamesView.CREATE_POSITION;
         }
         positionRepository.save(position);
-        return "redirect:/positions";
+        return "redirect:/" + NamesView.POSITIONS;
     }
 
     @GetMapping("/edit/{id}")
@@ -47,7 +47,7 @@ public class PositionController {
         Position position = positionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid position ID: " + id));
         model.addAttribute("position", position);
-        return "edit_position";
+        return NamesView.EDIT_POSITION;
     }
 
     @PostMapping("/update/{id}")
@@ -60,16 +60,16 @@ public class PositionController {
         }
         if (result.hasErrors()) {
             position.setId(id);
-            return "edit_position";
+            return NamesView.EDIT_POSITION;
         }
         position.setId(id);
         positionRepository.save(position);
-        return "redirect:/positions";
+        return "redirect:/" + NamesView.POSITIONS;
     }
 
     @GetMapping("/delete/{id}")
     public String deletePosition(@PathVariable("id") Long id) {
         positionRepository.deleteById(id);
-        return "redirect:/positions";
+        return "redirect:/" + NamesView.POSITIONS;
     }
 }
