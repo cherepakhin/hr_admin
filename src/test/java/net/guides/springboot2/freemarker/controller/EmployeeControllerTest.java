@@ -60,6 +60,8 @@ public class EmployeeControllerTest {
 				.andExpect(model().attribute("totalElements", 2L))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname1")))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname2")));
+
+		verify(employeeRepository, times(1)).findAll(any(Pageable.class));
 	}
 
 	@Test
@@ -86,6 +88,8 @@ public class EmployeeControllerTest {
                 .andExpect(model().attribute("currentPage", 0))
                 .andExpect(model().attribute("totalPages", 1))
                 .andExpect(model().attribute("totalElements", 2L));
+
+		verify(employeeRepository, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -98,6 +102,8 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("create_employee"))
                 .andExpect(model().attributeExists("employee", "positions"));
+
+		verify(positionRepository, times(1)).findAll();
     }
 
     @Test
@@ -130,6 +136,9 @@ public class EmployeeControllerTest {
                 .andExpect(view().name("edit_employee"))
                 .andExpect(model().attributeExists("employee", "positions"))
                 .andExpect(model().attribute("employee", employee));
+
+		verify(positionRepository, times(1)).findAll();
+		verify(employeeRepository, times(1)).findById(1L);
     }
 
     @Test
