@@ -83,7 +83,7 @@
                             <tr>
                                 <!-- First Name -->
                                 <th class="px-6 py-3 font-medium cursor-pointer group"
-                                    onclick="window.location.href='?page=${currentPage}&firstName=${firstName}&lastName=${lastName}&email=${email}&sortField=${sortField}&direction=${(sortField == 'firstName' && sortDirection == 'asc')?string('desc','asc')}'">
+                                    onclick="window.location.href='?page=${currentPage}&sortField=firstName&direction=${(sortField == 'firstName' && sortDirection == 'asc')?string('desc','asc')}'">
                                     Имя
                                     <span class="text-xs text-gray-800 text-2xl">
                                         <#if sortField == "firstName">
