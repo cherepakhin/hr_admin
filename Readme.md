@@ -120,20 +120,20 @@ public class ProductController {
 ./mvnw clean package
 ````
 
-Собранный __FAT__ jar будет в target/springboot2-freemarker-0.0.1-SNAPSHOT.jar .
+Собранный __FAT__ jar будет в target/hr-admin-0.0.3.jar
 
 Использован __org.springframework.boot:spring-boot-maven-plugin__ .
 
 ### Запуск
 
 ````shell
- /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freemarker-0.0.1-SNAPSHOT.jar
+ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/hr-admin-0.0.3.jar
 ````
 
 Запуск на другом порту:
 
 ````shell
-$ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freemarker-0.0.1-SNAPSHOT.jar --server.port=8088
+/usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/hr-admin-0.0.3.jar --server.port=8088
 ````
 
 ### Использование
