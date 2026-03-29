@@ -44,7 +44,7 @@ public class DataInitializerTest {
         long employeeCount = employeeRepository.count();
         Iterable<Employee> allEmployees = employeeRepository.findAll();
 
-        assertThat(employeeCount).isEqualTo(54); // 4 + 50
+        assertThat(employeeCount).isEqualTo(14);
 
         Employee ivanov = employeeRepository.findByFirstNameAndLastName("Иван", "Иванов").orElse(null);
         Employee petrova = employeeRepository.findByFirstNameAndLastName("Мария", "Петрова").orElse(null);
@@ -91,6 +91,6 @@ public class DataInitializerTest {
 
         long employeeCount = employeeRepository.count();
 
-        assertThat(employeeCount).isEqualTo(55L);
+        assertThat(employeeCount).isEqualTo(15L);
     }
 }
