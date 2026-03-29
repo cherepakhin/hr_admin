@@ -48,7 +48,7 @@ public class DataInitializer implements CommandLineRunner {
 			employeeRepository.save(new Employee("Алексей", "Сидоров", "alex@example.com", director));
 			employeeRepository.save(new Employee("Елена", "Кузнецова", "elena@example.com", accounter));
 
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 10; i++) {
 				employeeRepository.save(new Employee("Name " + i, "Lastname " + i, format("emp%s@example.com", i), worker));
 			}
 			log.info("Test data added.");
