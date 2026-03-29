@@ -142,6 +142,15 @@ $ /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/springboot2-freema
 
 (см. application.yaml)
 
+Для запуска выполнить на v.perm.ru:
+
+````shell
+/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar ./hr-admin-0.0.3.jar  --server.port=8088
+````
+
+Открыть [https://v.perm.ru:8088/(https://v.perm.ru:8088/)
+(проверено 29/03/26 на компе Игоря. Открывается с предупреждением о сертификате.)
+
 ### Размещение на tomcat сервере
 
 Сборка:
