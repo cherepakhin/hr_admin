@@ -28,7 +28,15 @@ public class PositionController {
         return NamesView.CREATE_POSITION;
     }
 
-    @PostMapping
+//	            <form action="/positions" method="post"> // post on /position
+//                <div>
+//                    <label>Название</label>
+//                    <input type="text" name="name" required> <-- field "name" (position.name=name)
+//                </div>
+//                <button type="submit">Сохранить</button>   <-- type=SUBMIT !!!
+//              </form>
+
+	@PostMapping
     public String createPosition(@Valid @ModelAttribute Position position,
                                  BindingResult result,
                                  Model model) {

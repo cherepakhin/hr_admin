@@ -95,6 +95,14 @@ public class EmployeeController {
 		throw new IllegalArgumentException("Employee not exist with id=" + id);
 	}
 
+	// POST from edit_employee.ftl:
+    //    <form action="/employees/update/${employee.id}" method="post">
+    //        <input type="hidden" name="id" value="${employee.id}" />
+    //        <div>
+    //            <label >Имя</label>
+    //            <input name="firstName" value="${employee.firstName}" /> <-- field NAME link to  = "firstName" (employee.firstName)
+    //        </div>
+
 	@RequestMapping(value = "/employees/update/{id}", method = RequestMethod.POST)
 	public String updateEmployee(@PathVariable("id") Long id,
 								 @ModelAttribute Employee employee,
