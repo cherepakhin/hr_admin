@@ -16,17 +16,31 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 - тесты в __BDD__ стиле с __Mockito__ в EmployeeControllerTest.java
 - __DataJpaTest__ в EmployeeRepositoryTest.java
 
-Основной экран:
+Основной экран в виде карточек:
 
 ![doc/main_screen.png](doc/main_screen.png)
 
-![doc/add_employee.png](doc/add_employee.png)
+Список сотрудников в виде таблицы с сортировкой и СВЕРНУТОЙ панелью:
 
 ![doc/list_employees.png](doc/list_employees.png)
 
+Список сотрудников в виде таблицы с сортировкой и РАЗВЕРНУТОЙ панелью:
+
 ![doc/show_panel.png](doc/show_panel.png)
 
+Диалог ввода сотрудника:
+
+![doc/add_employee.png](doc/add_employee.png)
+
+Диалог изменение данных сотрудника:
+
+![doc/edit_employee.png](doc/edit_employee.png)
+
+Список должностей:
+
 ![doc/positions.png](doc/positions.png)
+
+Редактирование должности:
 
 ![doc/edit_position.png](doc/edit_position.png)
 
