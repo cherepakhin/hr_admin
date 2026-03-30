@@ -22,6 +22,14 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 
 ![doc/add_employee.png](doc/add_employee.png)
 
+![doc/list_employees.png](doc/list_employees.png)
+
+![doc/show_panel.png](doc/show_panel.png)
+
+![doc/positions.png](doc/positions.png)
+
+![doc/edit_position.png](doc/edit_position.png)
+
 ### Создание maven wrapper
 
 ````shell

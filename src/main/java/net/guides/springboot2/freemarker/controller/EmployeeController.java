@@ -1,6 +1,5 @@
 package net.guides.springboot2.freemarker.controller;
 
-import net.bytebuddy.matcher.ElementMatcher;
 import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
@@ -15,11 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.QueryExp;
 import java.util.Optional;
-
-import static javax.management.Query.eq;
-import static net.bytebuddy.matcher.ElementMatchers.any;
 
 @Controller
 public class EmployeeController {
