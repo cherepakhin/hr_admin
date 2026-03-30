@@ -55,7 +55,7 @@
     </style>
 </head>
 
-<body class="bg-gray-50 min-h-screen flex" th:with="show_toolbar=true">
+<body class="bg-gray-50 min-h-screen flex">
     <!-- Include Sidebar Fragment -->
     <#include "fragments/sidebar.ftl">
 

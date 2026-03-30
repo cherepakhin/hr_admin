@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Add Employee - HR Admin</title>
+    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js for interactivity -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -13,6 +18,17 @@
         .btn-dark-blue {
             @apply bg-sky-900 hover:bg-sky-800 text-white;
         }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            @apply bg-gray-100 text-sky-900;
+        }
+        .sidebar-link svg {
+            @apply transition-colors duration-200;
+        }
+        .sidebar-link:hover svg, .sidebar-link.active svg {
+            @apply text-sky-900;
+        }
+
         .logo-padding {
             padding-top: 0.9em;
             padding-bottom: 0.9em;
