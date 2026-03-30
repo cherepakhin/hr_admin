@@ -25,7 +25,7 @@
              <h2 class="text-2xl font-semibold">Введите данные о новом сотруднике</h2>
          </div>
 
-        <div class="w-full max-w-6xl mx-0 bg-white shadow-xl border border-gray-100 all-employees">
+        <div class="w-full mx-0 bg-white shadow-xl border border-gray-100 all-employees">
             <div class="p-6 overflow-x-auto">
                 <form action="/employees" method="post" class="p-0 bg-white rounded-lg space-y-4">
                     <!-- First Name -->
