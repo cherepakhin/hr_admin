@@ -465,5 +465,6 @@ verify(this.employeeRepository, times(1)).findByFiltersAndSort(eq("firstName1"),
 - py-2 = padding 8 px
 - px-3 = padding 12 px
 - mb-2 = margin buttom 8 px
-- w-full - растянуть на всю доступную ширину
+- w-full - растянуть на всю доступную ширину 
+- max-w-6xl - определение максимальной ширины
 - justify-center - динамическое центрирование по вертикали
