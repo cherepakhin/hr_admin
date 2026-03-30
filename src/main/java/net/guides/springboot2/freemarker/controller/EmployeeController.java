@@ -1,5 +1,6 @@
 package net.guides.springboot2.freemarker.controller;
 
+import net.bytebuddy.matcher.ElementMatcher;
 import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
@@ -14,7 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.QueryExp;
 import java.util.Optional;
+
+import static javax.management.Query.eq;
+import static net.bytebuddy.matcher.ElementMatchers.any;
 
 @Controller
 public class EmployeeController {
@@ -177,7 +182,6 @@ public class EmployeeController {
 			@RequestParam(required = false, defaultValue = "") String firstName,
 			@RequestParam(required = false, defaultValue = "") String lastName,
 			@RequestParam(required = false, defaultValue = "") String email,
-			@RequestParam(required = false, defaultValue = "") Long positionId,
 			@RequestParam(required = false, defaultValue = "") String sortField,
 			@RequestParam(required = false, defaultValue = "") String direction
 	) {
@@ -185,7 +189,6 @@ public class EmployeeController {
 		log.info("firstName: {}", firstName);
 		log.info("lastName: {}", lastName);
 		log.info("email: {}", email);
-		log.info("positionId: {}", positionId);
 		log.info("sortField: {}", sortField);
 		log.info("direction: {}", direction);
 
@@ -194,30 +197,28 @@ public class EmployeeController {
 		// Сортировка
 		if (sortField == null || sortField.isEmpty()) {
 			sortField = Fields.ID;
+			log.info("SET sortField: {}", sortField);
 		}
 		if (direction == null || direction.isEmpty()) {
 			direction = Direction.ASC;
+			log.info("SET direction: {}", direction);
 		}
 
 		// define sort direction by field
 		Sort sort = Sort.by(direction.equals(Direction.ASC) ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
 		log.info(pageable.toString());
-		// Передаём positionId в репозиторий
-		// TODO: НАСТРОИТЬ DEFAULT ЗНАЧЕНИЯ для пустых значений
 		Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(
-				firstName, lastName, email, positionId, pageable);
+				firstName, lastName, email, pageable);
 
 		model.addAttribute("employees", employeePage.getContent());
 		model.addAttribute("currentPage", employeePage.getNumber());
 		model.addAttribute("totalPages", employeePage.getTotalPages());
 		model.addAttribute("totalElements", employeePage.getTotalElements());
 
-		// Сохраняем значения фильтров
 		model.addAttribute("firstName", firstName);
 		model.addAttribute("lastName", lastName);
 		model.addAttribute("email", email);
-		model.addAttribute("positionId", positionId); // ← важно
 
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDirection", direction);

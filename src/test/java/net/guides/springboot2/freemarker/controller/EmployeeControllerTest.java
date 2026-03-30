@@ -190,7 +190,7 @@ public class EmployeeControllerTest {
         Page<Employee> page = new PageImpl<>(List.of(employee));
 
         given(employeeRepository.findByFiltersAndSort(
-                eq("Firstname1"), any(), any(), any(), any(Pageable.class)))
+                eq("Firstname1"), any(), any(), any(Pageable.class)))
                 .willReturn(page);
 
         // When & Then
@@ -218,7 +218,7 @@ public class EmployeeControllerTest {
 		Pageable pageable = PageRequest.of(0, 1, sort);
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				eq("f"), eq("l"), eq("e"), any(), eq(pageable))).thenReturn(page);
+				eq("f"), eq("l"), eq("e"), eq(pageable))).thenReturn(page);
 
         // When & Then
         mockMvc.perform(get("/show_employees?page=0&size=1&firstName=f&lastName=l&email=e&sortField=id&direction=asc" ))
@@ -260,7 +260,7 @@ public class EmployeeControllerTest {
 		Pageable pageable = PageRequest.of(0, 1, sort);
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				any(), any(), any(), any(), eq(pageable))).thenReturn(page);
+				any(), any(), any(), eq(pageable))).thenReturn(page);
 
 		// When & Then
 		// &sortField=id&direction=asc - sort params
@@ -271,7 +271,7 @@ public class EmployeeControllerTest {
 				.andExpect(model().attribute("totalElements", 2L));
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq("f"), eq("l"), eq("e"), any(), eq(pageable));
+				eq("f"), eq("l"), eq("e"), eq(pageable));
 	}
 
 	@Test
@@ -292,7 +292,7 @@ public class EmployeeControllerTest {
 //				"firstName1", "lastName1", "email1", anyLong(), pageable)).thenReturn(page);
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				eq("firstName1"), eq("lastName1"), eq("email1"), any(), eq(pageable))).thenReturn(page);
+				eq("firstName1"), eq("lastName1"), eq("email1"), eq(pageable))).thenReturn(page);
 
 		// When & Then
 		// &sortField=firstname&direction=asc - sort params
@@ -303,7 +303,7 @@ public class EmployeeControllerTest {
 				.andExpect(model().attribute("totalElements", 2L));
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq("firstName1"), eq("lastName1"), eq("email1"), any(), any());
+				eq("firstName1"), eq("lastName1"), eq("email1"), any());
 	}
 
 	@Test
@@ -321,7 +321,7 @@ public class EmployeeControllerTest {
 		Pageable pageable = PageRequest.of(0, 1, sort);
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				any(), any(), any(), any(), eq(pageable))).thenReturn(page);
+				any(), any(), any(), eq(pageable))).thenReturn(page);
 
 		mockMvc.perform(get("/show_employees?page=0&size=1&firstName=f&lastName=l&email=e" ))
 				.andExpect(status().isOk())
@@ -330,6 +330,107 @@ public class EmployeeControllerTest {
 				.andExpect(model().attribute("totalElements", 2L));
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq("f"), eq("l"), eq("e"), any(), eq(pageable)); // in pageable sort by ID
+				eq("f"), eq("l"), eq("e"), eq(pageable)); // in pageable sort by ID
+	}
+//=====================================
+	@Test
+	public void shouldShowAllEmployeesWithFiltersAndPagination() throws Exception {
+		Position position = new Position(1L, "Developer");
+		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position);
+		emp1.setId(1L);
+
+		List<Employee> employees = Arrays.asList(emp1);
+		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
+
+		given(employeeRepository.findByFiltersAndSort(
+				eq("John"), eq(""), eq(""), any(Pageable.class)))
+				.willReturn(employeePage);
+
+		given(positionRepository.findAll()).willReturn(Arrays.asList(position));
+
+		// When & Then
+		mockMvc.perform(get("/show_employees")
+						.param("firstName", "John")
+						.param("page", "0")
+						.param("size", "10"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("show_employees"))
+				.andExpect(model().attributeExists("employees"))
+				.andExpect(model().attribute("currentPage", 0))
+				.andExpect(model().attribute("totalPages", 1))
+				.andExpect(model().attribute("totalElements", 1L))
+				.andExpect(model().attribute("firstName", "John"))
+				.andExpect(model().attribute("sortField", "id"))
+				.andExpect(model().attribute("sortDirection", "asc"))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("John")))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Doe")));
+	}
+
+	@Test
+	public void shouldApplySortingWhenProvided() throws Exception {
+		Position position = new Position(1L, "Developer");
+		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position);
+		emp1.setId(1L);
+
+		List<Employee> employees = Arrays.asList(emp1);
+		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
+
+		given(employeeRepository.findByFiltersAndSort(
+				eq(""), eq(""), eq(""), any(Pageable.class)))
+				.willReturn(employeePage);
+
+		given(positionRepository.findAll()).willReturn(Arrays.asList(position));
+
+		// When & Then
+		mockMvc.perform(get("/show_employees")
+						.param("sortField", "firstName")
+						.param("direction", "desc"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("show_employees"))
+				.andExpect(model().attribute("sortField", "firstName"))
+				.andExpect(model().attribute("sortDirection", "desc"));
+	}
+
+	@Test
+	public void shouldUseDefaultSortByIdAscWhenNoSortParams() throws Exception {
+		Position position = new Position(1L, "Developer");
+		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position);
+		emp1.setId(1L);
+
+		List<Employee> employees = Arrays.asList(emp1);
+		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
+
+		given(employeeRepository.findByFiltersAndSort(
+				eq(""), eq(""), eq(""), any(Pageable.class)))
+				.willReturn(employeePage);
+
+		given(positionRepository.findAll()).willReturn(Arrays.asList(position));
+
+		mockMvc.perform(get("/show_employees"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("show_employees"))
+				.andExpect(model().attribute("sortField", "id"))
+				.andExpect(model().attribute("sortDirection", "asc"));
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenNoMatches() throws Exception {
+		// Given
+		Page<Employee> emptyPage = new PageImpl<>(Arrays.asList(), PageRequest.of(0, 10), 0);
+
+		given(employeeRepository.findByFiltersAndSort(
+				eq("Unknown"), eq(""), eq(""), any(Pageable.class)))
+				.willReturn(emptyPage);
+
+		given(positionRepository.findAll()).willReturn(Arrays.asList());
+
+		// When & Then
+		mockMvc.perform(get("/show_employees")
+						.param("firstName", "Unknown"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("show_employees"))
+				.andExpect(model().attributeExists("employees"))
+				.andExpect(model().attribute("totalElements", 0L))
+				.andExpect(content().string(org.hamcrest.Matchers.containsString("Сотрудники не найдены")));
 	}
 }

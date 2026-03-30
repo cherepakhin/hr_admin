@@ -96,7 +96,6 @@
                                 <td class="px-6 py-4">${emp.email}</td>
                                 <td class="px-6 py-4">${emp.position.name}</td>
                                 <td class="px-6 py-4 flex justify-center gap-4">
-                                    <!-- Edit Action -->
                                     <a href="/employees/edit/${emp.id}"
                                        class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
                                        title="Редактировать">
