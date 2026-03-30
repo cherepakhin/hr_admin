@@ -27,7 +27,7 @@
 
         <div class="w-full max-w-6xl mx-0 bg-white shadow-xl border border-gray-100 all-employees">
             <div class="p-6 overflow-x-auto">
-                <form action="/employees" method="post" class="p-4 bg-white rounded-lg space-y-4">
+                <form action="/employees" method="post" class="p-0 bg-white rounded-lg space-y-4">
                     <!-- First Name -->
                     <div>
                         <label class="block text-base font-medium text-gray-700 mb-1">Имя</label>
@@ -41,7 +41,7 @@
 
                     <!-- Last Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Фамилия</label>
+                        <label class="block text-base font-medium text-gray-700 mb-1">Фамилия</label>
                         <input
                             name="lastName"
                             class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
@@ -51,7 +51,7 @@
 
                     <!-- Email -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <label class="block text-base font-medium text-gray-700 mb-1">Email</label>
                         <input
                             name="email"
                             type="email"
@@ -62,10 +62,10 @@
 
                     <!-- Position -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Должность</label>
+                        <label class="block text-base font-medium text-gray-700 mb-1">Должность</label>
                         <select
                             name="position.id"
-                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                            class="w-50 border border-gray-300 shadow-sm py-2 px-3 focus:ring-2 focus:ring-sky-500 focus:outline-none"
                             required>
                             <#list positions as pos>
                                 <option value="${pos.id}">${pos.name}</option>
