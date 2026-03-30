@@ -75,7 +75,7 @@
                     </div>
 
                     <!-- Submit -->
-                    <div class="flex gap-3 pt-2">
+                    <div class="flex gap-3 pt-2 justify-end">
                         <button
                             type="submit"
                             class="bg-sky-900 w-48 py-3 px-4 font-medium text-white hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">

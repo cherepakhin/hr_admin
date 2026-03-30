@@ -468,3 +468,4 @@ verify(this.employeeRepository, times(1)).findByFiltersAndSort(eq("firstName1"),
 - w-full - растянуть на всю доступную ширину 
 - max-w-6xl - определение максимальной ширины
 - justify-center - динамическое центрирование по вертикали
+- justify-end - прижать к правому краю
