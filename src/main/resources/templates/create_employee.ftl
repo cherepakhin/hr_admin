@@ -11,48 +11,17 @@
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .btn-dark-blue {
-            @apply bg-sky-900 hover:bg-sky-800 text-white;
-        }
 
-        .sidebar-link:hover, .sidebar-link.active {
-            @apply bg-gray-100 text-sky-900;
-        }
-        .sidebar-link svg {
-            @apply transition-colors duration-200;
-        }
-        .sidebar-link:hover svg, .sidebar-link.active svg {
-            @apply text-sky-900;
-        }
-
-        .logo-padding {
-            padding-top: 0.9em;
-            padding-bottom: 0.9em;
-        }
-        .all-employees {
-            padding-top: 0.6em;
-            padding-bottom: 0.6em;
-            padding-left: 1.5em;
-            padding-right: 1.5em;
-        }
-        .logo-padding {
-            padding-top: 0.9em;
-            padding-bottom: 0.9em;
-        }
-
-    </style>
+    <link href="css/hr_admin.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 min-h-screen flex">
     <!-- Sidebar -->
     <#include "fragments/sidebar.ftl">
 
     <!-- Main Content -->
-    <div class="flex flex-1 flex-col overflow-hidden">
-         <div class="bg-sky-900 px-6 logo-padding text-white text-center">
+    <div class="flex-1 flex flex-col overflow-hidden">
+
+         <div class="bg-sky-900 px-6 logo-padding text-white text-center py-4">
              <h2 class="text-2xl font-semibold">Введите данные о новом сотруднике</h2>
          </div>
 
@@ -61,10 +30,10 @@
                 <form action="/employees" method="post" class="p-4 bg-white rounded-lg space-y-4">
                     <!-- First Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
+                        <label class="block text-base font-medium text-gray-700 mb-1">Имя</label>
                         <input
                             name="firstName"
-                            class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500"
+                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                             required
                             autofocus
                         />
@@ -75,7 +44,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Фамилия</label>
                         <input
                             name="lastName"
-                            class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500"
+                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                             required
                         />
                     </div>
@@ -86,7 +55,7 @@
                         <input
                             name="email"
                             type="email"
-                            class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500"
+                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                             required
                         />
                     </div>
@@ -96,7 +65,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Должность</label>
                         <select
                             name="position.id"
-                            class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:ring-2 focus:ring-sky-500 focus:outline-none"
                             required>
                             <#list positions as pos>
                                 <option value="${pos.id}">${pos.name}</option>
@@ -108,12 +77,12 @@
                     <div class="flex gap-3 pt-2">
                         <button
                             type="submit"
-                            class="btn-dark-blue w-full py-3 px-4 font-medium hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">
+                            class="bg-sky-900 w-48 py-3 px-4 font-medium text-white hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">
                             Сохранить
                         </button>
                         <a
                             href="/"
-                            class="btn-dark-blue w-full py-3 px-4 font-medium text-center hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">
+                            class="bg-gray-200 w-48 py-3 px-4 font-medium text-center hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">
                             Назад
                         </a>
                     </div>

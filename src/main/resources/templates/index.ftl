@@ -18,41 +18,8 @@
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .btn-dark-blue {
-            @apply bg-sky-900 hover:bg-sky-800 text-white;
-        }
-        .sidebar-link:hover, .sidebar-link.active {
-            @apply bg-gray-100 text-sky-900;
-        }
-        .sidebar-link svg {
-            @apply transition-colors duration-200;
-        }
-        .sidebar-link:hover svg, .sidebar-link.active svg {
-            @apply text-sky-900;
-        }
-        .pagination-link {
-            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium;
-        }
-        .pagination-current {
-            font-weight: 900;
-            color: cornflowerblue;
-        }
-        .logo-padding {
-            padding-top: 0.9em;
-            padding-bottom: 0.9em;
-        }
+    <link href="css/hr_admin.css" rel="stylesheet">
 
-        .all-employees {
-            padding-top: 0.6em;
-            padding-bottom: 0.6em;
-            padding-left: 1.5em;
-            padding-right: 1.5em;
-        }
-    </style>
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">

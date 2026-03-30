@@ -14,54 +14,8 @@
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .btn-dark-blue {
-            @apply bg-sky-900 hover:bg-sky-800 text-white;
-        }
-        .sidebar-link:hover, .sidebar-link.active {
-            @apply bg-gray-100 text-sky-900;
-        }
-        .sidebar-link svg {
-            @apply transition-colors duration-200;
-        }
-        .sidebar-link:hover svg, .sidebar-link.active svg {
-            @apply text-sky-900;
-        }
-        .pagination-link {
-            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium;
-        }
-        .pagination-current {
-            font-weight: 900;
-            color: cornflowerblue;
-        }
-        .pagination-first-last {
-            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-bold;
-        }
-        .sort-icon {
-            @apply inline-block text-xs text-gray-400 ml-1 transition-transform duration-200;
-        }
-        .sort-asc .sort-icon {
-            @apply text-sky-700 transform rotate-0;
-        }
-        .sort-desc .sort-icon {
-            @apply text-sky-700 transform rotate-180;
-        }
-        .py-0.5 {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-        }
-        .p-09rem {
-            padding-top: 0.9rem;
-            padding-bottom: 0.9rem;
-        }
-        .logo-padding {
-            padding-top: 0.9em;
-            padding-bottom: 0.9em;
-        }
-    </style>
+    <link href="css/hr_admin.css" rel="stylesheet">
+
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">
