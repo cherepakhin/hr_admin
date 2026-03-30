@@ -65,7 +65,7 @@
                         <label class="block text-base font-medium text-gray-700 mb-1">Должность</label>
                         <select
                             name="position.id"
-                            class="w-50 border border-gray-300 shadow-sm py-2 px-3 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                            class="w-50 border border-gray-300 shadow-sm py-2 px-3 combo-btn focus:ring-2 focus:ring-sky-500 focus:outline-none"
                             required>
                             <#list positions as pos>
                                 <option value="${pos.id}">${pos.name}</option>
