@@ -51,6 +51,8 @@ body {
     padding-right: 1.5em;
 }
 
-combo-btn {
-    --button-width: 1em;
+.combo-btn {
+    width: 12em;
+    padding-left: 1em;
+    padding-right: 1em;
 }
