@@ -26,7 +26,7 @@
     <div class="flex flex-1 flex-col overflow-hidden">
         <!-- Header -->
         <div class="w-full max-w-6xl mx-auto bg-white shadow-xl border border-gray-100">
-            <div class="bg-sky-900 px-6 py-0.5 text-white text-center">
+            <div class="bg-sky-900 px-6 py-1 text-white text-center">
                 <h2 class="text-2xl font-semibold">Список сотрудников</h2>
                 <p class="text-sky-200">Страница ${currentPage + 1} из ${totalPages}, всего: ${totalElements} записей</p>
             </div>
@@ -99,7 +99,7 @@
                                     <a href="/employees/edit/${emp.id}"
                                        class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
                                        title="Редактировать">
-                                        <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke="currentColor">
+                                        <svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                         </svg>
                                     </a>
@@ -109,7 +109,7 @@
                                        onclick="return confirm('Вы уверены, что хотите удалить сотрудника ${emp.firstName} ${emp.lastName}?');"
                                        class="action-delete inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-100 transition"
                                        title="Удалить">
-                                        <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke="currentColor">
+                                        <svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
                                     </a>
@@ -130,7 +130,7 @@
                             <#if currentPage gt 0>
                                 <li>
                                     <a href="?page=0${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-first-last text-2xl">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                        <svg xmlns="https://www.w3.org/2000/svg"
                                             width="36" height="36" viewBox="0 3 16 24">
                                                 <title>В начало</title>
                                                 <path fill="currentColor" d="m16.293 17.707l1.414-1.414L13.414 12l4.293-4.293l-1.414-1.414L10.586 12zM7 6h2v12H7z"/>
@@ -140,7 +140,7 @@
                             <#else>
                                 <li>
                                     <span class="pagination-first-last opacity-50 cursor-not-allowed text-2xl">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                        <svg xmlns="https://www.w3.org/2000/svg"
                                             width="36" height="36" viewBox="0 3 16 24">
                                                 <title>В начало</title>
                                                 <path fill="currentColor" d="m16.293 17.707l1.414-1.414L13.414 12l4.293-4.293l-1.414-1.414L10.586 12zM7 6h2v12H7z"/>
@@ -153,7 +153,7 @@
                             <#if currentPage gt 0>
                                 <li>
                                     <a href="?page=${currentPage - 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-link  text-2xl">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                        <svg xmlns="https://www.w3.org/2000/svg"
                                             width="36" height="36" viewBox="10 3 16 24">
                                             <title>Chevron-left SVG Icon</title><path fill="currentColor" d="M13.293 6.293L7.586 12l5.707 5.707l1.414-1.414L10.414 12l4.293-4.293z"/></svg>
                                     </a>
@@ -161,7 +161,7 @@
                             <#else>
                                 <li>
                                     <span class="pagination-link opacity-50 cursor-not-allowed text-2xl">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                        <svg xmlns="https://www.w3.org/2000/svg"
                                             width="36" height="36" viewBox="0 3 16 24">
                                         <title>Chevron-left SVG Icon</title><path fill="currentColor" d="M13.293 6.293L7.586 12l5.707 5.707l1.414-1.414L10.414 12l4.293-4.293z"/></svg>
                                     </span>
@@ -186,7 +186,7 @@
                             <#if currentPage lt totalPages - 1>
                                 <li>
                                     <a href="?page=${currentPage + 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                        <svg xmlns="https://www.w3.org/2000/svg"
                                         width="36" height="36" viewBox="0 3 16 24">
                                         <title>Следующая страница</title><path fill="currentColor" d="M10.707 17.707L16.414 12l-5.707-5.707l-1.414 1.414L13.586 12l-4.293 4.293z"/></svg>
                                     </a>
@@ -194,7 +194,7 @@
                             <#else>
                                 <li>
                                     <span class="pagination-link opacity-50 cursor-not-allowed">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                        <svg xmlns="https://www.w3.org/2000/svg"
                                         width="36" height="36" viewBox="0 3 16 24">
                                         <title>Следующая страница</title><path fill="currentColor" d="M10.707 17.707L16.414 12l-5.707-5.707l-1.414 1.414L13.586 12l-4.293 4.293z"/></svg>
                                     </span>
@@ -205,14 +205,14 @@
                             <#if currentPage lt totalPages - 1>
                                 <li>
                                     <a href="?page=${totalPages - 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-first-last">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                        <svg xmlns="https://www.w3.org/2000/svg"
                                         width="36" height="36" viewBox="10 3 16 24">
                                         <title>Last-page SVG Icon</title><path fill="currentColor" d="M7.707 17.707L13.414 12L7.707 6.293L6.293 7.707L10.586 12l-4.293 4.293zM15 6h2v12h-2z"/></svg>
                                     </a>
                                 </li>
                             <#else>
                                 <li class="pagination-link opacity-50 cursor-not-allowed">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                    <svg xmlns="https://www.w3.org/2000/svg"
                                     width="36" height="36" viewBox="0 3 16 24">
                                     <title>Last-page SVG Icon</title><path fill="currentColor" d="M7.707 17.707L13.414 12L7.707 6.293L6.293 7.707L10.586 12l-4.293 4.293zM15 6h2v12h-2z"/></svg>
                                 </li>
