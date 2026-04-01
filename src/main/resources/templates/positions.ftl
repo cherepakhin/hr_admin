@@ -62,8 +62,8 @@
             padding-bottom: 0.9em;
         }
         .all-positions {
-            padding-top: 0.6em;
-            padding-bottom: 0.6em;
+            padding-top: 0.75em;
+            padding-bottom: 0.75em;
             padding-left: 1.5em;
             padding-right: 1.5em;
         }

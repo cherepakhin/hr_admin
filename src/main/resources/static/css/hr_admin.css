@@ -40,13 +40,18 @@ body {
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
 }
+.py-1 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
 .logo-padding {
     padding-top: 0.9em;
     padding-bottom: 0.9em;
 }
 .all-employees {
-    padding-top: 0.6em;
-    padding-bottom: 0.6em;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
     padding-left: 1.5em;
     padding-right: 1.5em;
 }
