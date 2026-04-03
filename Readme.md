@@ -170,7 +170,7 @@ public class ProductController {
 /usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar ./hr-admin-0.0.3.jar  --server.port=8088
 ````
 
-Открыть [https://v.perm.ru:8088/(https://v.perm.ru:8088/)
+Открыть [https://v.perm.ru:8088/](https://v.perm.ru:8088/)
 (проверено 29/03/26 на компе Игоря. Открывается с предупреждением о сертификате.)
 
 ### Размещение на tomcat сервере
@@ -396,6 +396,29 @@ __id__ и __value__ - параметры макроса (value="-" - значе�
 ````shell
 keytool -genkeypair -alias tomcat -keyalg RSA -keystore keystore.p12 -storetype PKCS12 -validity 365 -storepass changeit
 ````
+
+````shell
+$ keytool -genkeypair -alias tomcat -keyalg RSA -keystore keystore.p12 -storetype PKCS12 -validity 365 -storepass changeit
+Enter the distinguished name. Provide a single dot (.) to leave a sub-component empty or press ENTER to use the default value in braces.
+What is your first and last name?
+[Unknown]:  Cherepakhin
+What is the name of your organizational unit?
+[Unknown]:  Vasili OU       
+What is the name of your organization?
+[Unknown]:  Vasili Organization
+What is the name of your City or Locality?
+[Unknown]:  Perm
+What is the name of your State or Province?
+[Unknown]:  Perm
+What is the two-letter country code for this unit?
+[Unknown]:  RU
+Is CN=Cherepakhin, OU=Vasili OU, O=Vasili Organization, L=Perm, ST=Perm, C=RU correct?
+[no]:  yes
+
+Generating 3072-bit RSA key pair and self-signed certificate (SHA384withRSA) with a validity of 365 days
+for: CN=Cherepakhin, OU=Vasili OU, O=Vasili Organization, L=Perm, ST=Perm, C=RU
+````
+
 Создастся файл ./keystore.p12 
 Сохраните его в src/main/resources:
 
@@ -414,6 +437,151 @@ server:
     key-store-type: PKCS12
     key-alias: tomcat
 ````
+Пароль не вводил.
+
+Информация о сертификате при запуске с v.perm.ru [https://www.misterpki.com/keytool-list-certs/](https://www.misterpki.com/keytool-list-certs/):
+
+````text
+Common Name (CN)	Cherepakhin
+Organization (O)	Vasili Organization
+Organizational Unit (OU)	Vasili OU
+Common Name (CN)	Cherepakhin
+Organization (O)	Vasili Organization
+Organizational Unit (OU)	Vasili OU
+Issued On	Wednesday, April 1, 2026 at 10:15:07PM
+Expires On	Thursday, April 1, 2027 at 10:15:07PM
+````
+
+Просмотр keystore:
+
+````shell
+$ cat https.sh 
+$ keytool -list -keystore src/main/resources/keystore.p12
+Enter keystore password: нет пароля
+
+*****************  WARNING WARNING WARNING  *****************
+* The integrity of the information stored in your keystore  *
+* has NOT been verified!  In order to verify its integrity, *
+* you must provide your keystore password.                  *
+  *****************  WARNING WARNING WARNING  *****************
+
+Keystore type: PKCS12
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+Alias name: tomcat
+Creation date: Apr 3, 2026
+Entry type: PrivateKeyEntry
+Certificate chain length: 0
+
+````
+
+````shell
+keytool -list -v -alias tomcat -keystore src/main/resources/keystore.p12
+pass: пусто
+
+Alias name: tomcat
+Creation date: Apr 3, 2026
+Entry type: PrivateKeyEntry
+Certificate chain length: 0
+````
+
+````shell
+$ openssl s_client -connect v:443 -showcerts
+CONNECTED(00000003)
+Can't use SSL_get_servername
+depth=2 C = US, O = Internet Security Research Group, CN = ISRG Root X1
+verify return:1
+depth=1 C = US, O = Let's Encrypt, CN = E7
+verify return:1
+depth=0 CN = v.perm.ru
+verify return:1
+---
+Certificate chain
+ 0 s:CN = v.perm.ru
+   i:C = US, O = Let's Encrypt, CN = E7
+   a:PKEY: id-ecPublicKey, 256 (bit); sigalg: ecdsa-with-SHA384
+   v:NotBefore: Feb 16 16:24:34 2026 GMT; NotAfter: May 17 16:24:33 2026 GMT
+-----BEGIN CERTIFICATE-----
+....
+-----END CERTIFICATE-----
+
+1 s:CN = v.perm.ru
+   i:C = US, O = Let's Encrypt, CN = E7
+   a:PKEY: id-ecPublicKey, 256 (bit); sigalg: ecdsa-with-SHA384
+   v:NotBefore: Feb 16 16:24:34 2026 GMT; NotAfter: May 17 16:24:33 2026 GMT
+-----BEGIN CERTIFICATE-----
+....
+-----END CERTIFICATE-----
+ 2 s:C = US, O = Let's Encrypt, CN = E7
+   i:C = US, O = Internet Security Research Group, CN = ISRG Root X1
+   a:PKEY: id-ecPublicKey, 384 (bit); sigalg: RSA-SHA256
+   v:NotBefore: Mar 13 00:00:00 2024 GMT; NotAfter: Mar 12 23:59:59 2027 GMT
+-----BEGIN CERTIFICATE----
+....
+-----END CERTIFICATE-----
+---
+Server certificate
+subject=CN = v.perm.ru
+issuer=C = US, O = Let's Encrypt, CN = E7
+...
+````
+
+От gigachat:
+
+````text
+Запрос:
+Работает https сервер apache2 на linux. Есть доступ к нему по https. Есть cert.pem  chain.pem  fullchain.pem  keystore.p12  privkey.pem. Нужно запустить spring boot приложение на этом сервере. Какие настройки нужно сделать в application.yaml этого приложения?
+
+Ответ:
+Для запуска Spring Boot-приложения по HTTPS с использованием ваших сертификатов и ключей, настройки в application.yaml будут следующими.
+
+Пример конфигурации для application.yaml
+
+server:
+  port: 8443 # или любой другой порт, который вы хотите использовать
+  ssl:
+    enabled: true
+    key-store: /path/to/keystore.p12
+    key-store-type: PKCS12
+    key-store-password: your_keystore_password # укажите пароль от keystore.p12
+    key-alias: your_key_alias # если есть, иначе можно не указывать
+Пояснения
+key-store: путь к вашему файлу keystore.p12.
+key-store-type: тип хранилища ключей. Для .p12 — это PKCS12.
+key-store-password: пароль для доступа к keystore.
+key-alias: псевдоним ключа внутри keystore (если он есть, иначе можно не указывать).
+Если вы хотите использовать отдельные файлы (privkey.pem и fullchain.pem)
+Spring Boot также поддерживает конфигурацию через отдельные файлы ключа и сертификата:
+
+server:                 <----- МОЙ ВАРИАНТ
+  port: 8443
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: /path/to/keystore.p12
+    key-store-password: your_keystore_password
+
+# Либо так, если не используете keystore: 
+# server:
+#   ssl:
+#     key-store-type: PKCS12
+#     key-store: classpath:keystore.p12
+#     key-store-password: your_keystore_password
+
+# Или для отдельных файлов (Spring Boot 2.2+):
+# server:
+#   ssl:
+#     key-store-type: PEM
+#     ssl-certificate: file:/path/to/fullchain.pem
+#     ssl-key: file:/path/to/privkey.pem
+Важно: поддержка отдельных PEM-файлов появилась в Spring Boot 2.2+. Если у вас более старая версия, используйте только keystore.
+
+Рекомендация
+Если у вас уже есть keystore.p12, лучше использовать его, так как это наиболее универсальный и поддерживаемый способ для Spring Boot.
+````
+
 4. Запустите приложение
 
 Теперь доступно по: [https://<IP computer>:8443](https://192.168.1.79:8443)
