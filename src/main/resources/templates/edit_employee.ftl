@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>body{font-family:'Inter',sans-serif;}.btn-dark-blue{@apply bg-sky-900 hover:bg-sky-800 text-white;}</style>
+    <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-lg bg-white shadow-xl border border-gray-100">
@@ -14,7 +15,7 @@
             <h2 class="text-2xl font-semibold">Редактировать сотрудника</h2>
             <p class="text-sky-200">Update employee information</p>
         </div>
-        <form action="/employees/update/${employee.id}" method="post" class="p-6 space-y-6">
+        <form action="${springMacroRequestContext.contextPath}/employees/update/${employee.id}" method="post" class="p-6 space-y-6">
             <input type="hidden" name="id" value="${employee.id}" />
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
@@ -39,9 +40,10 @@
             </div>
             <div class="flex gap-3 pt-2">
                 <button type="submit" class="btn-dark-blue w-full py-3 px-4 font-medium  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Обновить</button>
-                <a href=${prevPage} class="btn-dark-blue w-full py-3 px-4 font-medium text-center  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Назад</a>
+                <a href="${springMacroRequestContext.contextPath}/employees${prevPage}" class="btn-dark-blue w-full py-3 px-4 font-medium text-center  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Назад</a>
             </div>
         </form>
     </div>
+    <div>${springMacroRequestContext.contextPath}/employees${prevPage}</div>
 </body>
 </html>

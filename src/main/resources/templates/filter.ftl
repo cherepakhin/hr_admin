@@ -13,7 +13,7 @@
 
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="css/hr_admin.css" rel="stylesheet">
+    <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 
 </head>
 <body class="bg-gray-50 min-h-screen flex">

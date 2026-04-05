@@ -18,7 +18,7 @@
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link href="css/hr_admin.css" rel="stylesheet">
+    <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 
 </head>
 
@@ -81,14 +81,14 @@
                             </div>
                         </div>
                         <div class="flex justify-end gap-2">
-                            <a href="/employees/edit/${employee.id}"
+                            <a href="${springMacroRequestContext.contextPath}/employees/edit/${employee.id}"
                                class="text-sky-900 hover:text-sky-700 font-medium text-sm transition flex items-center gap-1">
                                 <svg xmlns="https://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                                 Изменить
                             </a>
-                            <a href="/employees/delete/${employee.id}"
+                            <a href="${springMacroRequestContext.contextPath}/employees/delete/${employee.id}"
                                onclick="return confirm('Вы уверены, что хотите удалить ${employee.firstName}?');"
                                class="text-sky-900 hover:text-sky-700 font-medium text-sm transition flex items-center gap-1">
                                 <svg xmlns="https://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -111,7 +111,7 @@
                         <!-- Previous Button -->
                         <#if currentPage gt 0>
                             <li>
-                                <a href="/?page=${currentPage - 1}&sortField=${sortField}&direction=${direction}" class="pagination-link"><svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Предыдущая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/></svg></a>
+                                <a href="${springMacroRequestContext.contextPath}/employees/?page=${currentPage - 1}&sortField=${sortField}&direction=${direction}" class="pagination-link"><svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Предыдущая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/></svg></a>
                             </li>
                         <#else>
                             <li><span class="pagination-link opacity-50 cursor-not-allowed"><svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Предыдущая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/></svg></span></li>
@@ -126,7 +126,7 @@
                                 <#if p == currentPage>
                                     <span class="pagination-current">${p + 1}</span>
                                 <#else>
-                                    <a href="/?page=${p}&sortField=${sortField}&direction=${direction}" class="pagination-link">${p + 1}</a>
+                                    <a href="${springMacroRequestContext.contextPath}/employees/?page=${p}&sortField=${sortField}&direction=${direction}" class="pagination-link">${p + 1}</a>
                                 </#if>
                             </li>
                         </#list>
@@ -134,7 +134,7 @@
                         <!-- Next Button -->
                         <#if currentPage lt totalPages - 1>
                             <li>
-                                <a href="/?page=${currentPage + 1}&sortField=${sortField}&direction=${direction}" class="pagination-link"><svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Следующая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/></svg></a>
+                                <a href="${springMacroRequestContext.contextPath}/employees/?page=${currentPage + 1}&sortField=${sortField}&direction=${direction}" class="pagination-link"><svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Следующая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/></svg></a>
                             </li>
                         <#else>
                             <li><span class="pagination-link opacity-50 cursor-not-allowed"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/></svg></span></li>
@@ -148,7 +148,7 @@
                     </svg>
                     <h3 class="mt-4 text-lg font-medium text-gray-700">Сотрудники не найдены</h3>
                     <p class="text-gray-500 mt-1">Добавьте первого сотрудника.</p>
-                    <a href="/employees/new"
+                    <a href="${springMacroRequestContext.contextPath}/employees/new"
                        class="btn-dark-blue inline-flex items-center px-4 py-2 text-sm font-medium shadow transition mt-4">
                         Добавить сотрудника
                     </a>

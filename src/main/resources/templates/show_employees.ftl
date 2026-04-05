@@ -14,7 +14,7 @@
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link href="css/hr_admin.css" rel="stylesheet">
+    <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 
 </head>
 
@@ -129,7 +129,7 @@
                             <!-- First Page Button -->
                             <#if currentPage gt 0>
                                 <li>
-                                    <a href="?page=0${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-first-last text-2xl">
+                                    <a href="${springMacroRequestContext.contextPath}?page=0${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-first-last text-2xl">
                                         <svg xmlns="https://www.w3.org/2000/svg"
                                             width="36" height="36" viewBox="0 3 16 24">
                                                 <title>В начало</title>
