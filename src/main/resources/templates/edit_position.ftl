@@ -17,7 +17,7 @@
             <div class="bg-sky-900 text-white p-6">
                 <h1 class="text-xl font-semibold">Редактировать должность</h1>
             </div>
-            <form action="/positions/update/${position.id}" method="post" class="p-6 space-y-4">
+            <form action="${springMacroRequestContext.contextPath}/positions/update/${position.id}" method="post" class="p-6 space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Название</label>
                     <input type="text"
@@ -34,7 +34,7 @@
                             class="flex-1 bg-sky-900 text-white py-2 px-4 font-medium hover:bg-sky-800">
                         Обновить
                     </button>
-                    <a href="/positions"
+                    <a href="${springMacroRequestContext.contextPath}/positions/"
                        class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 font-medium text-center hover:bg-gray-300">
                         Отмена
                     </a>

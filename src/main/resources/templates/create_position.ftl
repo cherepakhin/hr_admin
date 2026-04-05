@@ -33,7 +33,7 @@
                             class="flex-1 bg-sky-900 text-white py-2 px-4 rounded font-medium hover:bg-sky-800">
                         Сохранить
                     </button>
-                    <a href="/positions"
+                    <a href="${springMacroRequestContext.contextPath}/positions"
                        class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded font-medium text-center hover:bg-gray-300">
                         Отмена
                     </a>

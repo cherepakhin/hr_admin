@@ -6,6 +6,7 @@ import net.guides.springboot2.freemarker.repository.PositionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
+@RequestMapping(value = "/employees")
 public class EmployeeController {
 	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 	private String currentIndexPage = "/";
@@ -61,7 +63,7 @@ public class EmployeeController {
 		return NamesView.INDEX;
 	}
 
-	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public String showCreateForm(Model model) {
 		log.info("showCreateForm");
 		model.addAttribute("employee", new Employee());
@@ -70,7 +72,7 @@ public class EmployeeController {
 		return NamesView.CREATE_EMPLOYEE;
 	}
 
-	@RequestMapping(value = "/employees", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String createEmployee(@ModelAttribute Employee employee) {
 		log.info("createEmployee");
 		employeeRepository.save(employee);
@@ -80,7 +82,7 @@ public class EmployeeController {
 		return "redirect:" + currentIndexPage;
 	}
 
-	@RequestMapping(value = "/employees/edit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String showEditForm(@PathVariable("id") Long id, Model model) {
 		log.info("showEditForm");
 		Optional<Employee> optional = employeeRepository.findById(id);
@@ -103,7 +105,7 @@ public class EmployeeController {
     //            <input name="firstName" value="${employee.firstName}" /> <-- field NAME link to  = "firstName" (employee.firstName)
     //        </div>
 
-	@RequestMapping(value = "/employees/update/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	public String updateEmployee(@PathVariable("id") Long id,
 								 @ModelAttribute Employee employee,
 								 Model model) {
@@ -119,7 +121,7 @@ public class EmployeeController {
 		return "redirect:" + currentIndexPage;
 	}
 
-	@RequestMapping(value = "/employees/delete/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String deleteEmployee(@PathVariable("id") Long id) {
 		log.info("deleteEmployee");
 		employeeRepository.deleteById(id);
@@ -161,7 +163,7 @@ public class EmployeeController {
 	}
 
 	// Отображение формы фильтра
-	@GetMapping("/filter")
+	@RequestMapping(value = "/filter", method = RequestMethod.GET)
 	public String showFilterPage(Model model) {
 		log.info("showFilterPage");
 		model.addAttribute("positions", positionRepository.findAll() );
@@ -169,7 +171,7 @@ public class EmployeeController {
 	}
 
 	// Показать всех сотрудников с фильтрацией
-	@GetMapping("/show_employees")
+	@RequestMapping(value = "/show_employees", method = RequestMethod.GET)
 	public String showAllEmployees(
 			Model model,
 			@RequestParam(defaultValue = "0") int page,

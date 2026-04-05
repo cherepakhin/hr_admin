@@ -1,8 +1,11 @@
 server:
-  port: 8088
-  forward-headers-strategy: NATIVE
-  servlet:
-    context-path: /hr_admin
+  port: 8443
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:keystore.p12
+    key-store-password: Bazilio67
+    key-alias: tomcat
+
 spring:
   freemarker:
     template-loader-path: classpath:/templates

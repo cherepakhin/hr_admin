@@ -16,13 +16,13 @@ public class PositionController {
     @Autowired
     private PositionRepository positionRepository;
 
-    @GetMapping
+	@RequestMapping(value = "/", method = RequestMethod.GET)
     public String listPositions(Model model) {
         model.addAttribute("positions", positionRepository.findAll());
         return NamesView.POSITIONS;
     }
 
-    @GetMapping("/new")
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
     public String showCreateForm(Model model) {
         model.addAttribute("position", new Position());
         return NamesView.CREATE_POSITION;
@@ -36,7 +36,7 @@ public class PositionController {
 //                <button type="submit">Сохранить</button>   <-- type=SUBMIT !!!
 //              </form>
 
-	@PostMapping
+	@RequestMapping(value = "/", method = RequestMethod.POST)
     public String createPosition(@Valid @ModelAttribute Position position,
                                  BindingResult result,
                                  Model model) {
@@ -49,10 +49,10 @@ public class PositionController {
 		Long id = positionRepository.getNextId();
 		position.setId(id);
         positionRepository.save(position);
-        return "redirect:/" + NamesView.POSITIONS;
+        return "redirect:/" + NamesView.POSITIONS + "/";
     }
 
-    @GetMapping("/edit/{id}")
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         Position position = positionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid position ID: " + id));
@@ -60,7 +60,7 @@ public class PositionController {
         return NamesView.EDIT_POSITION;
     }
 
-    @PostMapping("/update/{id}")
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     public String updatePosition(@PathVariable("id") Long id,
                                  @Valid @ModelAttribute Position position,
                                  BindingResult result,
@@ -74,12 +74,12 @@ public class PositionController {
         }
         position.setId(id);
         positionRepository.save(position);
-        return "redirect:/" + NamesView.POSITIONS;
+        return "redirect:/" + NamesView.POSITIONS + "/";
     }
 
-    @GetMapping("/delete/{id}")
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deletePosition(@PathVariable("id") Long id) {
         positionRepository.deleteById(id);
-        return "redirect:/" + NamesView.POSITIONS;
+        return "redirect:/" + NamesView.POSITIONS +"/";
     }
 }

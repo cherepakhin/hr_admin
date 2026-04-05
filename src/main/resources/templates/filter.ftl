@@ -24,7 +24,7 @@
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
 
-         <div class="bg-sky-900 px-6 logo-padding text-white text-center py-6">
+         <div class="bg-sky-900 px-6 logo-padding text-white text-center py-4">
              <h2 class="text-2xl font-semibold">Найти сотрудников</h2>
          </div>
 
@@ -32,7 +32,7 @@
         <main class="flex flex-1 flex-col p-6 flex items-start">
             <div class="bg-white shadow-xl border border-gray-100 w-full max-w-md p-6 space-y-6">
 
-                <form method="GET" action="/show_employees" class="space-y-5">
+                <form method="GET" action="${springMacroRequestContext.contextPath}/show_employees" class="space-y-5">
 
                     <!-- First Name -->
                     <div>
@@ -77,7 +77,7 @@
                                 class="flex-1 bg-sky-900 text-white py-2 px-4 font-medium hover:bg-sky-800 transition">
                             Найти
                         </button>
-                        <a href="/showEmployees"
+                        <a href="${springMacroRequestContext.contextPath}/showEmployees"
                            class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 font-medium text-center hover:bg-gray-300 transition">
                             Сбросить
                         </a>

@@ -32,9 +32,9 @@
         <!-- Header -->
         <header class="bg-white shadow-sm border-b border-gray-100 all-employees">
             <div class="flex justify-between items-left">
-                <h2 class="text-2xl font-semibold text-gray-800">Все сотрудники</h2>
-            <div class="flex justify-between items-right">
-                <a href="/employees/new"
+                <h2 class="text-2xl font-semibold text-gray-800 py-4 px-2">Все сотрудники</h2>
+            <div class="flex justify-between items-right py-2">
+                <a href="${springMacroRequestContext.contextPath}/employees/new"
                    class="btn-dark-blue px-5 py-2 font-medium shadow transition flex items-right gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900  w-40">
                     <svg xmlns="https://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
