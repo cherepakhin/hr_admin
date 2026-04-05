@@ -1,5 +1,5 @@
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: Helvetica;
 }
 .btn-dark-blue {
     @apply bg-sky-900 hover:bg-sky-800 text-white;
@@ -32,6 +32,12 @@ body {
 .sort-desc .sort-icon {
     @apply text-sky-700 transform rotate-180;
 }
+
+.py-header {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 .py-0.5 {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
