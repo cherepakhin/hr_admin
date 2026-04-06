@@ -32,8 +32,10 @@
         <!-- Header -->
         <header class="bg-white shadow-sm border-b border-gray-100 all-employees">
             <div class="flex justify-between items-left">
-                <h2 class="text-2xl font-semibold text-gray-800 px-2" style="padding-top: 0.5em;">Все сотрудники</h2>
+                <h2 class="font-semibold text-gray-800 px-2" style="padding-top: 0.5em; font-size: 1.5rem; line-height: 1.75rem;">Все сотрудники</h2>
             <div class="flex justify-between items-right py-2">
+                <!-- Add Employee Button -->
+                <!-- Пока не удалять. Плохо смотрится на мобилах, на десктопе - ОК
                 <a href="${springMacroRequestContext.contextPath}/employees/new"
                    class="btn-dark-blue px-5 py-2 font-medium shadow transition flex items-right gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900  w-40">
                     <svg xmlns="https://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -41,7 +43,7 @@
                     </svg>
                     Добавить
                 </a>
-
+                -->
                 <h3 class="text-1xl py-2 px-4 font-semibold text-gray-800">Сортировать по:</h3>
                 <!-- Combobox для сортировки с поддержкой выбранного значения -->
                 <div class="relative">
