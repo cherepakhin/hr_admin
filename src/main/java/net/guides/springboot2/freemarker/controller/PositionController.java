@@ -3,6 +3,8 @@ package net.guides.springboot2.freemarker.controller;
 import jakarta.validation.Valid;
 import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/positions")
 public class PositionController {
+
+	private static final Logger log = LoggerFactory.getLogger(PositionController.class);
 
     @Autowired
     private PositionRepository positionRepository;
@@ -24,6 +28,7 @@ public class PositionController {
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
     public String showCreateForm(Model model) {
+		log.info("Show dialog new position");
         model.addAttribute("position", new Position());
         return NamesView.CREATE_POSITION;
     }
@@ -40,6 +45,7 @@ public class PositionController {
     public String createPosition(@Valid @ModelAttribute Position position,
                                  BindingResult result,
                                  Model model) {
+		log.info("Create position: {}", position);
         if (positionRepository.existsByName(position.getName())) {
             result.rejectValue("name", "error.position", "Должность с таким названием уже существует.");
         }
@@ -48,7 +54,8 @@ public class PositionController {
         }
 		Long id = positionRepository.getNextId();
 		position.setId(id);
-        positionRepository.save(position);
+        position = positionRepository.save(position);
+		log.info("Saved position: {}", position);
         return "redirect:/" + NamesView.POSITIONS + "/";
     }
 

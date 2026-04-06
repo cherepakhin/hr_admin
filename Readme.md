@@ -6,6 +6,8 @@ Java 17:
 export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 ````
 
+URL для разработки [http://127.0.0.1:8088/hr_admin/employees/](http://127.0.0.1:8088/hr_admin/employees/)
+
 Основная цель __ТОЛЬКО FRONTEND__.
 
 - В качестве template использован __Freemarker__ (__spring-boot-starter-freemarker__).
