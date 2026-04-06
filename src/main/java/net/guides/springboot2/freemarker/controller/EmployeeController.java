@@ -56,8 +56,8 @@ public class EmployeeController {
 		this.
 		refreshEmployees(model, page, size, sortField, direction);
 
-		log.info("/ ->{}", currentIndexPage);
-		currentIndexPage = "/";
+		log.info("/employees");
+		currentIndexPage = "/employees/";
 		log.info("/ -> {}", currentIndexPage);
 
 		return NamesView.INDEX;
@@ -90,7 +90,7 @@ public class EmployeeController {
 		if (optional.isPresent()) {
 			log.info("Edit employee = {}", optional.get());
 			model.addAttribute("employee", optional.get());
-			model.addAttribute("positions", positionRepository.findAll()); // ←
+			model.addAttribute("positions", positionRepository.findAll());
 			model.addAttribute("prevPage", currentIndexPage);
 			return NamesView.EDIT_EMPLOYEE;
 		}
@@ -112,12 +112,14 @@ public class EmployeeController {
 		log.info("updateEmployee");
 		employee.setId(id);
 		employeeRepository.save(employee);
-		log.info("/employees/update/{}:", currentIndexPage);
-		log.info(currentIndexPage);
+		log.info("/employees/update/ from currentIndexPage:{}", currentIndexPage);
 		log.info("Update employee = {}", employee);
-		if (!currentIndexPage.startsWith("/")) {
-			currentIndexPage = "/" + currentIndexPage;
+		if (currentIndexPage.equals("/show_employees")) {
+			currentIndexPage = "/employees" + currentIndexPage;
+			log.info("New currentIndexPage:{}", currentIndexPage);
 		}
+
+		log.info("redirect:" + currentIndexPage);
 		return "redirect:" + currentIndexPage;
 	}
 
