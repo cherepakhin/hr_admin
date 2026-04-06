@@ -36,10 +36,10 @@
                         <thead class="uppercase border-t border-gray-100 bg-gray-50">
                             <tr>
                                 <!-- First Name -->
-                                <th class="px-6 py-3 font-medium cursor-pointer group"
+                                <th class="px-6 py-3 cursor-pointer group font-medium font-black"
                                     onclick="window.location.href='?page=${currentPage}&sortField=firstName&direction=${(sortField == 'firstName' && sortDirection == 'asc')?string('desc','asc')}'">
                                     Имя
-                                    <span class="text-xs text-gray-800 text-2xl">
+                                    <span class="text-gray-800 text-2xl">
                                         <#if sortField == "firstName">
                                             <#if sortDirection == "asc">↓</#if>
                                             <#if sortDirection == "desc">↑</#if>
@@ -48,10 +48,10 @@
                                 </th>
 
                                 <!-- Last Name -->
-                                <th class="px-6 py-3 font-medium cursor-pointer group"
+                                <th class="px-6 py-3 cursor-pointer group font-medium font-black"
                                     onclick="window.location.href='?page=${currentPage}&sortField=lastName&direction=${(sortField == 'lastName' && sortDirection == 'asc')?string('desc','asc')}'">
                                     Фамилия
-                                    <span class="text-xs text-gray-800 text-2xl">
+                                    <span class="text-gray-800 text-2xl">
                                         <#if sortField == "lastName">
                                             <#if sortDirection == "asc">↓</#if>
                                             <#if sortDirection == "desc">↑</#if>
@@ -60,10 +60,10 @@
                                 </th>
 
                                 <!-- Email -->
-                                <th class="px-6 py-3 font-medium cursor-pointer group"
+                                <th class="px-6 py-3 cursor-pointer group font-medium font-black"
                                     onclick="window.location.href='?page=${currentPage}&sortField=email&direction=${(sortField == 'email' && sortDirection == 'asc')?string('desc','asc')}'">
                                     Email
-                                    <span class="text-xs text-gray-800 text-2xl">
+                                    <span class="text-gray-800 text-2xl">
                                         <#if sortField == "email">
                                             <#if sortDirection == "asc">↓</#if>
                                             <#if sortDirection == "desc">↑</#if>
@@ -72,10 +72,10 @@
                                 </th>
 
                                 <!-- Position -->
-                                <th class="px-6 py-3 font-medium cursor-pointer group"
+                                <th class="px-6 py-3 cursor-pointer group font-medium font-black"
                                     onclick="window.location.href='?page=${currentPage}&sortField=position.name&direction=${(sortField == 'position.name' && sortDirection == 'asc')?string('desc','asc')}'">
                                     Должность
-                                    <span class="text-xs text-gray-800 text-2xl">
+                                    <span class="text-gray-800 text-2xl">
                                         <#if sortField == "position.name">
                                             <#if sortDirection == "asc">↓</#if>
                                             <#if sortDirection == "desc">↑</#if>
@@ -84,7 +84,7 @@
                                 </th>
 
                                 <!-- Actions -->
-                                <th class="px-6 py-3 font-medium text-center">Действия</th>
+                                <th class="px-6 py-3 cursor-pointer group font-medium font-black text-center">Действия</th>
                             </tr>
                         </thead>
                         <tbody>

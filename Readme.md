@@ -774,3 +774,4 @@ verify(this.employeeRepository, times(1)).findByFiltersAndSort(eq("firstName1"),
 
 Мелкий шрифт на пагинации на телефоне.
 
+Шрифты [https://tailwindcss.com/docs/font-size](https://tailwindcss.com/docs/font-size).
