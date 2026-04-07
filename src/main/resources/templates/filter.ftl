@@ -32,7 +32,7 @@
         <main class="flex flex-1 flex-col p-6 flex items-start">
             <div class="bg-white shadow-xl border border-gray-100 w-full max-w-md p-6 space-y-6">
 
-                <form method="GET" action="${springMacroRequestContext.contextPath}/show_employees" class="space-y-5">
+                <form method="GET" action="${springMacroRequestContext.contextPath}/employees/show_employees" class="space-y-5">
 
                     <!-- First Name -->
                     <div>
