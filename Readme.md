@@ -720,6 +720,8 @@ public class SecurityConfig {
 	Include /etc/letsencrypt/options-ssl-apache.conf
 
 	# Проксирование запросов на Spring Boot (работает по HTTP на localhost:8088)
+	# Снаружи доступно по https://v.perm.ru/hr_admin
+	# 192.168.1.20:8888 - адрес машнины во внутренней сети с запущенным сервисом 
 	ProxyPreserveHost On
 	ProxyPass /hr_admin http://192.168.1.20:8088
 	ProxyPassReverse /hr_admin http://192.168.1.20:8088
@@ -734,6 +736,8 @@ public class SecurityConfig {
     </VirtualHost>
 
 ````
+
+Полностью в [doc/https/000-default-le-ssl.conf](doc/https/000-default-le-ssl.conf)
 
 ### Ссылки
 
