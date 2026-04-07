@@ -173,25 +173,11 @@ public class ProductController {
 ````
 
 Открыть [https://v.perm.ru:8088/](https://v.perm.ru:8088/)
-(проверено 29/03/26 на компе Игоря. Открывается с предупреждением о сертификате.)
+(проверено 29/03/26 на другом компьютере. Открывается с предупреждением о сертификате.)
 
-### Размещение на tomcat сервере
+Ниже более лучший вариант без заморочек с сертификатами.
 
-Сборка:
-
-````shell
-./mvnw clean package -DskipTests
-````
-
-Полученный файл target//springboot2-freemarker-0.0.2.war задеплоить в Tomcat через панель управления Tomcat.
-
-![tomcat.png](doc/tomcat.png)
-
-Доступ [http://v.perm.ru:8088/](http://v.perm.ru:8088/)
-
-не HTTPS!
-
-### HTTPS
+### Проброс через Apache HTTPS
 
 Размещено на [https://v.perm.ru/hr_admin/](https://v.perm.ru/hr_admin/)
 
