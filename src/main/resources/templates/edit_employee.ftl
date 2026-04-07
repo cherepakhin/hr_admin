@@ -54,6 +54,6 @@
             </div>
         </form>
     </div>
-    <div>contextPath:${springMacroRequestContext.contextPath} PrevPage:${prevPage}</div>
+<!--  Для отладки истории <div>contextPath:${springMacroRequestContext.contextPath} PrevPage:${prevPage}</div> -->
 </body>
 </html>
