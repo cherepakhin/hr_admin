@@ -20,6 +20,64 @@
 
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-dark-blue {
+            @apply bg-sky-900 hover:bg-sky-800 text-white;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            @apply bg-gray-100 text-sky-900;
+        }
+        .sidebar-link svg {
+            @apply transition-colors duration-200;
+        }
+        .sidebar-link:hover svg, .sidebar-link.active svg {
+            @apply text-sky-900;
+        }
+        .pagination-link {
+            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium;
+        }
+        .pagination-current {
+            font-weight: 900;
+            color: cornflowerblue;
+        }
+        .all-employees {
+            padding-top: 0.6em;
+            padding-bottom: 0.6em;
+            padding-left: 1.5em;
+            padding-right: 1.5em;
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 640px) {
+            .mobile-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .mobile-sort-container {
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+            .mobile-full-width {
+                width: 100% !important;
+            }
+            .w-40 {
+                width: 100%;
+            }
+            .flex\.justify-between\.items-right {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            #sortSelectHeader {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">
@@ -31,36 +89,34 @@
 
         <!-- Header -->
         <header class="bg-white shadow-sm border-b border-gray-100 all-employees">
-            <div class="flex justify-between items-left">
-                <h2 class="font-semibold text-gray-800 px-2" style="padding-top: 0.5em; font-size: 1.5rem; line-height: 1.75rem;">Все сотрудники</h2>
-            <div class="flex justify-between items-right py-2">
-                <!-- Add Employee Button -->
-                <!-- Пока не удалять. Плохо смотрится на мобилах, на десктопе - ОК
-                <a href="${springMacroRequestContext.contextPath}/employees/new"
-                   class="btn-dark-blue px-5 py-2 font-medium shadow transition flex items-right gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900  w-40">
-                    <svg xmlns="https://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Добавить
-                </a>
-                -->
-                <h3 id="sortSelectHeader" class="text-1xl py-2 px-4 font-semibold text-gray-800">Сортировать по:</h3>
-                <!-- Combobox для сортировки с поддержкой выбранного значения -->
-                <div id="sortSelectContainer" class="relative">
-                    <select
-                        id="sortSelect"
-                        onchange="window.location.href='?sortField=' + this.value + '&direction=asc'"
-                        class="block w-40 px-5 py-2 bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 appearance-none rounded-none">
-                        <option value="firstName" <#if sortField?? && sortField == "firstName">selected</#if>>Имени</option>
-                        <option value="lastName" <#if sortField?? && sortField == "lastName">selected</#if>>Фамилии</option>
-                        <option value="email" <#if sortField?? && sortField == "email">selected</#if>>Email</option>
-                        <option value="position.name" <#if sortField?? && sortField == "position.name">selected</#if>>Должности</option>
-                    </select>
-                    <!-- Кастомная стрелка -->
-                    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <svg xmlns="https://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            <div class="flex mobile-header justify-between items-center">
+                <h2 class="font-semibold text-gray-800 px-2" style="font-size: 1.5rem; line-height: 1.75rem;">Все сотрудники</h2>
+                <div class="flex mobile-sort-container justify-between items-center gap-2">
+                    <a href="${springMacroRequestContext.contextPath}/employees/new"
+                       class="btn-dark-blue mobile-add-btn px-5 py-2 font-medium shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 w-40">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
+                        Добавить
+                    </a>
+                    <h3 id="sortSelectHeader" class="text-1xl py-2 px-4 font-semibold text-gray-800 mb-0">Сортировать по:</h3>
+                    <!-- Combobox для сортировки с поддержкой выбранного значения -->
+                    <div id="sortSelectContainer" class="relative w-40 mobile-full-width">
+                        <select
+                            id="sortSelect"
+                            onchange="window.location.href='?sortField=' + this.value + '&direction=asc'"
+                            class="block w-full px-5 py-2 bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 appearance-none rounded-none">
+                            <option value="firstName" <#if sortField?? && sortField == "firstName">selected</#if>>Имени</option>
+                            <option value="lastName" <#if sortField?? && sortField == "lastName" || !sortField??>selected</#if>>Фамилии</option>
+                            <option value="email" <#if sortField?? && sortField == "email">selected</#if>>Email</option>
+                            <option value="position.name" <#if sortField?? && sortField == "position.name">selected</#if>>Должности</option>
+                        </select>
+                        <!-- Кастомная стрелка -->
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,7 +141,7 @@
                         <div class="flex justify-end gap-2">
                             <a href="${springMacroRequestContext.contextPath}/employees/edit/${employee.id}"
                                class="text-sky-900 hover:text-sky-700 font-medium text-sm transition flex items-center gap-1">
-                                <svg xmlns="https://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                                 Изменить
@@ -93,7 +149,7 @@
                             <a href="${springMacroRequestContext.contextPath}/employees/delete/${employee.id}"
                                onclick="return confirm('Вы уверены, что хотите удалить ${employee.firstName}?');"
                                class="text-sky-900 hover:text-sky-700 font-medium text-sm transition flex items-center gap-1">
-                                <svg xmlns="https://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
                                 Удалить
@@ -113,10 +169,22 @@
                         <!-- Previous Button -->
                         <#if currentPage gt 0>
                             <li>
-                                <a href="${springMacroRequestContext.contextPath}/employees/?page=${currentPage - 1}&sortField=${sortField}&direction=${direction}" class="pagination-link"><svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Предыдущая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/></svg></a>
+                                <a href="${springMacroRequestContext.contextPath}/employees/?page=${currentPage - 1}&sortField=${sortField}&direction=${direction}" class="pagination-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <title>Предыдущая страница</title>
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/>
+                                    </svg>
+                                </a>
                             </li>
                         <#else>
-                            <li><span class="pagination-link opacity-50 cursor-not-allowed"><svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Предыдущая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/></svg></span></li>
+                            <li>
+                                <span class="pagination-link opacity-50 cursor-not-allowed">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <title>Предыдущая страница</title>
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/>
+                                    </svg>
+                                </span>
+                            </li>
                         </#if>
 
                         <!-- Page Numbers -->
@@ -136,16 +204,28 @@
                         <!-- Next Button -->
                         <#if currentPage lt totalPages - 1>
                             <li>
-                                <a href="${springMacroRequestContext.contextPath}/employees/?page=${currentPage + 1}&sortField=${sortField}&direction=${direction}" class="pagination-link"><svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Следующая страница</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/></svg></a>
+                                <a href="${springMacroRequestContext.contextPath}/employees/?page=${currentPage + 1}&sortField=${sortField}&direction=${direction}" class="pagination-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <title>Следующая страница</title>
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/>
+                                    </svg>
+                                </a>
                             </li>
                         <#else>
-                            <li><span class="pagination-link opacity-50 cursor-not-allowed"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/></svg></span></li>
+                            <li>
+                                <span class="pagination-link opacity-50 cursor-not-allowed">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <title>Следующая страница</title>
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/>
+                                    </svg>
+                                </span>
+                            </li>
                         </#if>
                     </ul>
                 </div>
             <#else>
                 <div class="bg-white p-10 shadow text-center border border-gray-100">
-                    <svg xmlns="https://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-sky-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-sky-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                     <h3 class="mt-4 text-lg font-medium text-gray-700">Сотрудники не найдены</h3>

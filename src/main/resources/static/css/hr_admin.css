@@ -1,6 +1,21 @@
 body {
     font-family: Ubuntu;
 }
+
+/* Мобильная адаптация */
+@media (max-width: 640px) {
+    .mobile-sort-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .mobile-full-width {
+        width: 100% !important;
+    }
+    .w-40 {
+        width: 100%;
+    }
+}
+
 .btn-dark-blue {
     @apply bg-sky-900 hover:bg-sky-800 text-white;
 }
