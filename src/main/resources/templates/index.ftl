@@ -44,9 +44,9 @@
                     Добавить
                 </a>
                 -->
-                <h3 class="text-1xl py-2 px-4 font-semibold text-gray-800">Сортировать по:</h3>
+                <h3 id="sortSelectHeader" class="text-1xl py-2 px-4 font-semibold text-gray-800">Сортировать по:</h3>
                 <!-- Combobox для сортировки с поддержкой выбранного значения -->
-                <div class="relative">
+                <div id="sortSelectContainer" class="relative">
                     <select
                         id="sortSelect"
                         onchange="window.location.href='?sortField=' + this.value + '&direction=asc'"
