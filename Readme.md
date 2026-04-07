@@ -193,7 +193,7 @@ public class ProductController {
 
 ### HTTPS
 
-Размещено на [https://v.perm.ru/hr_admin/employees/](https://v.perm.ru/hr_admin/employees/)
+Размещено на [https://v.perm.ru/hr_admin/](https://v.perm.ru/hr_admin/)
 
 Работа через HTTPS сделана с помощью проксирования через apache2:
 
