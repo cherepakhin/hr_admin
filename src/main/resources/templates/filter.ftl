@@ -77,7 +77,8 @@
                                 class="flex-1 bg-sky-900 text-white py-2 px-4 font-medium hover:bg-sky-800 transition">
                             Найти
                         </button>
-                        <a href="${springMacroRequestContext.contextPath}/showEmployees"
+                        <!-- Кнопка сброса параметров фильтра -->
+                        <a href="${springMacroRequestContext.contextPath}/employees/show_employees"
                            class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 font-medium text-center hover:bg-gray-300 transition">
                             Сбросить
                         </a>
