@@ -55,14 +55,10 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldCreatePositionAndRedirect() throws Exception {
-		// Given
-		Position position = new Position(null, "Manager");
-
-		// When & Then
 		mockMvc.perform(post("/positions")
 						.param("name", "Manager"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/positions"));
+				.andExpect(redirectedUrl("/positions/"));
 
 		verify(positionRepository).save(argThat(p -> "Manager".equals(p.getName())));
 	}
@@ -121,7 +117,7 @@ public class PositionControllerTest {
 		mockMvc.perform(post("/positions/update/1")
 						.param("name", "Senior Developer"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/positions"));
+				.andExpect(redirectedUrl("/positions/"));
 
 		verify(positionRepository).save(argThat(p ->
 				p.getId().equals(1L) &&
@@ -150,7 +146,7 @@ public class PositionControllerTest {
 		// When & Then
 		mockMvc.perform(get("/positions/delete/1"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/positions"));
+				.andExpect(redirectedUrl("/positions/"));
 
 		verify(positionRepository).deleteById(1L);
 	}

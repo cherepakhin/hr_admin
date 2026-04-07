@@ -35,6 +35,11 @@ public class PositionController {
         return NamesView.POSITIONS;
     }
 
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String listPositionsRoot(Model model) {
+		return listPositions(model);
+	}
+
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
     public String showCreateForm(Model model) {
 		log.info("Show dialog new position");
@@ -67,6 +72,13 @@ public class PositionController {
 		log.info("Saved position: {}", position);
         return "redirect:/" + NamesView.POSITIONS + "/";
     }
+
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public String createPositionForEmpty(@Valid @ModelAttribute Position position,
+										 BindingResult result,
+										 Model model) {
+		return createPosition(position, result, model);
+	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String showEditForm(@PathVariable("id") Long id, Model model) {
