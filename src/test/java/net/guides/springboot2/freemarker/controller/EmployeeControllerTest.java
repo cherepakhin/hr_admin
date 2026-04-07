@@ -158,7 +158,17 @@ public class EmployeeControllerTest {
 
     @Test
     public void shouldDeleteEmployeeAndRedirect() throws Exception {
-		mockMvc.perform(get("/employees")); // set previous page (return page)
+		// Given
+		Position position = new Position(1L, "Developer");
+		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
+		employee.setId(1L);
+
+		given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+
+		Page page = new PageImpl(List.of(employee));
+		given(employeeRepository.findAll(any(Pageable.class))).willReturn(page);
+
+		mockMvc.perform(get("/employees/")); // set previous page (return page)
 
         mockMvc.perform(get("/employees/delete/1"))
                 .andExpect(status().is3xxRedirection())
