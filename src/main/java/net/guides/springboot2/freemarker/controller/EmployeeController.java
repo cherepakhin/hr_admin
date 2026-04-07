@@ -136,7 +136,11 @@ public class EmployeeController {
 		employeeRepository.deleteById(id);
 		log.info("/employees/delete/{}", id);
 		log.info("currentIndexPage: {}", currentIndexPage);
-		return "redirect:/employees" + currentIndexPage;
+		if(currentIndexPage.contains("/show_employees")) {
+			return "redirect:/employees/show_employees";
+		} else {
+			return "redirect:/employees/";
+		}
 	}
 
 	private void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
