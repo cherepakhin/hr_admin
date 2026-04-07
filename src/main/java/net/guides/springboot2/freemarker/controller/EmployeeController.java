@@ -6,7 +6,6 @@ import net.guides.springboot2.freemarker.repository.PositionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -124,7 +123,10 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-	public String deleteEmployee(@PathVariable("id") Long id) {
+	public String deleteEmployee(@PathVariable("id") Long id) throws Exception {
+		if(id == null) {
+			throw new Exception("id is null for /delete/{id}");
+		}
 		log.info("deleteEmployee");
 		employeeRepository.deleteById(id);
 		log.info("/employees/delete/{}", id);
