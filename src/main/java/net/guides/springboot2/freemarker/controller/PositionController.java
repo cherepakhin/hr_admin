@@ -46,7 +46,7 @@ public class PositionController {
         model.addAttribute("position", new Position());
         return NamesView.CREATE_POSITION;
     }
-
+// Не удалять. Это пример формы для этого метода.
 //	            <form action="/positions" method="post"> // post on /position
 //                <div>
 //                    <label>Название</label>

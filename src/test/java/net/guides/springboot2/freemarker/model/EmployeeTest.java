@@ -35,4 +35,13 @@ public class EmployeeTest {
 
 		assertNotEquals(employee1, employee2);
 	}
+
+	@Test
+	void setPositionTest() {
+		Position position = new Position(1L, "POSITION");
+		Employee employee = new Employee();
+		employee.setPosition(position);
+
+		assertEquals(position, employee.getPosition());
+	}
 }
