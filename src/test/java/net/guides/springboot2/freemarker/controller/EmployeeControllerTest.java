@@ -83,14 +83,25 @@ public class EmployeeControllerTest {
         // Given
         Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
 
+		mockMvc.perform(get("/show_employees")); // set previous page (return page)
         // When & Then
         mockMvc.perform(post("/employees/")
                         .flashAttr("employee", employee))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(redirectedUrl("/show_employees"));
 
         verify(employeeRepository, times(1)).save(employee);
     }
+
+	@Test
+	public void createEmployeeAndRedirectForEmptyURL() throws Exception {
+		Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
+
+		mockMvc.perform(post("/employees")
+						.flashAttr("employee", employee))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/employees/"));
+	}
 
     @Test
     public void shouldShowEditFormForExistingEmployee() throws Exception {
@@ -140,13 +151,15 @@ public class EmployeeControllerTest {
         mockMvc.perform(post("/employees/update/1")
                         .flashAttr("employee", updatedEmployee))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(redirectedUrl("/employees/show_employees"));
 
         verify(employeeRepository).save(updatedEmployee);
     }
 
     @Test
     public void shouldDeleteEmployeeAndRedirect() throws Exception {
+		mockMvc.perform(get("/employees")); // set previous page (return page)
+
         mockMvc.perform(get("/employees/delete/1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/employees/"));
@@ -369,7 +382,7 @@ public class EmployeeControllerTest {
 
 		given(positionRepository.findAll()).willReturn(Arrays.asList(position));
 
-		mockMvc.perform(get("/show_employees"))
+		mockMvc.perform(get("/employees/show_employees"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("show_employees"))
 				.andExpect(model().attribute("sortField", "id"))
@@ -388,7 +401,7 @@ public class EmployeeControllerTest {
 		given(positionRepository.findAll()).willReturn(Arrays.asList());
 
 		// When & Then
-		mockMvc.perform(get("/show_employees")
+		mockMvc.perform(get("/employees/show_employees")
 						.param("firstName", "Unknown"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("show_employees"))
@@ -411,7 +424,7 @@ public class EmployeeControllerTest {
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(eq(""),eq(""),eq(""), eq(pageable))).thenReturn(page);
 
-		mockMvc.perform(get("/show_employees" ))
+		mockMvc.perform(get("/employees/show_employees" ))
 				.andExpect(status().isOk())
 				.andExpect(view().name("show_employees"))
 				.andExpect(model().attributeExists("employees"))
@@ -435,7 +448,7 @@ public class EmployeeControllerTest {
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(eq(""),eq(""),eq(""), eq(pageable))).thenReturn(page);
 
-		mockMvc.perform(get("/" ))
+		mockMvc.perform(get("/employees/show_employees" ))
 				.andExpect(status().isOk())
 				.andExpect(view().name("show_employees"))
 				.andExpect(model().attributeExists("employees"))

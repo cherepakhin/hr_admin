@@ -81,6 +81,11 @@ public class EmployeeController {
 		return "redirect:" + currentIndexPage;
 	}
 
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public String createEmployeeFroEmpty(@ModelAttribute Employee employee) {
+		return "redirect:" + "/employees/";
+	}
+
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String showEditForm(@PathVariable("id") Long id, Model model) {
 		log.info("showEditForm");
