@@ -20,6 +20,15 @@ public class PositionController {
     @Autowired
     private PositionRepository positionRepository;
 
+	public PositionController() {
+		super();
+	}
+
+	public PositionController(PositionRepository positionRepository) {
+		this();
+		this.positionRepository = positionRepository;
+	}
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     public String listPositions(Model model) {
         model.addAttribute("positions", positionRepository.findAll());
