@@ -52,14 +52,20 @@ public class EmployeeController {
 		}
 
 		log.info("page: {}, sortField: {}, direction: {}", page, sortField, direction);
-		this.
-		refreshEmployees(model, page, size, sortField, direction);
+		this.refreshEmployees(model, page, size, sortField, direction);
 
+		/*
+		if (currentIndexPage.equals("/show_employees")) {
+			currentIndexPage = "/employees" + currentIndexPage;
+			log.info("New currentIndexPage:{}", currentIndexPage);
+		} else {
+			currentIndexPage = "/employees/index";
+		}
+		*/
 		log.info("/employees");
-		currentIndexPage = "/employees/";
 		log.info("/ -> {}", currentIndexPage);
-
-		return NamesView.INDEX;
+		currentIndexPage = "index";
+		return "index";
 	}
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -123,7 +129,7 @@ public class EmployeeController {
 			log.info("New currentIndexPage:{}", currentIndexPage);
 		}
 
-		log.info("redirect:" + currentIndexPage);
+		log.info("redirect:{}", currentIndexPage);
 		return "redirect:" + currentIndexPage;
 	}
 

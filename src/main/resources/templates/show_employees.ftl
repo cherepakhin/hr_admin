@@ -129,7 +129,7 @@
                             <!-- First Page Button -->
                             <#if currentPage gt 0>
                                 <li>
-                                    <a href="${springMacroRequestContext.contextPath}?page=0${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-first-last text-2xl">
+                                    <a href="${springMacroRequestContext.contextPath}/employees/show_employees?page=0${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-first-last text-2xl">
                                         <svg xmlns="https://www.w3.org/2000/svg"
                                             width="36" height="36" viewBox="0 3 16 24">
                                                 <title>В начало</title>
@@ -152,7 +152,7 @@
                             <!-- Previous Button -->
                             <#if currentPage gt 0>
                                 <li>
-                                    <a href="${springMacroRequestContext.contextPath}?page=${currentPage - 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-link  text-2xl">
+                                    <a href="${springMacroRequestContext.contextPath}/employees/show_employees?page=${currentPage - 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-link  text-2xl">
                                         <svg xmlns="https://www.w3.org/2000/svg"
                                             width="36" height="36" viewBox="10 3 16 24">
                                             <title>Chevron-left SVG Icon</title><path fill="currentColor" d="M13.293 6.293L7.586 12l5.707 5.707l1.414-1.414L10.414 12l4.293-4.293z"/></svg>
@@ -177,7 +177,7 @@
                                     <#if p == currentPage>
                                         <span class="pagination-current">${p + 1}</span>
                                     <#else>
-                                        <a href="${springMacroRequestContext.contextPath}?page=${p}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-link">${p + 1}</a>
+                                        <a href="${springMacroRequestContext.contextPath}/employees/show_employees?page=${p}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-link">${p + 1}</a>
                                     </#if>
                                 </li>
                             </#list>
@@ -185,7 +185,7 @@
                             <!-- Next Button -->
                             <#if currentPage lt totalPages - 1>
                                 <li>
-                                    <a href="${springMacroRequestContext.contextPath}?page=${currentPage + 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-link">
+                                    <a href="${springMacroRequestContext.contextPath}/employees/show_employees?page=${currentPage + 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-link">
                                         <svg xmlns="https://www.w3.org/2000/svg"
                                         width="36" height="36" viewBox="0 3 16 24">
                                         <title>Следующая страница</title><path fill="currentColor" d="M10.707 17.707L16.414 12l-5.707-5.707l-1.414 1.414L13.586 12l-4.293 4.293z"/></svg>
@@ -204,7 +204,7 @@
                             <!-- Last Page Button -->
                             <#if currentPage lt totalPages - 1>
                                 <li>
-                                    <a href="${springMacroRequestContext.contextPath}?page=${totalPages - 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-first-last">
+                                    <a href="${springMacroRequestContext.contextPath}/employees/show_employees?page=${totalPages - 1}${'&sortField=' + sortField + '&direction=' + sortDirection!'&sortField=id&direction=asc'}" class="pagination-first-last">
                                         <svg xmlns="https://www.w3.org/2000/svg"
                                         width="36" height="36" viewBox="10 3 16 24">
                                         <title>Last-page SVG Icon</title><path fill="currentColor" d="M7.707 17.707L13.414 12L7.707 6.293L6.293 7.707L10.586 12l-4.293 4.293zM15 6h2v12h-2z"/></svg>

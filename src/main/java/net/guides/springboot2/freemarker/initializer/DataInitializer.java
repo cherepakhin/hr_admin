@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;
 
+@SuppressWarnings("unused")
 @Component
 public class DataInitializer implements CommandLineRunner {
 
@@ -24,32 +25,32 @@ public class DataInitializer implements CommandLineRunner {
 	private PositionRepository positionRepository;
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		Position nullPosition = null;
 		Position director = null;
 		Position accounter = null;
 		Position worker = null;
-		if (positionRepository.count() == 0) {
+		if (this.positionRepository.count() == 0) {
 			log.info("Initialize positions");
-			nullPosition = positionRepository.save(new Position(-1L, "-"));
-			log.info("Saved: {}", nullPosition );
-			director = positionRepository.save(new Position(1L, "Директор"));
-			log.info("Saved: {}", director );
-			accounter = positionRepository.save(new Position(2L, "Бухгалтер"));
-			log.info("Saved: {}", accounter );
-			worker = positionRepository.save(new Position(3L, "Рабочий"));
-			log.info("Saved: {}", worker );
+			nullPosition = this.positionRepository.save(new Position(-1L, "-"));
+			log.info("Saved nullPosition: {}", nullPosition );
+			director = this.positionRepository.save(new Position(1L, "Директор"));
+			log.info("Saved director: {}", director );
+			accounter = this.positionRepository.save(new Position(2L, "Бухгалтер"));
+			log.info("Saved accounter: {}", accounter );
+			worker = this.positionRepository.save(new Position(3L, "Рабочий"));
+			log.info("Saved worker: {}", worker );
 		}
 
-		if (employeeRepository.count() == 0) {
+		if (this.employeeRepository.count() == 0) {
 			log.info("Initialize employees");
-			employeeRepository.save(new Employee("Иван", "Иванов", "ivan@example.com", director));
-			employeeRepository.save(new Employee("Мария", "Петрова", "maria@example.com", accounter));
-			employeeRepository.save(new Employee("Алексей", "Сидоров", "alex@example.com", director));
-			employeeRepository.save(new Employee("Елена", "Кузнецова", "elena@example.com", accounter));
+			this.employeeRepository.save(new Employee("Иван", "Иванов", "ivan@example.com", director));
+			this.employeeRepository.save(new Employee("Мария", "Петрова", "maria@example.com", accounter));
+			this.employeeRepository.save(new Employee("Алексей", "Сидоров", "alex@example.com", director));
+			this.employeeRepository.save(new Employee("Елена", "Кузнецова", "elena@example.com", accounter));
 
 			for (int i = 0; i < 10; i++) {
-				employeeRepository.save(new Employee("Name " + i, "Lastname " + i, format("emp%s@example.com", i), worker));
+				this.employeeRepository.save(new Employee("Name " + i, "Lastname " + i, format("emp%s@example.com", i), worker));
 			}
 			log.info("Test data added.");
 		} else {
