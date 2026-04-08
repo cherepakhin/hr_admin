@@ -31,14 +31,14 @@
             @apply text-sky-900;
         }
         .pagination-link {
-            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium;
+            @apply px-3 py-1 border border-gray-300 hover:bg-sky-50 hover:text-sky-900 transition font-medium;
         }
         .pagination-current {
             font-weight: 900;
             color: cornflowerblue;
         }
         .pagination-first-last {
-            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-bold;
+            @apply px-3 py-1 border border-gray-300 hover:bg-sky-50 hover:text-sky-900 transition font-bold;
         }
         .sort-icon {
             @apply inline-block text-xs text-gray-400 ml-1 transition-transform duration-200;
@@ -120,6 +120,38 @@
                     </table>
             </#if>
         </main>
+    </div>
+     <!-- Dialog confirm delete -->
+    <div class="mt-6" x-data="{ open: false }">
+      <!-- Button (blue), duh! -->
+      <button class="px-4 py-2 text-white bg-blue-500 select-none no-outline focus:shadow-outline" @click="open = true">Open Modal</button>
+
+      <!-- Dialog (full screen) -->
+      <div class="absolute top-0 left-0 flex items-center justify-center w-full h-full" style="background-color: rgba(0, 0, 0, 0.5);" x-show="open">
+        <!-- A basic modal dialog with title, body and one button to close -->
+        <div class="h-auto p-4 mx-2 text-left bg-white shadow-xl md:max-w-xl md:p-4 lg:p-4 md:mx-0"
+            @click.away="open = false" style="width: 30em;">
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Точно удалить?</h3>
+            <!--   Не удалять. Это область для пояснения
+            <div class="mt-2">
+              <p class="text-sm leading-5 text-gray-500">Точно удалить?</p>
+            </div>  -->
+          </div>
+          <!-- Кнопки диалога. Начало -->
+          <div class="mt-5 sm:mt-6">
+            <span class="flex w-full shadow-sm justify-end">
+              <button @click="open = false"
+                class="inline-flex justify-center w-full px-4 py-2 text-white bg-gray-500 hover:bg-gray-700"
+                style="width: 9em;">Отмена</button>
+              <button @click="open = false"
+                class="inline-flex justify-center w-full px-4 py-2 text-white bg-red-500 hover:bg-red-700"
+                style="margin-left: 1em;width: 9em;">Удалить</button>
+            </span>
+          </div>
+          <!-- Кнопки диалога. Конец -->
+        </div>
+      </div>
     </div>
 </body>
 </html>

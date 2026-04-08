@@ -107,6 +107,7 @@ public class PositionController {
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deletePosition(@PathVariable("id") Long id) {
+		//TODO: Перед удалением проверить не используется ли где-то
         positionRepository.deleteById(id);
         return "redirect:/" + NamesView.POSITIONS +"/";
     }
