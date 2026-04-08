@@ -30,6 +30,7 @@ public class DataInitializer implements CommandLineRunner {
 		Position director = null;
 		Position accounter = null;
 		Position worker = null;
+		Position forTest = null;
 		if (this.positionRepository.count() == 0) {
 			log.info("Initialize positions");
 			nullPosition = this.positionRepository.save(new Position(-1L, "-"));
@@ -40,6 +41,8 @@ public class DataInitializer implements CommandLineRunner {
 			log.info("Saved accounter: {}", accounter );
 			worker = this.positionRepository.save(new Position(3L, "Рабочий"));
 			log.info("Saved worker: {}", worker );
+			forTest = this.positionRepository.save(new Position(3L, "Для тестов"));
+			log.info("Saved forTest: {}", forTest );
 		}
 
 		if (this.employeeRepository.count() == 0) {
