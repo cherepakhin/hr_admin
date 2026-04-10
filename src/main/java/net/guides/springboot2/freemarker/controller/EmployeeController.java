@@ -64,7 +64,7 @@ public class EmployeeController {
 		*/
 		log.info("/employees");
 		log.info("/ -> {}", currentIndexPage);
-		currentIndexPage = "index";
+		currentIndexPage = "/";
 		return "index";
 	}
 
