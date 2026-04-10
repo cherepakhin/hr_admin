@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Employees - HR Admin</title>
+    <title>Должности - HR Admin</title>
 
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Alpine.js for interactivity -->
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -68,6 +65,25 @@
             padding-right: 1.5em;
         }
 
+        /* Стили для модального окна */
+        .modal-backdrop {
+            @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+        }
+        .modal-container {
+            @apply bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4;
+        }
+        .modal-title {
+            @apply text-lg font-semibold text-gray-800 mb-4;
+        }
+        .modal-actions {
+            @apply flex justify-end gap-3 mt-6;
+        }
+        .btn-cancel {
+            @apply px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition;
+        }
+        .btn-delete {
+            @apply px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition;
+        }
     </style>
 </head>
 
@@ -83,75 +99,80 @@
                 <h2 class="text-2xl font-semibold text-white">Должности</h2>
                 <a href="${springMacroRequestContext.contextPath}/positions/new"
                    class="btn-dark-blue px-5 py-2 font-medium shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
-                    <svg xmlns="https://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     Добавить
                 </a>
             </div>
         </header>
+
         <!-- Positions List -->
         <main class="flex-1 p-6 overflow-y-auto bg-white">
             <#if positions?has_content>
-                    <table class="w-full text-sm text-left text-gray-700">
-                        <tbody>
-                            <!-- Positions -->
-                            <#list positions as position>
-                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-                                <td class="px-4 py-2 font-medium">${position.name}</td>
-                                <td class="px-4 py-2 text-center">
-                                  <!-- Edit Action -->
-                                  <a href="${springMacroRequestContext.contextPath}/positions/edit/${position.id}"
-                                    class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
-                                    title="Изменить"><svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                                     </svg></a>
-                                  <!-- Delete Action -->
-                                  <a href="${springMacroRequestContext.contextPath}/positions/delete/${position.id}"
-                                    class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
-                                    title="Удалить"><svg xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" stroke="currentColor"
-                                    onclick="return confirm('Вы уверены, что хотите удалить должность ${position.name}?');">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg></a>
-                                </td>
-                            </tr>
-                            </#list>
-                        </tbody>
-                    </table>
+                <table class="w-full text-sm text-left text-gray-700">
+                    <tbody>
+                        <#list positions as position>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                            <td class="px-4 py-2 font-medium">${position.name}</td>
+                            <td class="px-4 py-2 text-center">
+                                <!-- Edit Action -->
+                                <a href="${springMacroRequestContext.contextPath}/positions/edit/${position.id}"
+                                   class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
+                                   title="Изменить">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </a>
+                                <!-- Delete Action with Confirmation -->
+                                <button type="button"
+                                        onclick="confirmDelete('${springMacroRequestContext.contextPath}/positions/delete/${position.id}')"
+                                        class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-100 transition"
+                                        title="Удалить">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        </#list>
+                    </tbody>
+                </table>
+            <#else>
+                <p class="text-center py-6 text-gray-500">Должности не найдены.</p>
             </#if>
         </main>
     </div>
-     <!-- Dialog confirm delete -->
-    <div class="mt-6" x-data="{ open: false }">
-      <!-- Button (blue), duh! -->
-      <button class="px-4 py-2 text-white bg-blue-500 select-none no-outline focus:shadow-outline" @click="open = true">Open Modal</button>
 
-      <!-- Dialog (full screen) -->
-      <div class="absolute top-0 left-0 flex items-center justify-center w-full h-full" style="background-color: rgba(0, 0, 0, 0.5);" x-show="open">
-        <!-- A basic modal dialog with title, body and one button to close -->
-        <div class="h-auto p-4 mx-2 text-left bg-white shadow-xl md:max-w-xl md:p-4 lg:p-4 md:mx-0"
-            @click.away="open = false" style="width: 30em;">
-          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-            <h3 class="text-lg font-medium leading-6 text-gray-900">Точно удалить?</h3>
-            <!--   Не удалять. Это область для пояснения
-            <div class="mt-2">
-              <p class="text-sm leading-5 text-gray-500">Точно удалить?</p>
-            </div>  -->
-          </div>
-          <!-- Кнопки диалога. Начало -->
-          <div class="mt-5 sm:mt-6">
-            <span class="flex w-full shadow-sm justify-end">
-              <button @click="open = false"
-                class="inline-flex justify-center w-full px-4 py-2 text-white bg-gray-500 hover:bg-gray-700"
-                style="width: 9em;">Отмена</button>
-              <button @click="open = false"
-                class="inline-flex justify-center w-full px-4 py-2 text-white bg-red-500 hover:bg-red-700"
-                style="margin-left: 1em;width: 9em;">Удалить</button>
-            </span>
-          </div>
-          <!-- Кнопки диалога. Конец -->
+    <!-- Confirmation Modal -->
+    <dialog id="deleteModal" style="display: none;" x-cloak>
+        <div class="modal-container">
+            <div class="modal-title">Подтверждение удаления</div>
+            <p>Вы уверены, что хотите удалить должность?</p>
+            <div class="modal-actions">
+                <button type="button" onclick="closeModal()" class="inline-flex items-center justify-center w-8 h-8 hover:bg-red-100 transition">Отмена</button>
+                <a id="confirmDeleteBtn" href="#" class="inline-flex items-center justify-center w-8 h-8 hover:bg-red-100">Удалить</a>
+            </div>
         </div>
-      </div>
-    </div>
+    </dialog>
+
+    <script>
+        function confirmDelete(url) {
+            document.getElementById('confirmDeleteBtn').href = url;
+            document.getElementById('deleteModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        // Закрыть модальное окно при клике вне его
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
 </body>
 </html>
