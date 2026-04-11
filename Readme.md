@@ -803,3 +803,7 @@ Today is a wonderful day.
 ````html
 <a type="button" th:with="url = @{<your_url>}" th:onclick="sendDelete([[${url}]])">Delete</a>
 ````
+
+### Ветки
+
+v0.0.5 - работает CRUD (особенно удаление) позиций и сотрудников.
