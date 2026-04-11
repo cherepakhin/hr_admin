@@ -38,14 +38,7 @@ public class PositionController {
 		ModelAndView mv= new ModelAndView();
 		mv.setViewName(NamesView.POSITIONS);
 		mv.addObject("positions", positions);
-		//model.addAttribute("positions", positions);
-		//model.addAttribute("v", UUID.randomUUID().toString());
-		// Вместо простого редиректа, добавляем уникальный параметр
-		// UUID.randomUUID().toString() создаст случайную строку типа "a1b2-c3d4..."
-		log.info("Redirect to view");
 		return mv;
-//		return NamesView.POSITIONS;
-		//return NamesView.POSITIONS  + "/?v==" + UUID.randomUUID().toString();
 	}
 
 	// GET /positions/new - форма создания

@@ -148,12 +148,12 @@
                 console.log('Confirm delete:' + position_id);
                 console.log('${springMacroRequestContext.contextPath}/positions/' + position_id);
                 var xhttp = new XMLHttpRequest();
-                    xhttp.open("DELETE", '${springMacroRequestContext.contextPath}/positions/delete/' + position_id, true);
-                    xhttp.onload = function () {
-                        let responseURL = '${springMacroRequestContext.contextPath}/positions/';
-                        console.log("Redirecting to:", responseURL);
-                        window.location.replace(responseURL);
-                    };
+                xhttp.open("DELETE", '${springMacroRequestContext.contextPath}/positions/delete/' + position_id, true);
+                xhttp.onload = function () {
+                   let responseURL = '${springMacroRequestContext.contextPath}/positions/';
+                   console.log("Redirecting to:", responseURL);
+                   window.location.replace(responseURL);
+                };
                 xhttp.send();
             }
 

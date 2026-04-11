@@ -779,3 +779,27 @@ Today is a wonderful day.
 </#compress>
 ````
 
+### Удаление
+
+Совет [отсюда](https://stackoverflow.com/questions/24256051/delete-or-put-methods-in-thymeleaf)
+
+````javascript
+<script th:inline="javascript">
+    function sendDelete(url) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("DELETE", url, true);
+        xhttp.onload = function () {
+            let responseURL = xhttp.responseURL;
+            console.log("Redirecting to:", responseURL);
+            window.location.replace(responseURL);
+        };
+        xhttp.send();
+    }
+</script>
+````
+
+Использование на страницах:
+
+````html
+<a type="button" th:with="url = @{<your_url>}" th:onclick="sendDelete([[${url}]])">Delete</a>
+````
