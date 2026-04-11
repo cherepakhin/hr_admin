@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class EmployeeController {
 	@Autowired
 	private PositionRepository positionRepository;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping("/")
 	public String listEmployees(Model model,
 								@RequestParam(defaultValue = "0") int page,
 								@RequestParam(defaultValue = "10") int size,
@@ -68,7 +69,7 @@ public class EmployeeController {
 		return "index";
 	}
 
-	@RequestMapping(value = "/new", method = RequestMethod.GET)
+	@GetMapping("/new")
 	public String showCreateForm(Model model) {
 		log.info("showCreateForm");
 		model.addAttribute("employee", new Employee());
@@ -77,9 +78,10 @@ public class EmployeeController {
 		return NamesView.CREATE_EMPLOYEE;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String createEmployee(@ModelAttribute Employee employee) {
-		log.info("createEmployee");
+	@PostMapping("/")
+	public String createEmployee(@ModelAttribute Employee employee,
+								 BindingResult result) {
+		log.info("createEmployee {}:", employee);
 		employeeRepository.save(employee);
 
 		log.info("post /employees/: from page={}", currentIndexPage);
@@ -87,12 +89,12 @@ public class EmployeeController {
 		return "redirect:" + currentIndexPage;
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@PostMapping("")
 	public String createEmployeeFroEmpty(@ModelAttribute Employee employee) {
 		return "redirect:" + "/employees/";
 	}
 
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	@GetMapping("/edit/{id}")
 	public String showEditForm(@PathVariable("id") Long id, Model model) {
 		log.info("showEditForm");
 		Optional<Employee> optional = employeeRepository.findById(id);
@@ -115,7 +117,7 @@ public class EmployeeController {
     //            <input name="firstName" value="${employee.firstName}" /> <-- field NAME link to  = "firstName" (employee.firstName)
     //        </div>
 
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	@PostMapping("/update/{id}")
 	public String updateEmployee(@PathVariable("id") Long id,
 								 @ModelAttribute Employee employee,
 								 Model model) {
@@ -133,7 +135,7 @@ public class EmployeeController {
 		return "redirect:" + currentIndexPage;
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@GetMapping("/delete/{id}")
 	public String deleteEmployee(@PathVariable("id") Long id) throws Exception {
 		if(id == null) {
 			throw new Exception("id is null for /delete/{id}");
@@ -182,7 +184,7 @@ public class EmployeeController {
 	}
 
 	// Отображение формы фильтра
-	@RequestMapping(value = "/filter", method = RequestMethod.GET)
+	@GetMapping("/filter")
 	public String showFilterPage(Model model) {
 		log.info("showFilterPage");
 		model.addAttribute("positions", positionRepository.findAll() );
@@ -190,7 +192,7 @@ public class EmployeeController {
 	}
 
 	// Показать всех сотрудников с фильтрацией
-	@RequestMapping(value = "/show_employees", method = RequestMethod.GET)
+	@GetMapping("/show_employees")
 	public String showAllEmployees(
 			Model model,
 			@RequestParam(defaultValue = "0") int page,

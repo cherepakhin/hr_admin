@@ -27,7 +27,7 @@
 
         <div class="w-full mx-0 bg-white shadow-xl border border-gray-100 all-employees">
             <div class="p-6 overflow-x-auto">
-                <form action="${springMacroRequestContext.contextPath}/employees" method="post" class="p-0 bg-white rounded-lg space-y-4">
+                <form action="${springMacroRequestContext.contextPath}/employees/" method="post" class="p-0 bg-white rounded-lg space-y-4">
                     <!-- First Name -->
                     <div>
                         <label class="block text-base font-medium text-gray-700 mb-1">Имя</label>
@@ -76,8 +76,7 @@
 
                     <!-- Submit -->
                     <div class="flex gap-3 pt-2 justify-end">
-                        <button
-                            type="submit"
+                        <button type="submit"
                             class="bg-sky-900 w-36 py-3 px-4 font-medium text-white hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">
                             Сохранить
                         </button>
