@@ -31,16 +31,16 @@
             </div>
             <!-- Position -->
             <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Должность</label>
-            <select
-                name="position.id"
-                class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500" required>
-                <#list positions as position>
-                    <option value="${position.id}" <#if position.id == employee.position.id>selected="selected"</#if>>
-                      ${position.name}
-                    </option>
-                </#list>
-            </select>
+                <label class="block text-sm font-medium text-gray-700">Должность</label>
+                <select
+                    name="position.id"
+                    class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500" required>
+                    <#list positions as position>
+                        <option value="${position.id}" <#if position.id == employee.position.id>selected="selected"</#if>>
+                          ${position.name}
+                        </option>
+                    </#list>
+                </select>
             </div>
             <div class="flex gap-3 pt-2">
                 <button type="submit" class="btn-dark-blue w-full py-3 px-4 font-medium  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Обновить</button>
