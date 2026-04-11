@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
@@ -135,19 +136,26 @@ public class EmployeeController {
 		return "redirect:" + currentIndexPage;
 	}
 
-	@GetMapping("/delete/{id}")
-	public String deleteEmployee(@PathVariable("id") Long id) throws Exception {
-		if(id == null) {
-			throw new Exception("id is null for /delete/{id}");
-		}
+	@DeleteMapping("/delete/{id}")
+	public ModelAndView deletePosition(@PathVariable Long id, Model model) {
+		// TODO: проверка на существование
+		// if(id == null) {
+		//	throw new Exception("id is null for /delete/{id}");
+		// }
 		log.info("deleteEmployee");
 		employeeRepository.deleteById(id);
 		log.info("/employees/delete/{}", id);
 		log.info("currentIndexPage: {}", currentIndexPage);
 		if(currentIndexPage.contains("/show_employees")) {
-			return "redirect:/employees/show_employees";
+			ModelAndView mv = new ModelAndView(NamesView.SHOW_EMPLOYEES);
+			mv.clear();
+			mv.setViewName("redirect:/" + NamesView.SHOW_EMPLOYEES + "/");
+			return mv;
 		} else {
-			return "redirect:/employees/";
+			ModelAndView mv = new ModelAndView(NamesView.SHOW_EMPLOYEES);
+			mv.clear();
+			mv.setViewName("redirect:/" + NamesView.INDEX + "/");
+			return mv;
 		}
 	}
 
