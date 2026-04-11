@@ -141,11 +141,22 @@
                         <div class="flex justify-end gap-2">
                             <a href="${springMacroRequestContext.contextPath}/employees/edit/${employee.id}"
                                class="text-sky-900 hover:text-sky-700 font-medium text-sm transition flex items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                                Изменить
+                               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                               </svg>
+                               Изменить
                             </a>
+                            <!-- Delete Employee with Confirmation -->
+                            <button type="button"
+                                onclick="confirmDelete(${employee.id})"
+                                title="Удалить"
+                                class="text-sky-900 hover:text-sky-700 hover:bg-red-100 font-medium text-sm transition flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                               Удалить
+                            </button>
+<!--
                             <a href="${springMacroRequestContext.contextPath}/employees/delete/${employee.id}"
                                onclick="return confirm('Вы уверены, что хотите удалить ${employee.firstName}?');"
                                class="text-sky-900 hover:text-sky-700 font-medium text-sm transition flex items-center gap-1">
@@ -154,6 +165,7 @@
                                 </svg>
                                 Удалить
                             </a>
+-->
                         </div>
                     </div>
                     </#list>
@@ -238,5 +250,19 @@
             </#if>
         </main>
     </div>
+    <script th:inline="javascript">
+            function confirmDelete(id) {
+                console.log('Confirm delete:' + id);
+                console.log('${springMacroRequestContext.contextPath}/employees/' + id);
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("DELETE", '${springMacroRequestContext.contextPath}/employees/delete/' + id, true);
+                xhttp.onload = function () {
+                   let responseURL = '${springMacroRequestContext.contextPath}/employees/';
+                   console.log("Redirecting to:", responseURL);
+                   window.location.replace(responseURL);
+                };
+                xhttp.send();
+            }
+        </script>
 </body>
 </html>
