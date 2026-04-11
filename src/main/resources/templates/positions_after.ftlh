@@ -113,7 +113,7 @@
                 <table class="w-full text-sm text-left text-gray-700">
                     <tbody>
                         <#list positions as position>
-                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                        <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
                             <td class="px-4 py-2 font-medium">${position.name}</td>
                             <td class="px-4 py-2 text-center">
                                 <!-- Edit Action -->
@@ -126,7 +126,7 @@
                                 </a>
                                 <!-- Delete Action with Confirmation -->
                                 <button type="button"
-                                        onclick="confirmDelete('${springMacroRequestContext.contextPath}/positions/delete/${position.id}')"
+                                        onclick="confirmDelete(${position.id})"
                                         class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-100 transition"
                                         title="Удалить">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -143,36 +143,32 @@
             </#if>
         </main>
     </div>
-
-    <!-- Confirmation Modal -->
-    <dialog id="deleteModal" style="display: none;" x-cloak>
-        <div class="modal-container">
-            <div class="modal-title">Подтверждение удаления</div>
-            <p>Вы уверены, что хотите удалить должность?</p>
-            <div class="modal-actions">
-                <button type="button" onclick="closeModal()" class="inline-flex items-center justify-center w-8 h-8 hover:bg-red-100 transition">Отмена</button>
-                <a id="confirmDeleteBtn" href="#" class="inline-flex items-center justify-center w-8 h-8 hover:bg-red-100">Удалить</a>
-            </div>
-        </div>
-    </dialog>
-
     <script>
-        function confirmDelete(url) {
-            document.getElementById('confirmDeleteBtn').href = url;
-            document.getElementById('deleteModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('deleteModal').style.display = 'none';
-        }
-
-        // Закрыть модальное окно при клике вне его
-        window.onclick = function(event) {
-            const modal = document.getElementById('deleteModal');
-            if (event.target === modal) {
-                closeModal();
+            function confirmDelete(position_id) {
+                console.log('Confirm delete:' + position_id);
+                fetch('${springMacroRequestContext.contextPath}/positions/delete/' + position_id, {
+                  method: 'GET',
+                })
+                .then(data => {
+                    console.log('Удаление успешно:', data);
+                    fetch('${springMacroRequestContext.contextPath}/positions/', {
+                                      method: 'GET',
+                                    });
+                })
+                .catch(error => console.error('Ошибка:', error));
             }
-        }
-    </script>
+
+            function closeModal() {
+                console.log('closeModal');
+            }
+
+            // Закрыть модальное окно при клике вне его
+            window.onclick = function(event) {
+                const modal = document.getElementById('deleteModal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            }
+        </script>
 </body>
 </html>

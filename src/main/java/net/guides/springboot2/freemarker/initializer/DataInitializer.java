@@ -41,7 +41,7 @@ public class DataInitializer implements CommandLineRunner {
 			log.info("Saved accounter: {}", accounter );
 			worker = this.positionRepository.save(new Position(3L, "Рабочий"));
 			log.info("Saved worker: {}", worker );
-			forTest = this.positionRepository.save(new Position(3L, "Для тестов"));
+			forTest = this.positionRepository.save(new Position(4L, "Для тестов"));
 			log.info("Saved forTest: {}", forTest );
 		}
 

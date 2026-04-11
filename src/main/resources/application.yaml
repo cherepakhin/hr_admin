@@ -6,11 +6,9 @@ server:
 spring:
   freemarker:
     template-loader-path: classpath:/templates
-    suffix: .ftl
-    cache: false
-    enabled: true
     content-type: text/html
     charset: UTF-8
+    cache: false
   datasource:
     url: jdbc:h2:mem:employees_db
     driver-class-name: org.h2.Driver
