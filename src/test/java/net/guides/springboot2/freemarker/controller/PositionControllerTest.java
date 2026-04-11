@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -55,12 +56,15 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldCreatePositionAndRedirect() throws Exception {
-		mockMvc.perform(post("/positions")
-						.param("name", "Manager"))
+		String NAME_POSITION="Manager";
+		when(positionRepository.existsByName(NAME_POSITION)).thenReturn(Boolean.FALSE);
+
+		mockMvc.perform(post("/positions/")
+						.param("name", NAME_POSITION))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/positions/"));
 
-		verify(positionRepository).save(argThat(p -> "Manager".equals(p.getName())));
+		verify(positionRepository).save(argThat(p -> NAME_POSITION.equals(p.getName())));
 	}
 
 	@Test
