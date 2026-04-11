@@ -133,7 +133,10 @@
                                 ${employee.firstName[0]}
                             </div>
                             <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-800">${employee.firstName} ${employee.lastName}</h3>
+                                <h3 class="text-lg font-semibold text-gray-800 hover:bg-gray-100 employees-list-item-padding">
+                                    <a href="${springMacroRequestContext.contextPath}/employees/edit/${employee.id}">
+                                    ${employee.firstName} ${employee.lastName}</a>
+                                </h3>
                                 <p class="text-sm text-gray-500">${employee.position.name}</p>
                                 <p class="text-sm text-gray-500">${employee.email}</p>
                             </div>

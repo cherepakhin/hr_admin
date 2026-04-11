@@ -82,3 +82,11 @@ body {
     padding-left: 1em;
     padding-right: 1em;
 }
+
+.employees-list-item-padding {
+    padding-top: 0.1em;
+    padding-right: 0.1em;
+    padding-bottom: 0.1em;
+    border-left-width: 0.1em;
+    padding-left: unset;
+}
