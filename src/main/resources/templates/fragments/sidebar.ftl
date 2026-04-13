@@ -1,7 +1,7 @@
 <!-- Sidebar fragment -->
 <div id="sidebar" class="bg-white shadow-lg flex flex-col border-r border-gray-100 transition-all duration-300 overflow-hidden relative"
      x-data="sidebar()"
-     :class="{ 'w-64': open, 'w-20': !open }">
+     :class="{ 'w-64': open, 'w-16': !open }">
 
     <!-- Logo -->
     <div class="px-4 py-4 text-center border-b border-gray-100 flex items-center justify-center logo-padding">
@@ -70,14 +70,14 @@
         </a>
 
         <!-- Collapse Sidebar Button -->
-        <button type="button"
+        <a type="button"
            @click="toggle()"
            class="flex items-center px-3 py-3 text-gray-700 font-medium transition rounded-none hover:bg-gray-200 hover:text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 6H3m18 0l-4 4m4-4l-4-4M3 18h18M3 18l4 4m-4-4l4-4"/>
             </svg>
-            <span x-show="open" class="ml-3 whitespace-nowrap">Скрыть панельBtn</span>
-        </button>
+            <span x-show="open" class="ml-3 whitespace-nowrap">Скрыть панель</span>
+        </a>
     </nav>
 </div>
 
