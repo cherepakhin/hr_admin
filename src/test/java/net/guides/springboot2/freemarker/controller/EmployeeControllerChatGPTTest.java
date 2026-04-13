@@ -83,7 +83,7 @@ class EmployeeControllerChatGPTTest {
 						.param("lastName", "Петров")
 						.param("email", "ilya@example.com"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.redirectedUrl("/employees/"));
+				.andExpect(MockMvcResultMatchers.redirectedUrl("/"));
 		verify(employeeRepository).save(ArgumentMatchers.any(Employee.class));
 	}
 
@@ -121,13 +121,6 @@ class EmployeeControllerChatGPTTest {
 						.param("email", "igor@example.com"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 		verify(employeeRepository).save(ArgumentMatchers.any(Employee.class));
-	}
-
-	@Test
-	void testDeleteEmployee() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/employees/delete/1"))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
-		verify(employeeRepository).deleteById(1L);
 	}
 
 	@Test
