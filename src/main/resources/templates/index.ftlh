@@ -81,8 +81,10 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">
+    <!--Index page -->
     <!-- Include Sidebar Fragment -->
     <#include "fragments/sidebar.ftl">
+    <!-- End Include Sidebar Fragment -->
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">

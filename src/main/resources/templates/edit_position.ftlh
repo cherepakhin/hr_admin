@@ -9,8 +9,11 @@
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 min-h-screen flex">
+    <!-- Edit position page -->
+
     <!-- Sidebar -->
     <#include "fragments/sidebar.ftl">
+    <!-- End Include Sidebar Fragment -->
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden p-6">

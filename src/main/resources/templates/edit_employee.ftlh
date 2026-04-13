@@ -10,6 +10,9 @@
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Edit employee page -->
+
     <div class="w-full max-w-lg bg-white shadow-xl border border-gray-100">
         <div class="bg-sky-900 px-6 py-8 text-white text-center">
             <h2 class="text-2xl font-semibold">Редактировать сотрудника</h2>

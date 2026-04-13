@@ -19,8 +19,10 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">
+    <!-- Show employees page -->
     <!-- Include Sidebar Fragment -->
     <#include "fragments/sidebar.ftl">
+    <!-- End Include Sidebar Fragment -->
 
     <!-- Main Content -->
     <div class="flex flex-1 flex-col overflow-hidden">
