@@ -17,8 +17,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PositionController.class)
@@ -37,7 +36,7 @@ public class PositionControllerTest {
 		given(positionRepository.findAll()).willReturn(Collections.singletonList(dev));
 
 		// When & Then
-		mockMvc.perform(get("/positions"))
+		mockMvc.perform(get("/positions/"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("positions"))
 				.andExpect(model().attributeExists("positions"))
@@ -73,7 +72,7 @@ public class PositionControllerTest {
 		given(positionRepository.existsByName("Developer")).willReturn(true);
 
 		// When & Then
-		mockMvc.perform(post("/positions")
+		mockMvc.perform(post("/positions/")
 						.param("name", "Developer"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("create_position"))
@@ -147,8 +146,7 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldDeletePositionAndRedirect() throws Exception {
-		// When & Then
-		mockMvc.perform(get("/positions/delete/1"))
+		mockMvc.perform(delete("/positions/delete/1"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/positions/"));
 
