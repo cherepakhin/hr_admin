@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
+//TODO: добавить валидацию
+// Методы могут отдавать, либо ModelAndView, либо просто строку
 @Controller
 @RequestMapping(value = "/employees")
 public class EmployeeController {

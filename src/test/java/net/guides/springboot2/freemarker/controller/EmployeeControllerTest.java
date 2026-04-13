@@ -158,7 +158,6 @@ public class EmployeeControllerTest {
 
     @Test
     public void shouldDeleteEmployeeAndRedirect() throws Exception {
-		// Given
 		Position position = new Position(1L, "Developer");
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
 		employee.setId(1L);
@@ -168,11 +167,10 @@ public class EmployeeControllerTest {
 		Page page = new PageImpl(List.of(employee));
 		given(employeeRepository.findAll(any(Pageable.class))).willReturn(page);
 
-		mockMvc.perform(get("/employees/")); // set previous page (return page)
-
-        mockMvc.perform(get("/employees/delete/1"))
+		mockMvc.perform((get("/employees/"))); // set current page for return
+        mockMvc.perform(delete("/employees/delete/1"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/employees/"));
+                .andExpect(redirectedUrl("/index/"));
 
         verify(employeeRepository).deleteById(1L);
     }
