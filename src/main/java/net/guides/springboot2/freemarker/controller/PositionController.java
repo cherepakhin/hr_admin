@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.UUID;
 
+//TODO: добавить валидацию
 @Controller
 @RequestMapping("/positions")
 public class PositionController {
@@ -96,6 +97,7 @@ public class PositionController {
 		ModelAndView mv = new ModelAndView(NamesView.POSITIONS);
 		mv.clear();
 
+		// TODO: Проверить на сужествование
 		// TODO: Проверить, используется ли позиция где-то ещё (например, у сотрудников)
 
 		positionRepository.deleteById(id);
