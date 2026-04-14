@@ -46,6 +46,8 @@ URL для разработки [http://127.0.0.1:8088/hr_admin/employees/](http
 
 ![doc/edit_position.png](doc/edit_position.png)
 
+Экраны с мобильного телефона: [doc/mobile_screens/](doc/mobile_screens/)
+
 ### Создание maven wrapper
 
 ````shell
