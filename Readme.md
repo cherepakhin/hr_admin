@@ -828,12 +828,12 @@ v0.0.5 - работает CRUD (особенно удаление) позици�
 
 ![doc/pagespeed/pagespeed_speed_result.png](doc/pagespeed/pagespeed_speed_result.png)
 
-![doc/pagespeed/pagespeed1.png](doc/pagespeed/pagespeed1.png)
+![doc/pagespeed/pagespeed_speed1.png](doc/pagespeed/pagespeed_1.png)
 
-![doc/pagespeed/pagespeed2.png](doc/pagespeed/pagespeed2.png)
+![doc/pagespeed/pagespeed_2.png](doc/pagespeed/pagespeed_2.png)
 
-![doc/pagespeed/pagespeed3.png](doc/pagespeed/pagespeed3.png)
+![doc/pagespeed/pagespeed_3.png](doc/pagespeed/pagespeed_3.png)
 
-![doc/pagespeed/pagespeed4.png](doc/pagespeed/pagespeed4.png)
+![doc/pagespeed/pagespeed_4.png](doc/pagespeed/pagespeed_4.png)
 
-![doc/pagespeed/pagespeed5.png](doc/pagespeed/pagespeed5.png)
+![doc/pagespeed/pagespeed_5.png](doc/pagespeed/pagespeed_5.png)
