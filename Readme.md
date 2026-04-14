@@ -821,7 +821,9 @@ v0.0.5 - работает CRUD (особенно удаление) позици�
 - [https://screenshot.guru/](https://screenshot.guru/)
 - [https://iotools.cloud/tool/website-screenshot/](https://iotools.cloud/tool/website-screenshot/)
 
-Инструмент тестирования скорости загрузки и __качества__ html разметки [https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&form_factor=desktop](https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&form_factor=desktop)
+### PageSpeedInsights
+
+__PageSpeedInsights__ - Инструмент тестирования скорости загрузки и __качества__ html разметки [https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&form_factor=desktop](https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&form_factor=desktop)
 Некоторые результаты работы PageSpeedInsights:
 
 ![doc/pagespeed/pagespeed_common.png](doc/pagespeed/pagespeed_common.png)
