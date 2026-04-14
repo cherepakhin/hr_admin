@@ -8,6 +8,9 @@
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Alpine.js for interactivity -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -85,6 +88,7 @@
             @apply px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition;
         }
     </style>
+    <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">

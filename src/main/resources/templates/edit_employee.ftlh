@@ -34,8 +34,9 @@
             </div>
             <!-- Position -->
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Должность</label>
+                <label class="block text-sm font-medium text-gray-700" for="position_select">Должность</label>
                 <select
+                    id = "position_select"
                     name="position.id"
                     class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500" required>
                     <#list positions as position>

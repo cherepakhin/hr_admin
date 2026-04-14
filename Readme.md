@@ -20,7 +20,7 @@ URL для разработки [http://127.0.0.1:8088/hr_admin/employees/](http
 
 Основной экран в виде карточек:
 
-![doc/main_screen.png](doc/main_screen.png)
+![doc/hr_admin.png](doc/hr_admin.png)
 
 Список сотрудников в виде таблицы с сортировкой и СВЕРНУТОЙ панелью:
 
@@ -809,3 +809,31 @@ Today is a wonderful day.
 ### Ветки
 
 v0.0.5 - работает CRUD (особенно удаление) позиций и сотрудников.
+
+### Разное
+
+Нормально работает tools из браузера
+
+Просмотреть скриншоты сайта:
+- [https://convertico.com/website-screenshot/](https://convertico.com/website-screenshot/)
+- для проверки ДОСТУПНОСТИ из web [https://convertico.com/website-screenshot/](https://convertico.com/website-screenshot/)
+- [https://anytools.pro/ru/img/screenshot](https://anytools.pro/ru/img/screenshot)
+- [https://screenshot.guru/](https://screenshot.guru/)
+- [https://iotools.cloud/tool/website-screenshot/](https://iotools.cloud/tool/website-screenshot/)
+
+Инструмент тестирования скорости загрузки и __качества__ html разметки [https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&form_factor=desktop](https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&form_factor=desktop)
+Некоторые результаты работы PageSpeedInsights:
+
+![doc/pagespeed/pagespeed_common.png](doc/pagespeed/pagespeed_common.png)
+
+![doc/pagespeed/pagespeed_speed_result.png](doc/pagespeed/pagespeed_speed_result.png)
+
+![doc/pagespeed/pagespeed1.png](doc/pagespeed/pagespeed1.png)
+
+![doc/pagespeed/pagespeed2.png](doc/pagespeed/pagespeed2.png)
+
+![doc/pagespeed/pagespeed3.png](doc/pagespeed/pagespeed3.png)
+
+![doc/pagespeed/pagespeed4.png](doc/pagespeed/pagespeed4.png)
+
+![doc/pagespeed/pagespeed5.png](doc/pagespeed/pagespeed5.png)
