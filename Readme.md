@@ -839,3 +839,5 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
 ![doc/pagespeed/pagespeed_4.png](doc/pagespeed/pagespeed_4.png)
 
 ![doc/pagespeed/pagespeed_5.png](doc/pagespeed/pagespeed_5.png)
+
+Просмотр commits  на github [https://github.com/cherepakhin/hr_admin/commits/v0.0.5](https://github.com/cherepakhin/hr_admin/commits/v0.0.5)
