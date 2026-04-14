@@ -1,0 +1,129 @@
+@startuml
+' Настройка формата A4 (ориентация: портретная)
+skinparam pageWidth 210
+skinparam pageHeight 297
+skinparam defaultTextAlignment center
+skinparam wrapWidth 250
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+' Стиль оформления
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam backgroundColor #FFFFFF
+skinparam sequenceMessageAlign center
+
+title **HR Admin System**\nУправление сотрудниками и должностями\n\n
+
+note "Диаграмма отображает архитектуру Spring Boot приложения\nс использованием FreeMarker, JPA и PlantUML-документацией" as title_note
+
+package "HR Admin System" {
+    [EmployeeController] as employee_controller
+    [EmployeeRepository] as employee_repository
+    [PositionRepository] as position_repository
+    [Employee] as employee_model
+    [Position] as position_model
+    [NamesView] as constants
+    [Fields] as fields_constants
+    [Direction] as direction_constants
+}
+
+' --- Controller Dependencies ---
+employee_controller .> employee_repository : uses
+employee_controller .> position_repository : uses
+employee_controller .> employee_model : creates/updates
+employee_controller .> position_model : reads
+employee_controller .> constants : references
+employee_controller .> fields_constants : uses
+employee_controller .> direction_constants : uses
+
+' --- Repository Dependencies ---
+employee_repository .> employee_model : manages
+position_repository .> position_model : manages
+
+' --- HTTP Endpoints (as use cases) ---
+package "HTTP Endpoints" {
+    usecase "/employees/" as list_employees
+    usecase "/employees/new" as show_create_form
+    usecase "POST /employees/" as create_employee
+    usecase "/employees/edit/{id}" as show_edit_form
+    usecase "POST /employees/update/{id}" as update_employee
+    usecase "GET /employees/delete/{id}" as delete_employee
+    usecase "/employees/filter" as show_filter
+    usecase "/employees/show_employees" as show_all_filtered
+}
+
+employee_controller --> list_employees
+employee_controller --> show_create_form
+employee_controller --> create_employee
+employee_controller --> show_edit_form
+employee_controller --> update_employee
+employee_controller --> delete_employee
+employee_controller --> show_filter
+employee_controller --> show_all_filtered
+
+' --- Styling ---
+note right of employee_controller
+    Управляет операциями с сотрудниками:
+    - Отображение списка
+    - Создание, редактирование, удаление
+    - Фильтрация, пагинация, сортировка
+    Использует FreeMarker для представления.
+end note
+
+note right of employee_repository
+    Spring Data JPA репозиторий
+    для сущности Employee
+    Автоматически предоставляет CRUD
+end note
+
+note right of position_repository
+    Spring Data JPA репозиторий
+    для сущности Position
+    Используется для выпадающего списка
+end note
+
+note left of employee_model
+    Сущность сотрудника:
+    * id: Long
+    * firstName: String
+    * lastName: String
+    * email: String
+    * position: Position
+end note
+
+note left of position_model
+    Сущность должности:
+    * id: Long
+    * name: String
+end note
+
+note bottom of constants
+    <<Класс с константами>>\n
+    Хранит имена представлений:\n
+    • EMPLOYEES\n
+    • CREATE_EMPLOYEE\n
+    • EDIT_EMPLOYEE
+end note
+
+' === Легенда внизу страницы ===
+legend right
+  <b>PlantUML Диаграмма</b>\n
+  Дата: %date("yyyy-MM-dd")%\n
+  Масштаб: 100%\n
+  Формат: A4 (210×297 мм)\n
+  \n
+  Цвета:\n
+  <color:#3366CC>|■|</color> Контроллеры\n
+  <color:#FF9900>|■|</color> Репозитории\n
+  <color:#66CC00>|■|</color> Модели\n
+  <color:#999999>|■|</color> Константы\n
+  <color:#000000>|■|</color> HTTP-маршруты
+end legend
+
+' === Нижний колонтитул ===
+footer
+  HR Admin System — Documentation\n© 2025 Все права защищены
+end footer
+
+@enduml
