@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>Редактировать должность</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<script src="https://cdn.tailwindcss.com"></script>-->
+    <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <style> body { font-family: 'Inter', sans-serif; } </style>
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
