@@ -42,7 +42,7 @@ URL для разработки [http://127.0.0.1:8088/hr_admin/employees/](http
 
 ![doc/positions.png](doc/positions.png)
 
-Редактирование должности:
+Редатирование должности:
 
 ![doc/edit_position.png](doc/edit_position.png)
 
