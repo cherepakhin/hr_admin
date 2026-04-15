@@ -50,7 +50,7 @@ public class PositionRepositoryDataJpaTest {
 		Position position = new Position();
 		Long nextId = positionRepository.getNextId();
 		if (nextId == null) {
-			nextId = 1l;
+			nextId = 1L;
 		}
 		position.setId(nextId);
 		position.setName("Developer");
@@ -70,7 +70,7 @@ public class PositionRepositoryDataJpaTest {
 		Position position = new Position();
 		Long nextId = positionRepository.getNextId();
 		if (nextId == null) {
-			nextId = 1l;
+			nextId = 1L;
 		}
 		position.setId(nextId);
 		position.setName("Manager");
@@ -90,7 +90,7 @@ public class PositionRepositoryDataJpaTest {
 		position.setName("HR");
 		Long nextId = positionRepository.getNextId();
 		if (nextId == null) {
-			nextId = 1l;
+			nextId = 1L;
 		}
 		position.setId(nextId);
 		positionRepository.save(position);
@@ -103,11 +103,9 @@ public class PositionRepositoryDataJpaTest {
 	}
 
 	@Test
-	public void shouldReturnFalseForNullName() {
-		// When
+	public void existsByNameForNullName() {
 		boolean exists = positionRepository.existsByName(null);
 
-		// Then
 		assertThat(exists).isFalse();
 	}
 
@@ -117,7 +115,7 @@ public class PositionRepositoryDataJpaTest {
 		Position pos1 = new Position();
 		Long nextId = positionRepository.getNextId();
 		if (nextId == null) {
-			nextId = 1l;
+			nextId = 1L;
 		}
 		pos1.setId(nextId);
 		pos1.setName("Tester");
@@ -140,7 +138,7 @@ public class PositionRepositoryDataJpaTest {
 		// Given
 		Long nextId = positionRepository.getNextId();
 		if (nextId == null) {
-			nextId = 1l;
+			nextId = 1L;
 		}
 		Position pos = new Position();
 		pos.setId(nextId);
@@ -160,7 +158,7 @@ public class PositionRepositoryDataJpaTest {
 		Position pos = new Position();
 		Long nextId = positionRepository.getNextId();
 		if (nextId == null) {
-			nextId = 1l;
+			nextId = 1L;
 		}
 		pos.setId(nextId);
 		pos.setName("Architect");
