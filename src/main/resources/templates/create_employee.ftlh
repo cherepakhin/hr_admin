@@ -34,8 +34,9 @@
                 <form action="${springMacroRequestContext.contextPath}/employees/" method="post" class="p-0 bg-white rounded-lg space-y-4">
                     <!-- First Name -->
                     <div>
-                        <label class="block text-base font-medium text-gray-700 mb-1">Имя</label>
+                        <label for="firstName">Имя</label>
                         <input
+                            id="firstName"
                             name="firstName"
                             class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                             required
@@ -45,8 +46,9 @@
 
                     <!-- Last Name -->
                     <div>
-                        <label class="block text-base font-medium text-gray-700 mb-1">Фамилия</label>
+                        <label for="lastName">Фамилия</label>
                         <input
+                            id="lastName"
                             name="lastName"
                             class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                             required
@@ -55,8 +57,9 @@
 
                     <!-- Email -->
                     <div>
-                        <label class="block text-base font-medium text-gray-700 mb-1">Email</label>
+                        <label for="email">Email</label>
                         <input
+                            id="email"
                             name="email"
                             type="email"
                             class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
@@ -66,8 +69,9 @@
 
                     <!-- Position -->
                     <div>
-                        <label class="block text-base font-medium text-gray-700 mb-1">Должность</label>
+                        <label for="position_id">Должность</label>
                         <select
+                            id="position_id"
                             name="position.id"
                             class="border border-gray-300 shadow-sm py-2 px-3 focus:ring-2 focus:ring-sky-500 focus:outline-none combo-btn"
                             style="width: 12em; padding-left: 1em; padding-right: 1em;"
