@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,6 +18,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 /*
 С DataJpaTest программа будет загружена полностью
  */
+/*
+DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD
+При таком режиме контекст приложения помечается как грязный после выполнения каждого
+тестового метода в классе. Это означает, что после каждого тестового метода контекст
+будет удалён из кэша и закрыт, а для последующих тестов с той же конфигурацией будет
+создан новый контекст.
+ */
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class EmployeeRepositoryDataJpaTest {
 
 	@Autowired
@@ -126,4 +136,65 @@ public class EmployeeRepositoryDataJpaTest {
 		assertThat(updatedEmployee.getFirstName()).isEqualTo("New FirstName");
 		assertThat(updatedEmployee.getEmail()).isEqualTo("new@example.com");
 	}
+
+	@Test
+	public void shouldFindAllByPositionWhenPositionExists() {
+		// Given
+		Position developer = new Position();
+		developer.setId(100l);
+		developer.setName("Developer");
+		positionRepository.save(developer);
+
+		Employee emp1 = new Employee("John", "Doe", "john@example.com", developer);
+		Employee emp2 = new Employee("Jane", "Smith", "jane@example.com", developer);
+		employeeRepository.save(emp1);
+		employeeRepository.save(emp2);
+
+		// When
+		List<Employee> result = employeeRepository.findAllByPosition(developer.getId());
+
+		// Then
+		assertThat(result).hasSize(2);
+		assertThat(result)
+				.extracting(Employee::getEmail)
+				.containsExactlyInAnyOrder("john@example.com", "jane@example.com");
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenNoEmployeesForPosition() {
+		// Given
+		Position manager = new Position();
+		manager.setId(10L);
+		manager.setName("Manager");
+		positionRepository.save(manager);
+
+		Position developer = new Position();
+		developer.setId(20L);
+		developer.setName("Developer");
+		positionRepository.save(developer);
+
+		Employee emp = new Employee("John", "Doe", "john@example.com", manager);
+		employeeRepository.save(emp);
+
+		// When
+		List<Employee> result = employeeRepository.findAllByPosition(developer.getId());
+
+		// Then
+		assertThat(result).isEmpty();
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenPositionHasNoEmployees() {
+		Position tester = new Position();
+		tester.setId(employeeRepository.getNextId());
+		tester.setName("Tester");
+		positionRepository.save(tester);
+
+		// When
+		List<Employee> result = employeeRepository.findAllByPosition(tester.getId());
+
+		// Then
+		assertThat(result).isEmpty();
+	}
+
 }
