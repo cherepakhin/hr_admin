@@ -103,9 +103,29 @@ public class PositionRepositoryDataJpaTest {
 	}
 
 	@Test
-	public void existsByNameForNullName() {
+	public void shouldReturnFalseWhenNameIsNull() {
+		// When
 		boolean exists = positionRepository.existsByName(null);
 
+		// Then
+		assertThat(exists).isFalse();
+	}
+
+	@Test
+	public void shouldReturnFalseWhenNameIsEmpty() {
+		// When
+		boolean exists = positionRepository.existsByName("");
+
+		// Then
+		assertThat(exists).isFalse();
+	}
+
+	@Test
+	public void shouldReturnFalseWhenNameIsBlank() {
+		// When
+		boolean exists = positionRepository.existsByName("   ");
+
+		// Then
 		assertThat(exists).isFalse();
 	}
 
