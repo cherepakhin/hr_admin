@@ -1,6 +1,7 @@
 package net.guides.springboot2.freemarker.controller;
 
 import net.guides.springboot2.freemarker.model.Employee;
+import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
 import org.slf4j.Logger;
@@ -16,7 +17,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //TODO: добавить валидацию
 // Методы могут отдавать, либо ModelAndView, либо просто строку
@@ -41,15 +44,15 @@ public class EmployeeController {
 								@RequestParam(defaultValue = "id") String sortField,
 								@RequestParam(defaultValue = "asc") String direction
 
-								) {
+	) {
 		log.info("listEmployees");
 
-		if(!sortField.isEmpty()) {
+		if (!sortField.isEmpty()) {
 			this.sortField = sortField;
 		} else {
 			this.sortField = Fields.ID;
 		}
-		if(!direction.isEmpty()) {
+		if (!direction.isEmpty()) {
 			this.direction = direction;
 		} else {
 			this.direction = Direction.ASC;
@@ -113,12 +116,12 @@ public class EmployeeController {
 	}
 
 	// POST from edit_employee.ftl:
-    //    <form action="/employees/update/${employee.id}" method="post">
-    //        <input type="hidden" name="id" value="${employee.id}" />
-    //        <div>
-    //            <label >Имя</label>
-    //            <input name="firstName" value="${employee.firstName}" /> <-- field NAME link to  = "firstName" (employee.firstName)
-    //        </div>
+	//    <form action="/employees/update/${employee.id}" method="post">
+	//        <input type="hidden" name="id" value="${employee.id}" />
+	//        <div>
+	//            <label >Имя</label>
+	//            <input name="firstName" value="${employee.firstName}" /> <-- field NAME link to  = "firstName" (employee.firstName)
+	//        </div>
 
 	@PostMapping("/update/{id}")
 	public String updateEmployee(@PathVariable("id") Long id,
@@ -148,7 +151,7 @@ public class EmployeeController {
 		employeeRepository.deleteById(id);
 		log.info("/employees/delete/{}", id);
 		log.info("currentIndexPage: {}", currentIndexPage);
-		if(currentIndexPage.contains("/show_employees")) {
+		if (currentIndexPage.contains("/show_employees")) {
 			ModelAndView mv = new ModelAndView(NamesView.SHOW_EMPLOYEES);
 			mv.clear();
 			mv.setViewName("redirect:/" + NamesView.SHOW_EMPLOYEES + "/");
@@ -162,13 +165,13 @@ public class EmployeeController {
 	}
 
 	private void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
-		if(!sortField.isEmpty()) {
+		if (!sortField.isEmpty()) {
 			this.sortField = sortField;
 		} else {
 			this.sortField = Fields.ID;
 		}
 
-		if(!direction.isEmpty()) {
+		if (!direction.isEmpty()) {
 			this.direction = direction;
 		} else {
 			this.direction = Direction.ASC;
@@ -197,7 +200,7 @@ public class EmployeeController {
 	@GetMapping("/filter")
 	public String showFilterPage(Model model) {
 		log.info("showFilterPage");
-		model.addAttribute("positions", positionRepository.findAll() );
+		model.addAttribute("positions", positionRepository.findAll());
 		return NamesView.FILTER_EMPLOYEE;
 	}
 
@@ -210,6 +213,7 @@ public class EmployeeController {
 			@RequestParam(required = false, defaultValue = "") String firstName,
 			@RequestParam(required = false, defaultValue = "") String lastName,
 			@RequestParam(required = false, defaultValue = "") String email,
+			@RequestParam(required = false, defaultValue = "-1") Long positionId,
 			@RequestParam(required = false, defaultValue = "") String sortField,
 			@RequestParam(required = false, defaultValue = "") String direction
 	) {
@@ -217,6 +221,7 @@ public class EmployeeController {
 		log.info("firstName: {}", firstName);
 		log.info("lastName: {}", lastName);
 		log.info("email: {}", email);
+		log.info("positionId: {}", positionId);
 		log.info("sortField: {}", sortField);
 		log.info("direction: {}", direction);
 
@@ -231,13 +236,16 @@ public class EmployeeController {
 			direction = Direction.ASC;
 			log.info("SET direction: {}", direction);
 		}
-
+		List<Long> positions = positionRepository.findAll().stream().map(Position::getId).collect(Collectors.toList());
+		if (!positionId.equals(-1L)) {
+			positions = positions.stream().filter(p -> p.equals(positionId)).toList();
+		}
 		// define sort direction by field
 		Sort sort = Sort.by(direction.equals(Direction.ASC) ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
 		log.info(pageable.toString());
 		Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(
-				firstName, lastName, email, pageable);
+				firstName, lastName, positions, email, pageable);
 
 		model.addAttribute("employees", employeePage.getContent());
 		model.addAttribute("currentPage", employeePage.getNumber());

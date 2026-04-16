@@ -16,9 +16,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -127,7 +129,7 @@ class EmployeeControllerChatGPTTest {
 	void testShowAllEmployeesWithFilters() throws Exception {
 		Employee emp = sample;
 		Page<Employee> page = new PageImpl<>(Collections.singletonList(emp), PageRequest.of(0, 10), 1);
-		given(employeeRepository.findByFiltersAndSort("Ив", "", "", PageRequest.of(0, 10, Sort.by("id"))))
+		given(employeeRepository.findByFiltersAndSort("Ив", "", List.of(), "", PageRequest.of(0, 10, Sort.by("id"))))
 				.willReturn(page);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/employees/show_employees")

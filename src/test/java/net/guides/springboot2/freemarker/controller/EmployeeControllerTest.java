@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Arrays.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -45,7 +46,7 @@ public class EmployeeControllerTest {
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "empl2@example.com", position);
 		emp2.setId(2L);
 
-		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1, emp2), PageRequest.of(0, 10), 2);
+		Page<Employee> employeePage = new PageImpl<>(asList(emp1, emp2), PageRequest.of(0, 10), 2);
 
 		given(employeeRepository.findAll(any(Pageable.class))).willReturn(employeePage);
 
@@ -67,7 +68,7 @@ public class EmployeeControllerTest {
 	}
 
     @Test
-    public void shouldShowCreateForm() throws Exception {
+    public void shouldShowCreateForm() {
         // Given
         given(positionRepository.findAll()).willReturn(Collections.singletonList(new Position(1L, "Developer")));
 
@@ -186,7 +187,7 @@ public class EmployeeControllerTest {
 
 		given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
 
-		Page page = new PageImpl(List.of(employee));
+		Page<Employee> page = new PageImpl<Employee>(List.of(employee));
 		given(employeeRepository.findAll(any(Pageable.class))).willReturn(page);
 
 		try {
@@ -208,7 +209,7 @@ public class EmployeeControllerTest {
         Page<Employee> page = new PageImpl<>(List.of(employee));
 
         given(employeeRepository.findByFiltersAndSort(
-                eq("Firstname1"), any(), any(), any(Pageable.class)))
+                eq("Firstname1"), any(), any(), any(), any(Pageable.class)))
                 .willReturn(page);
 
 		try {
@@ -233,13 +234,13 @@ public class EmployeeControllerTest {
 		emp1.setId(1L);
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "emp2@example.com", position);
 		emp2.setId(2L);
-        Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(emp1, emp2));
+        Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
 		Sort sort = Sort.by(Sort.Direction.ASC, "id");
 		Pageable pageable = PageRequest.of(0, 1, sort);
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				eq("f"), eq("l"), eq("e"), eq(pageable))).thenReturn(page);
+				eq("f"), eq("l"), any(), eq("e"), eq(pageable))).thenReturn(page);
 
         // When & Then
 		try {
@@ -283,13 +284,13 @@ public class EmployeeControllerTest {
 		emp1.setId(1L);
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "emp2@example.com", position);
 		emp2.setId(2L);
-		Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(emp1, emp2));
+		Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
 		Sort sort = Sort.by(Sort.Direction.ASC, "id");
 		Pageable pageable = PageRequest.of(0, 1, sort);
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				any(), any(), any(), eq(pageable))).thenReturn(page);
+				any(), any(), any(), any(), eq(pageable))).thenReturn(page);
 
 		// When & Then
 		// &sortField=id&direction=asc - sort params
@@ -301,7 +302,7 @@ public class EmployeeControllerTest {
 					.andExpect(model().attribute("totalElements", 2L));
 
 			verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-					eq("f"), eq("l"), eq("e"), eq(pageable));
+					eq("f"), eq("l"), any(), eq("e"), eq(pageable));
 		} catch (Exception exptn) {
 			fail(exptn.getMessage()) ;
 		}
@@ -316,13 +317,13 @@ public class EmployeeControllerTest {
 		emp1.setId(1L);
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "emp2@example.com", position);
 		emp2.setId(2L);
-		Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(emp1, emp2));
+		Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
 		Sort sort = Sort.by(Sort.Direction.ASC, "firstName");
 		Pageable pageable = PageRequest.of(0, 2, sort);
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				eq("firstName1"), eq("lastName1"), eq("email1"), eq(pageable))).thenReturn(page);
+				eq("firstName1"), eq("lastName1"), any(),  eq("email1"), eq(pageable))).thenReturn(page);
 
 		try {
 			mockMvc.perform(get("/employees/show_employees?page=0&size=2&firstName=firstName1&lastName=lastName1&email=email1&sortField=firstName&direction=asc"))
@@ -335,7 +336,7 @@ public class EmployeeControllerTest {
 		}
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq("firstName1"), eq("lastName1"), eq("email1"), any());
+				eq("firstName1"), eq("lastName1"), any(), eq("email1"), any());
 	}
 
 	@Test
@@ -345,13 +346,13 @@ public class EmployeeControllerTest {
 		emp1.setId(1L);
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "emp2@example.com", position);
 		emp2.setId(2L);
-		Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(emp1, emp2));
+		Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
 		Sort sort = Sort.by(Sort.Direction.ASC, "id");
 		Pageable pageable = PageRequest.of(0, 1, sort);
 
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				any(), any(), any(), eq(pageable))).thenReturn(page);
+				any(), any(), any(), any(), eq(pageable))).thenReturn(page);
 
 		try {
 			mockMvc.perform(get("/employees/show_employees?page=0&size=1&firstName=f&lastName=l&email=e" ))
@@ -364,7 +365,7 @@ public class EmployeeControllerTest {
 		}
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq("f"), eq("l"), eq("e"), eq(pageable)); // in pageable sort by ID
+				eq("f"), eq("l"), any(), eq("e"), eq(pageable)); // in pageable sort by ID
 	}
 
 	@Test
@@ -373,14 +374,14 @@ public class EmployeeControllerTest {
 		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position);
 		emp1.setId(1L);
 
-		List<Employee> employees = Arrays.asList(emp1);
+		List<Employee> employees = List.of(emp1);
 		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
 
 		given(employeeRepository.findByFiltersAndSort(
-				eq("John"), eq(""), eq(""), any(Pageable.class)))
+				eq("John"), eq(""), any(), eq(""), any(Pageable.class)))
 				.willReturn(employeePage);
 
-		given(positionRepository.findAll()).willReturn(Arrays.asList(position));
+		given(positionRepository.findAll()).willReturn(asList(position));
 
 		try {
 			// When & Then
@@ -410,14 +411,14 @@ public class EmployeeControllerTest {
 		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position);
 		emp1.setId(1L);
 
-		List<Employee> employees = Arrays.asList(emp1);
+		List<Employee> employees = asList(emp1);
 		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
 
 		given(employeeRepository.findByFiltersAndSort(
-				eq(""), eq(""), eq(""), any(Pageable.class)))
+				eq(""), eq(""), any(), eq(""), any(Pageable.class)))
 				.willReturn(employeePage);
 
-		given(positionRepository.findAll()).willReturn(Arrays.asList(position));
+		given(positionRepository.findAll()).willReturn(asList(position));
 
 		try {
 			// When & Then
@@ -439,14 +440,14 @@ public class EmployeeControllerTest {
 		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position);
 		emp1.setId(1L);
 
-		List<Employee> employees = Arrays.asList(emp1);
+		List<Employee> employees = asList(emp1);
 		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
 
 		given(employeeRepository.findByFiltersAndSort(
-				eq(""), eq(""), eq(""), any(Pageable.class)))
+				eq(""), eq(""), any(), eq(""), any(Pageable.class)))
 				.willReturn(employeePage);
 
-		given(positionRepository.findAll()).willReturn(Arrays.asList(position));
+		given(positionRepository.findAll()).willReturn(asList(position));
 
 		try {
 			mockMvc.perform(get("/employees/show_employees"))
@@ -462,13 +463,13 @@ public class EmployeeControllerTest {
 	@Test
 	public void shouldReturnEmptyListWhenNoMatches() {
 		// Given
-		Page<Employee> emptyPage = new PageImpl<>(Arrays.asList(), PageRequest.of(0, 10), 0);
+		Page<Employee> emptyPage = new PageImpl<>(asList(), PageRequest.of(0, 10), 0);
 
 		given(employeeRepository.findByFiltersAndSort(
-				eq("Unknown"), eq(""), eq(""), any(Pageable.class)))
+				eq("Unknown"), eq(""), any(), eq(""), any(Pageable.class)))
 				.willReturn(emptyPage);
 
-		given(positionRepository.findAll()).willReturn(Arrays.asList());
+		given(positionRepository.findAll()).willReturn(asList());
 
 		// When & Then
 		try {
@@ -491,12 +492,12 @@ public class EmployeeControllerTest {
 		emp1.setId(1L);
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "emp2@example.com", position);
 		emp2.setId(2L);
-		Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(emp1, emp2));
+		Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
 		Sort sort = Sort.by(Sort.Direction.ASC, "id");
 		Pageable pageable = PageRequest.of(0, 10, sort);
 
-		Mockito.when(this.employeeRepository.findByFiltersAndSort(eq(""),eq(""),eq(""), eq(pageable))).thenReturn(page);
+		Mockito.when(this.employeeRepository.findByFiltersAndSort(eq(""),eq(""),any(), eq(""), eq(pageable))).thenReturn(page);
 
 		try {
 		mockMvc.perform(get("/employees/show_employees" ))
@@ -509,7 +510,7 @@ public class EmployeeControllerTest {
 		}
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq(""), eq(""), eq(""), eq(pageable));
+				eq(""), eq(""), any(), eq(""), eq(pageable));
 	}
 
 	@Test
@@ -519,12 +520,12 @@ public class EmployeeControllerTest {
 		emp1.setId(1L);
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "emp2@example.com", position);
 		emp2.setId(2L);
-		Page<Employee> page = new PageImpl<>(java.util.Arrays.asList(emp1, emp2));
+		Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
 		Sort sort = Sort.by(Sort.Direction.ASC, "id");
 		Pageable pageable = PageRequest.of(0, 10, sort);
 
-		Mockito.when(this.employeeRepository.findByFiltersAndSort(eq(""),eq(""),eq(""), eq(pageable))).thenReturn(page);
+		Mockito.when(this.employeeRepository.findByFiltersAndSort(eq(""),eq(""), any(), eq(""), eq(pageable))).thenReturn(page);
 
 		try {
 		mockMvc.perform(get("/employees/show_employees" ))
@@ -537,6 +538,6 @@ public class EmployeeControllerTest {
 		}
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq(""), eq(""), eq(""), eq(pageable));
+				eq(""), eq(""), any(), eq(""), eq(pageable));
 	}
 }
