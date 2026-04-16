@@ -236,10 +236,11 @@ public class EmployeeController {
 			direction = Direction.ASC;
 			log.info("SET direction: {}", direction);
 		}
-		// В запрос включены все должности, если не задан поиск по конкретной
+		// TODO: В запрос включены все должности, если не задан поиск по конкретной, хочется динамический sql
 		// при этом sql запрос будет position_id in (все id должностей)
-		// динамический sql в планах
+		// динамический sql в планах, см. как сделать в проекте для МТС
 		List<Long> positions = positionRepository.findAll().stream().map(Position::getId).collect(Collectors.toList());
+		// если задана позиция, то в списке должностей оставить только ее
 		if (!positionId.equals(-1L)) {
 			positions = positions.stream().filter(p -> p.equals(positionId)).toList();
 		}
