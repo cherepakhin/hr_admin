@@ -183,7 +183,13 @@ public class ProductController {
 
 Размещено на [https://v.perm.ru/hr_admin/](https://v.perm.ru/hr_admin/)
 
-Работа через HTTPS сделана с помощью проксирования через apache2:
+Работа через HTTPS сделана с помощью проксирования через apache2. В приложении никаких настроек на HTTPS __нет__.
+
+В [doc/https/](doc/https/) другая (неудавшаяся) настройка на HTTPS. 
+
+Через __Apache proxy__ настройка проще. Примеры смотри в [doc/https/000-default-le-ssl.conf](doc/https/000-default-le-ssl.conf)
+
+Настройка apache2 (см. # Проксирование запросов для Spring Boot приложения hr_admin (работает по HTTP на localhost:8088)):
 
 ````text
 root@v:/etc/apache2/sites-enabled# cat 000-default-le-ssl.conf 
@@ -223,10 +229,6 @@ root@v:/etc/apache2/sites-enabled# cat 000-default-le-ssl.conf
     </VirtualHost>
 </IfModule>
 ````
-
-В приложении никаких настроек на HTTPS __нет__.
-
-В [doc/https/](doc/https/) другая (неудавшаяся) настройка на HTTPS. Через __Apache proxy__ настройка проще. 
 
 ### Разное
 
