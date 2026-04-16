@@ -66,8 +66,7 @@
                     <!-- Position Filter -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Должность</label>
-                        <select name="positionId" class="w-full border border-gray-300 shadow-sm py-2 px-3"
-                                onchange="this.form.submit()">
+                        <select name="positionId" class="w-full border border-gray-300 shadow-sm py-2 px-3">
                             <option value="">Все</option>
                             <#list positions as pos>
                                 <option value="${pos.id}">${pos.name}</option>
