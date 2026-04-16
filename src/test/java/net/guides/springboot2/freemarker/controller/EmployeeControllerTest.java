@@ -28,14 +28,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(EmployeeController.class)
 public class EmployeeControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-    @MockBean
-    private EmployeeRepository employeeRepository;
+	@MockBean
+	private EmployeeRepository employeeRepository;
 
-    @MockBean
-    private PositionRepository positionRepository;
+	@MockBean
+	private PositionRepository positionRepository;
 
 	@Test
 	public void shouldListEmployeesWithPagination() {
@@ -67,88 +67,88 @@ public class EmployeeControllerTest {
 		verify(employeeRepository, times(1)).findAll(any(Pageable.class));
 	}
 
-    @Test
-    public void shouldShowCreateForm() {
-        // Given
-        given(positionRepository.findAll()).willReturn(Collections.singletonList(new Position(1L, "Developer")));
+	@Test
+	public void shouldShowCreateForm() {
+		// Given
+		given(positionRepository.findAll()).willReturn(Collections.singletonList(new Position(1L, "Developer")));
 
-        // When & Then
+		// When & Then
 		try {
-        mockMvc.perform(get("/employees/new"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("create_employee"))
-                .andExpect(model().attributeExists("employee", "positions"));
+			mockMvc.perform(get("/employees/new"))
+					.andExpect(status().isOk())
+					.andExpect(view().name("create_employee"))
+					.andExpect(model().attributeExists("employee", "positions"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
 
 		verify(positionRepository, times(1)).findAll();
-    }
+	}
 
-    @Test
-    public void createEmployeeAndRedirect() {
-        // Given
-        Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
+	@Test
+	public void createEmployeeAndRedirect() {
+		// Given
+		Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
 
 		try {
-		mockMvc.perform(get("/show_employees")); // set previous page (return page)
-        // When & Then
-        mockMvc.perform(post("/employees/")
-                        .flashAttr("employee", employee))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/show_employees"));
+			mockMvc.perform(get("/show_employees")); // set previous page (return page)
+			// When & Then
+			mockMvc.perform(post("/employees/")
+							.flashAttr("employee", employee))
+					.andExpect(status().is3xxRedirection())
+					.andExpect(redirectedUrl("/show_employees"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
 
-        verify(employeeRepository, times(1)).save(employee);
-    }
+		verify(employeeRepository, times(1)).save(employee);
+	}
 
 	@Test
 	public void createEmployeeAndRedirectForEmptyURL() {
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
 
 		try {
-		mockMvc.perform(post("/employees")
-						.flashAttr("employee", employee))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/employees/"));
+			mockMvc.perform(post("/employees")
+							.flashAttr("employee", employee))
+					.andExpect(status().is3xxRedirection())
+					.andExpect(redirectedUrl("/employees/"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
 	}
 
-    @Test
-    public void shouldShowEditFormForExistingEmployee() {
-        // Given
-        Position position = new Position(1L, "Developer");
-        Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
-        employee.setId(1L);
+	@Test
+	public void shouldShowEditFormForExistingEmployee() {
+		// Given
+		Position position = new Position(1L, "Developer");
+		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
+		employee.setId(1L);
 
-        given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
-        given(positionRepository.findAll()).willReturn(List.of(position));
+		given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+		given(positionRepository.findAll()).willReturn(List.of(position));
 
-        // When & Then
+		// When & Then
 		try {
-        mockMvc.perform(get("/employees/edit/1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("edit_employee"))
-                .andExpect(model().attributeExists("employee", "positions"))
-                .andExpect(model().attribute("employee", employee));
+			mockMvc.perform(get("/employees/edit/1"))
+					.andExpect(status().isOk())
+					.andExpect(view().name("edit_employee"))
+					.andExpect(model().attributeExists("employee", "positions"))
+					.andExpect(model().attribute("employee", employee));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
 
 		verify(positionRepository, times(1)).findAll();
 		verify(employeeRepository, times(1)).findById(1L);
-    }
+	}
 
-    @Test
-    public void shouldReturn404WhenEditEmployeeNotFound() {
-        // Given
-        given(employeeRepository.findById(999L)).willReturn(Optional.empty());
+	@Test
+	public void shouldReturn404WhenEditEmployeeNotFound() {
+		// Given
+		given(employeeRepository.findById(999L)).willReturn(Optional.empty());
 
-        // When & Then
+		// When & Then
 		Exception excp = null;
 		try {
 			mockMvc.perform(get("/employees/edit/999"));
@@ -158,29 +158,29 @@ public class EmployeeControllerTest {
 
 		assertNotNull(excp);
 		assertEquals("Request processing failed: java.lang.IllegalArgumentException: Employee not exist with id=999", excp.getMessage());
-    }
+	}
 
-    @Test
-    public void shouldUpdateEmployeeAndRedirect() {
-        // Given
-        Employee updatedEmployee = new Employee("Firstname1", "Lastname1", "empl1@example.com", new Position(1L, "Manager"));
-        updatedEmployee.setId(1L);
+	@Test
+	public void shouldUpdateEmployeeAndRedirect() {
+		// Given
+		Employee updatedEmployee = new Employee("Firstname1", "Lastname1", "empl1@example.com", new Position(1L, "Manager"));
+		updatedEmployee.setId(1L);
 
-        // When & Then
+		// When & Then
 		try {
-        mockMvc.perform(post("/employees/update/1")
-                        .flashAttr("employee", updatedEmployee))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/employees/show_employees"));
+			mockMvc.perform(post("/employees/update/1")
+							.flashAttr("employee", updatedEmployee))
+					.andExpect(status().is3xxRedirection())
+					.andExpect(redirectedUrl("/employees/show_employees"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
 
-        verify(employeeRepository).save(updatedEmployee);
-    }
+		verify(employeeRepository).save(updatedEmployee);
+	}
 
-    @Test
-    public void shouldDeleteEmployeeAndRedirect() {
+	@Test
+	public void shouldDeleteEmployeeAndRedirect() {
 		Position position = new Position(1L, "Developer");
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
 		employee.setId(1L);
@@ -191,50 +191,50 @@ public class EmployeeControllerTest {
 		given(employeeRepository.findAll(any(Pageable.class))).willReturn(page);
 
 		try {
-		mockMvc.perform((get("/employees/"))); // set current page for return
-        mockMvc.perform(delete("/employees/delete/1"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/index/"));
+			mockMvc.perform((get("/employees/"))); // set current page for return
+			mockMvc.perform(delete("/employees/delete/1"))
+					.andExpect(status().is3xxRedirection())
+					.andExpect(redirectedUrl("/index/"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
 
-        verify(employeeRepository).deleteById(1L);
-    }
+		verify(employeeRepository).deleteById(1L);
+	}
 
-    @Test
-    public void shouldShowFilteredEmployees() {
-        // Given
-        Employee employee = new Employee(1L,"Firstname1", "Lastname1", "email1@example.com", new Position(1L, "Developer"));
-        Page<Employee> page = new PageImpl<>(List.of(employee));
+	@Test
+	public void shouldShowFilteredEmployees() {
+		// Given
+		Employee employee = new Employee(1L,"Firstname1", "Lastname1", "email1@example.com", new Position(1L, "Developer"));
+		Page<Employee> page = new PageImpl<>(List.of(employee));
 
-        given(employeeRepository.findByFiltersAndSort(
-                eq("Firstname1"), any(), any(), any(), any(Pageable.class)))
-                .willReturn(page);
+		given(employeeRepository.findByFiltersAndSort(
+				eq("Firstname1"), any(), any(), any(), any(Pageable.class)))
+				.willReturn(page);
 
 		try {
-        mockMvc.perform(get("/employees/show_employees")
-                        .param("firstName", "Firstname1")
-				)
-                .andExpect(status().isOk())
-                .andExpect(view().name("show_employees"))
-                .andExpect(model().attributeExists("employees"))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname1")));
+			mockMvc.perform(get("/employees/show_employees")
+							.param("firstName", "Firstname1")
+					)
+					.andExpect(status().isOk())
+					.andExpect(view().name("show_employees"))
+					.andExpect(model().attributeExists("employees"))
+					.andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname1")));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
-    }
+	}
 
-    @Test
-    public void shouldShowAllEmployeesWithoutFilters() {
-        // Given
+	@Test
+	public void shouldShowAllEmployeesWithoutFilters() {
+		// Given
 		Position position = new Position(1L, "Developer");
 		// Given
 		Employee emp1 = new Employee("Firstname1", "Lastname1", "emp1@example.com", position);
 		emp1.setId(1L);
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "emp2@example.com", position);
 		emp2.setId(2L);
-        Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
+		Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
 		Sort sort = Sort.by(Sort.Direction.ASC, "id");
 		Pageable pageable = PageRequest.of(0, 1, sort);
@@ -242,17 +242,17 @@ public class EmployeeControllerTest {
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
 				eq("f"), eq("l"), any(), eq("e"), eq(pageable))).thenReturn(page);
 
-        // When & Then
+		// When & Then
 		try {
-        mockMvc.perform(get("/employees/show_employees?page=0&size=1&firstName=f&lastName=l&email=e&sortField=id&direction=asc" ))
-                .andExpect(status().isOk())
-                .andExpect(view().name("show_employees"))
-                .andExpect(model().attributeExists("employees"))
-                .andExpect(model().attribute("totalElements", 2L));
+			mockMvc.perform(get("/employees/show_employees?page=0&size=1&firstName=f&lastName=l&email=e&sortField=id&direction=asc" ))
+					.andExpect(status().isOk())
+					.andExpect(view().name("show_employees"))
+					.andExpect(model().attributeExists("employees"))
+					.andExpect(model().attribute("totalElements", 2L));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
-    }
+	}
 
 	@Test
 	public void showFilterPage() {
@@ -264,10 +264,10 @@ public class EmployeeControllerTest {
 		Mockito.when(this.employeeRepository.findAll()).thenReturn(List.of(emp1, emp2));
 
 		try {
-		mockMvc.perform(get("/employees/filter" ))
-				.andExpect(status().isOk())
-				.andExpect(view().name("filter"))
-				.andExpect(model().attributeExists("positions"));
+			mockMvc.perform(get("/employees/filter" ))
+					.andExpect(status().isOk())
+					.andExpect(view().name("filter"))
+					.andExpect(model().attributeExists("positions"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
@@ -473,13 +473,13 @@ public class EmployeeControllerTest {
 
 		// When & Then
 		try {
-		mockMvc.perform(get("/employees/show_employees")
-						.param("firstName", "Unknown"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("show_employees"))
-				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("totalElements", 0L))
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Сотрудники не найдены")));
+			mockMvc.perform(get("/employees/show_employees")
+							.param("firstName", "Unknown"))
+					.andExpect(status().isOk())
+					.andExpect(view().name("show_employees"))
+					.andExpect(model().attributeExists("employees"))
+					.andExpect(model().attribute("totalElements", 0L))
+					.andExpect(content().string(org.hamcrest.Matchers.containsString("Сотрудники не найдены")));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
@@ -500,11 +500,11 @@ public class EmployeeControllerTest {
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(eq(""),eq(""),any(), eq(""), eq(pageable))).thenReturn(page);
 
 		try {
-		mockMvc.perform(get("/employees/show_employees" ))
-				.andExpect(status().isOk())
-				.andExpect(view().name("show_employees"))
-				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("totalElements", 2L));
+			mockMvc.perform(get("/employees/show_employees" ))
+					.andExpect(status().isOk())
+					.andExpect(view().name("show_employees"))
+					.andExpect(model().attributeExists("employees"))
+					.andExpect(model().attribute("totalElements", 2L));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
@@ -528,11 +528,11 @@ public class EmployeeControllerTest {
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(eq(""),eq(""), any(), eq(""), eq(pageable))).thenReturn(page);
 
 		try {
-		mockMvc.perform(get("/employees/show_employees" ))
-				.andExpect(status().isOk())
-				.andExpect(view().name("show_employees"))
-				.andExpect(model().attributeExists("employees"))
-				.andExpect(model().attribute("totalElements", 2L));
+			mockMvc.perform(get("/employees/show_employees" ))
+					.andExpect(status().isOk())
+					.andExpect(view().name("show_employees"))
+					.andExpect(model().attributeExists("employees"))
+					.andExpect(model().attribute("totalElements", 2L));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
