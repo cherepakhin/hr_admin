@@ -33,7 +33,7 @@ public class DataInitializer implements CommandLineRunner {
 		Position forTest = null;
 		if (this.positionRepository.count() == 0) {
 			log.info("Initialize positions");
-			nullPosition = this.positionRepository.save(new Position(-1L, "-"));
+			nullPosition = this.positionRepository.save(new Position(-1L, "------"));
 			log.info("Saved nullPosition: {}", nullPosition );
 			director = this.positionRepository.save(new Position(1L, "Директор"));
 			log.info("Saved director: {}", director );
