@@ -768,6 +768,10 @@ verify(this.employeeRepository, times(1)).findByFiltersAndSort(eq("firstName1"),
 - justify-center - динамическое центрирование по вертикали
 - justify-end - прижать к правому краю
 
+### Тестирование снаружи
+
+Screen shot tool URL [https://iotools.cloud/tool/website-screenshot/](https://iotools.cloud/tool/website-screenshot/)
+
 ### TODO
 
 Мелкий шрифт на пагинации на телефоне.
