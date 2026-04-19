@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <title>Создать должность</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/hr_admin/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/hr_admin/favicon.ico" type="image/x-icon">
+
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -27,7 +32,8 @@
                     <input type="text"
                            name="name"
                            required
-                           class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500">
+                           class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500"
+                    >
                     <#if error??>
                         <p class="text-red-600 text-xs mt-1">${error}</p>
                     </#if>
