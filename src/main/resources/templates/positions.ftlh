@@ -155,6 +155,15 @@
             <#else>
                 <p class="text-center py-6 text-gray-500">Должности не найдены.</p>
             </#if>
+        <div id="alertDialog" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
+                <h3 class="text-lg font-semibold mb-4">Alert</h3>
+                <p class="text-gray-700 mb-6">This is an important message for the user. Please take note of it.</p>
+                <div class="flex justify-end">
+                    <button id="closeButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Close</button>
+                </div>
+            </div>
+        </div>
         </main>
     </div>
 </body>
