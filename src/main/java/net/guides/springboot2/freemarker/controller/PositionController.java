@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,11 +53,23 @@ public class PositionController {
 	// POST /positions/ - обработка создания
 	@PostMapping("/")
 	public String createPosition(@Valid @ModelAttribute Position position,
-								 BindingResult result) {
-		if (positionRepository.existsByName(position.getName())) {
-			result.rejectValue("name", "error.position", "Должность с таким названием уже существует.");
+								 BindingResult bindingResult,  Model model) {
+		log.info("Create position: {}", position);
+		if (bindingResult.hasErrors()) {
+			log.info("Binding result: {}", bindingResult);
+			String errors = "";
+			for(ObjectError error :  bindingResult.getAllErrors()) {
+				errors += error.getDefaultMessage() +"\n";
+				log.error(error.getDefaultMessage());
+			}
+			model.addAttribute("name", position.getName());
+			model.addAttribute("error", errors);
+			return NamesView.CREATE_POSITION;
 		}
-		if (result.hasErrors()) {
+		if (positionRepository.existsByName(position.getName())) {
+			bindingResult.rejectValue("name", "error.position", "Должность с таким названием уже существует.");
+		}
+		if (bindingResult.hasErrors()) {
 			return NamesView.CREATE_POSITION;
 		}
 		position.setId(positionRepository.getNextId());
@@ -77,11 +90,22 @@ public class PositionController {
 	@PostMapping("/update/{id}")
 	public String updatePosition(@PathVariable Long id,
 								 @Valid @ModelAttribute Position position,
-								 BindingResult result) {
-		if (positionRepository.existsByNameAndIdNot(position.getName(), id)) {
-			result.rejectValue("name", "error.position", "Должность с таким названием уже существует.");
+								 BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) {
+			log.info("Binding result: {}", bindingResult);
+			String errors = "";
+			for (ObjectError error : bindingResult.getAllErrors()) {
+				errors += error.getDefaultMessage() + "\n";
+				log.error(error.getDefaultMessage());
+			}
+			model.addAttribute("name", position.getName());
+			model.addAttribute("error", errors);
 		}
-		if (result.hasErrors()) {
+
+		if (positionRepository.existsByNameAndIdNot(position.getName(), id)) {
+			bindingResult.rejectValue("name", "error.position", "Должность с таким названием уже существует.");
+		}
+		if (bindingResult.hasErrors()) {
 			position.setId(id); // Восстанавливаем id для формы
 			return NamesView.EDIT_POSITION;
 		}

@@ -1,6 +1,7 @@
 package net.guides.springboot2.freemarker.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
@@ -10,7 +11,8 @@ public class Position {
     @Id
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
+	@Size(min = 3, max = 15, message = "Имя должности должно быть от 3 to 15 символов.")
+    @Column(nullable = false, unique = true, length = 15)
     private String name;
 
     public Position() {}
