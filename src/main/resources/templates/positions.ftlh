@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Должности - HR Admin</title>
 
+    <!-- Favicon -->
+    <link rel="icon" href="/hr_admin/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/hr_admin/favicon.ico" type="image/x-icon">
+
     <!-- Tailwind CSS via CDN -->
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
@@ -128,19 +132,21 @@
                                 <a href="${springMacroRequestContext.contextPath}/positions/edit/${position.id}"
                                    class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
                                    title="Изменить">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-700" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
                                 </a>
                                 <!-- Delete Action with Confirmation -->
-                                <button type="button"
-                                        onclick="confirmDelete(${position.id})"
-                                        class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-100 transition"
-                                        title="Удалить">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                <a href="${springMacroRequestContext.contextPath}/positions/delete/${position.id}"
+                                   onclick="return confirm('Вы уверены, что хотите удалить ${position.name} ?');"
+                                   class="action-delete inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-red-100 transition text-red-600"
+                                   viewBox="0 0 24 24"
+                                   title="Удалить">
+                                    <svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                     </svg>
-                                </button>
+                                </a>
                             </td>
                         </tr>
                         </#list>
@@ -151,23 +157,5 @@
             </#if>
         </main>
     </div>
-    <script th:inline="javascript">
-            function confirmDelete(position_id) {
-                console.log('Confirm delete:' + position_id);
-                console.log('${springMacroRequestContext.contextPath}/positions/' + position_id);
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("DELETE", '${springMacroRequestContext.contextPath}/positions/delete/' + position_id, true);
-                xhttp.onload = function () {
-                   let responseURL = '${springMacroRequestContext.contextPath}/positions/';
-                   console.log("Redirecting to:", responseURL);
-                   window.location.replace(responseURL);
-                };
-                xhttp.send();
-            }
-
-            function closeModal() {
-                console.log('closeModal');
-            }
-        </script>
 </body>
 </html>
