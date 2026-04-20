@@ -95,6 +95,7 @@
         }
     </style>
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
+
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">
@@ -146,8 +147,7 @@
                                     <svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                     </svg>
-                                </a>
-                            </td>
+                                </a>                            </td>
                         </tr>
                         </#list>
                     </tbody>
@@ -155,15 +155,6 @@
             <#else>
                 <p class="text-center py-6 text-gray-500">Должности не найдены.</p>
             </#if>
-        <div id="alertDialog" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden">
-            <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
-                <h3 class="text-lg font-semibold mb-4">Alert</h3>
-                <p class="text-gray-700 mb-6">This is an important message for the user. Please take note of it.</p>
-                <div class="flex justify-end">
-                    <button id="closeButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Close</button>
-                </div>
-            </div>
-        </div>
         </main>
     </div>
 </body>

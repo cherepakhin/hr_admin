@@ -849,3 +849,20 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
 ![doc/pagespeed/pagespeed_5.png](doc/pagespeed/pagespeed_5.png)
 
 Просмотр commits  на github [https://github.com/cherepakhin/hr_admin/commits/v0.0.5](https://github.com/cherepakhin/hr_admin/commits/v0.0.5)
+
+### Диалоги
+
+Простой диалог с сообщением:
+````text
+                                <!-- Delete Action with Confirmation -->
+                                <a href="${springMacroRequestContext.contextPath}/positions/delete/${position.id}"
+                                   onclick="return confirm('Вы уверены, что хотите удалить ${position.name} ?');"
+                                   class="action-delete inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-red-100 transition text-red-600"
+                                   viewBox="0 0 24 24"
+                                   title="Удалить">
+                                    <svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                </a>
+
+````

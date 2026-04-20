@@ -115,16 +115,17 @@ public class PositionController {
 	}
 
 	// GET /positions/delete/{id} - удаление
-	@DeleteMapping("/delete/{id}")
+	@GetMapping("/delete/{id}")
 	public ModelAndView deletePosition(@PathVariable Long id, Model model) {
 		log.info("Delete position id: {}", id);
 		ModelAndView mv = new ModelAndView(NamesView.POSITIONS);
 		mv.clear();
 
-		// TODO: Проверить на сужествование
+		// TODO: Проверить на существование
 		// TODO: Проверить, используется ли позиция где-то ещё (например, у сотрудников)
 
 		positionRepository.deleteById(id);
+
 		// Вместо простого редиректа, добавляем уникальный параметр
 		// UUID.randomUUID().toString() создаст случайную строку типа "a1b2-c3d4..."
 		//String redirectUrl = "/" + NamesView.POSITIONS + "/?v==" + UUID.randomUUID().toString();
