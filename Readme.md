@@ -874,3 +874,7 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
 .btn-cancel: border-radius: 0
 .btn-delete: border-radius: 0
 ````
+
+Диалог подтверждения удаления позиции:
+
+![doc/dialog_delete_position.png](doc/dialog_delete_position.png)
