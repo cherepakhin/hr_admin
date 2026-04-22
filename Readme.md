@@ -866,3 +866,11 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
                                 </a>
 
 ````
+
+Убрать скругления углов:
+
+````text
+.modal-container: border-radius: 0
+.btn-cancel: border-radius: 0
+.btn-delete: border-radius: 0
+````
