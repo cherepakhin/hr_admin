@@ -878,3 +878,5 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
 Диалог подтверждения удаления позиции:
 
 ![doc/dialog_delete_position.png](doc/dialog_delete_position.png)
+
+[HTML код страницы с диалогом подтверждения удаления и комментариями](doc/view-source_127.0.0.1_8088_hr_admin_positions_.html)
