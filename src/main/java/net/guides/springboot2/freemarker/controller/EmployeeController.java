@@ -244,7 +244,7 @@ public class EmployeeController {
 		}
 		if (direction == null || direction.isEmpty()) {
 			direction = Direction.ASC;
-			log.info("SET direction: {}", direction);
+			log.info("SET DEFAULT direction: {}", direction);
 		}
 		// TODO: В запрос включены все должности, если не задан поиск по конкретной, хочется динамический sql
 		// при этом sql запрос будет position_id in (все id должностей)
@@ -255,8 +255,14 @@ public class EmployeeController {
 			positions = positions.stream().filter(p -> p.equals(positionId)).toList();
 		}
 		// define sort direction by field
+		log.info("sortField: {}", sortField);
+		if(sortField.equals("position")) {
+			sortField ="position.name";
+		}
+		log.info("direction: {}", direction);
 		Sort sort = Sort.by(direction.equals(Direction.ASC) ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
+		log.info("pageable:");
 		log.info(pageable.toString());
 		Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(
 				firstName, lastName, positions, email, pageable);
@@ -271,7 +277,7 @@ public class EmployeeController {
 		model.addAttribute("email", email);
 
 		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDirection", direction);
+		model.addAttribute("direction", direction);
 
 		return NamesView.SHOW_EMPLOYEES;
 	}

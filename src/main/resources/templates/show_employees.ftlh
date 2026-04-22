@@ -120,27 +120,151 @@
                         <thead class="uppercase border-t border-gray-100 bg-gray-50">
                             <!-- First Name -->
                             <th class="px-6 p-header cursor-pointer group font-medium font-black"
-                                onclick="window.location.href='?page=${currentPage}&sortField=firstName&direction=${(sortField == 'firstName' && sortDirection == 'asc')?string('desc','asc')}'">
+                                onclick="window.location.href='?page=${currentPage}&sortField=firstName&direction=${(sortField == 'firstName' && direction = 'asc')?string('desc','asc')}'">
                                 Имя
                                 <span class="text-gray-800 text-2xl">
                                         <#if sortField == "firstName">
-                                            <#if sortDirection == "asc">↓</#if>
-                                            <#if sortDirection == "desc">↑</#if>
+                                            <#if direction == "asc">↓</#if>
+                                            <#if direction == "desc">↑</#if>
                                         </#if>
                                 </span>
                             </th>
                             <!-- Last Name -->
                             <th class="px-6 p-top-header cursor-pointer group font-medium font-black"
-                                onclick="window.location.href='?page=${currentPage}&sortField=lastName&direction=${(sortField == 'lastName' && sortDirection == 'asc')?string('desc','asc')}'">Фамилия
+                                onclick="window.location.href='?page=${currentPage}&sortField=lastName&direction=${(sortField == 'lastName' && direction = 'asc')?string('desc','asc')}'">Фамилия
                                 <span class="text-gray-800 text-2xl">
                                         <#if sortField == "lastName">
-                                            <#if sortDirection == "asc">↓</#if>
-                                            <#if sortDirection == "desc">↑</#if>
+                                            <#if direction == "asc">↓</#if>
+                                            <#if direction == "desc">↑</#if>
                                         </#if>
                                 </span>
                             </th>
+                            <!-- E-mail -->
+                            <th class="px-6 p-top-header cursor-pointer group font-medium font-black"
+                                onclick="window.location.href='?page=${currentPage}&sortField=email&direction=${(sortField == 'email' && direction == 'asc')?string('desc','asc')}'">Email
+                                <span class="text-gray-800 text-2xl">
+                                  <#if sortField == "email">
+                                    <#if direction == "asc">↓</#if>
+                                    <#if direction == "desc">↑</#if>
+                                  </#if>
+                                </span>
+                            </th>
+                            <!-- Position -->
+                            <th class="px-6 p-top-header cursor-pointer group font-medium font-black"
+                                onclick="window.location.href='?page=${currentPage}&sortField=position<#if direction == 'asc'>&direction=desc<#else>&direction=asc</#if>'">Должность
+                                <span class="text-gray-800 text-2xl">
+                                   <#if sortField == "position.name">
+                                      <#if direction == "asc">↓</#if>
+                                      <#if direction == "desc">↑</#if>
+                                    </#if>
+                                </span>
+                            </th>
                         </thead>
+                        <tbody>
+                        <!-- Employee Details -->
+                        <#list employees as emp>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 font-medium">${emp.firstName}</td>
+                            <td class="px-6 py-4">${emp.lastName}</td>
+                            <td class="px-6 py-4">${emp.email}</td>
+                            <td class="px-6 py-4">${emp.position.name}</td>
+                            <td class="px-6 py-4 flex justify-center gap-4">
+                                <a href="${springMacroRequestContext.contextPath}/employees/edit/${emp.id}"
+                                   class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
+                                   title="Изменить">
+                                    <svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </a>
+
+                                <!-- Delete Action -->
+                                <a href="${springMacroRequestContext.contextPath}/employees/delete/${emp.id}"
+                                   onclick="return confirm('Вы уверены, что хотите удалить сотрудника ${emp.firstName} ${emp.lastName}?');"
+                                   class="action-delete inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-blue-100 transition"
+                                   title="Удалить">
+                                    <svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                </a>
+                                <!-- Delete Action with Custom Modal -->
+                                <button type="button"
+                                        onclick="openDeleteModal('${springMacroRequestContext.contextPath}/employees/delete/${emp.id}', '${emp.id}')"
+                                        class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-100 transition text-red-600"
+                                        title="Удалить cmodal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        </#list>
+                        </tbody>
                     </table>
+        <!-- Pagination -->
+        <div class="flex justify-between items-center mt-6">
+            <div class="text-sm text-gray-600">
+                Показано ${(currentPage * 10) + 1}–${(currentPage * 10) + employees?size} из ${totalElements}
+            </div>
+
+            <ul class="inline-flex space-x-1">
+                <!-- Previous Button -->
+                <#if currentPage gt 0>
+                <li>
+                    <a href="${springMacroRequestContext.contextPath}/employees/show_employees?page=${currentPage - 1}&sortField=${sortField}&direction=${direction}" class="pagination-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <title>Предыдущая страница</title>
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/>
+                        </svg>
+                    </a>
+                </li>
+                <#else>
+                <li>
+                                <span class="pagination-link opacity-50 cursor-not-allowed">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <title>Предыдущая страница</title>
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 5l-7 7l7 7m-7-7h16"/>
+                                    </svg>
+                                </span>
+                </li>
+            </#if>
+
+            <!-- Page Numbers -->
+            <#assign startPage = [currentPage - 2, 0]?max />
+            <#assign endPage = [(startPage + 4), totalPages - 1]?min />
+
+            <#list startPage..endPage as p>
+            <li>
+                <#if p == currentPage>
+                <span class="pagination-current">${p + 1}</span>
+                <#else>
+                <a href="${springMacroRequestContext.contextPath}/employees/show_employees?page=${p}&sortField=${sortField}&direction=${direction}" class="pagination-link">${p + 1}</a>
+            </#if>
+            </li>
+        </#list>
+
+        <!-- Next Button -->
+        <#if currentPage lt totalPages - 1>
+        <li>
+            <a href="${springMacroRequestContext.contextPath}/employees/show_employees?page=${currentPage + 1}&sortField=${sortField}&direction=${direction}" class="pagination-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <title>Следующая страница</title>
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/>
+                </svg>
+            </a>
+        </li>
+        <#else>
+        <li>
+                                <span class="pagination-link opacity-50 cursor-not-allowed">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <title>Следующая страница</title>
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16m-7-7l7 7l-7 7"/>
+                                    </svg>
+                                </span>
+        </li>
+    </#if>
+    </ul>
+    </div>
+    <!-- End Pagination -->
                 <#else>
                     <p class="text-center py-6 text-gray-500">Сотрудники не найдены.</p>
                 </#if>                 <!-- IF employees?has_content -->
