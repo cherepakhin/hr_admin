@@ -6,15 +6,15 @@
     <title>Employees - HR Admin</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/hr_admin/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/hr_admin/favicon.ico" type="image/x-icon">
 
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
 
     <!-- Alpine.js for interactivity -->
     <!--<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>-->
-    <script src="${springMacroRequestContext.contextPath}/js/cdn.min.js" defer></script>
+    <!--<script src="${springMacroRequestContext.contextPath}/js/cdn.min.js" defer></script>-->
 
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -77,6 +77,81 @@
             #sortSelectHeader {
                 margin-bottom: 0.5rem;
             }
+        }
+
+        /* Стили для модального окна Удаления */
+        #deleteModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-container {
+            background-color: white;
+            border-radius: 0rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 400px;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.2s ease-out;
+        }
+        #deleteModal.show .modal-container {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0a3d62;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        .btn-cancel {
+            padding: 0.5rem 1rem;
+            background-color: #e2e8f0;
+            color: #2d3748;
+            border: none;
+            border-radius: 0 rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-cancel:hover {
+            background-color: #cbd5e0;
+        }
+        .btn-delete {
+            padding: 0.5rem 1rem;
+            background-color: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 0rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-delete:hover {
+            background-color: #c53030;
+        }
+        .warning-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: #dd6b20;
         }
     </style>
 </head>
@@ -156,7 +231,7 @@
                             </a>
                             <!-- Delete Employee with Confirmation -->
                             <button type="button"
-                                onclick="confirmDelete(${employee.id})"
+                                    onclick="openDeleteModal('${springMacroRequestContext.contextPath}/employees/delete/${employee.id}', '${employee.lastName}')"
                                 title="Удалить сотрудника"
                                 class="text-sky-900 hover:text-sky-700 hover:bg-red-100 font-medium text-sm transition flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -164,16 +239,6 @@
                                 </svg>
                                Удалить
                             </button>
-<!--
-                            <a href="${springMacroRequestContext.contextPath}/employees/delete/${employee.id}"
-                               onclick="return confirm('Вы уверены, что хотите удалить ${employee.firstName}?');"
-                               class="text-sky-900 hover:text-sky-700 font-medium text-sm transition flex items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                                Удалить
-                            </a>
--->
                         </div>
                     </div>
                     </#list>
@@ -258,19 +323,67 @@
             </#if>
         </main>
     </div>
-    <script th:inline="javascript">
-            function confirmDelete(id) {
-                console.log('Confirm delete:' + id);
-                console.log('${springMacroRequestContext.contextPath}/employees/' + id);
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("DELETE", '${springMacroRequestContext.contextPath}/employees/delete/' + id, true);
-                xhttp.onload = function () {
-                   let responseURL = '${springMacroRequestContext.contextPath}/employees/';
-                   console.log("Redirecting to:", responseURL);
-                   window.location.replace(responseURL);
-                };
-                xhttp.send();
+
+<!-- Confirmation Modal -->
+  <div id="deleteModal">
+    <div class="modal-container">
+        <div class="modal-title">
+            <svg class="warning-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            Подтверждение удаления
+        </div>
+        <p>Вы уверены, что хотите удалить <span id="deleteName" class="font-medium"></span>?</p>
+        <div class="modal-actions">
+            <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
+            <button id="confirmDeleteBtn" type="button" onclick="deleteEmployee()" class="btn-delete">Удалить</button>
+        </div>
+    </div>
+  </div>
+  <script>
+        function openDeleteModal(url, name) {
+            document.getElementById('confirmDeleteBtn').href = url;
+            document.getElementById('deleteName').textContent = name;
+            const modal = document.getElementById('deleteModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        function deleteEmployee() {
+            console.log("Deleting...");
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+
+            console.log(document.getElementById('confirmDeleteBtn').href);
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', document.getElementById('confirmDeleteBtn').href, false); // синхронный запрос
+            xhr.send();
+
+            document.body.style.overflow = '';
+            location.reload();
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('confirmDeleteBtn');
+            console.log(`Clicked confirmDeleteBtn`);
+
+            if (event.target === modal && modal.classList.contains('show')) {
+                closeDeleteModal();
             }
-        </script>
+        }
+    </script>
 </body>
 </html>
