@@ -1,5 +1,6 @@
 package net.guides.springboot2.freemarker.controller;
 
+import jakarta.validation.Valid;
 import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
@@ -84,9 +85,18 @@ public class EmployeeController {
 		return NamesView.CREATE_EMPLOYEE;
 	}
 
+/* Пример валидации из https://sky.pro/wiki/java/validatsiya-form-v-spring-mvc-bez-hibernate-luchshiy-metod/
+	@PostMapping("/submit")
+	public String submitForm(@Valid @ModelAttribute("formData") FormData formData, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "formPage";
+		}
+		// Ваша бизнес-логика находится здесь.
+		return "successPage";
+	}
+*/
 	@PostMapping("/")
-	public String createEmployee(@ModelAttribute Employee employee,
-								 BindingResult result) {
+	public String createEmployee(@Valid @ModelAttribute Employee employee) {
 		log.info("createEmployee {}:", employee);
 		employeeRepository.save(employee);
 
@@ -141,7 +151,7 @@ public class EmployeeController {
 		return "redirect:" + currentIndexPage;
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@GetMapping("/delete/{id}")
 	public ModelAndView deletePosition(@PathVariable Long id, Model model) {
 		// TODO: проверка на существование
 		// if(id == null) {
