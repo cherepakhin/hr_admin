@@ -308,6 +308,7 @@
                         </#if>
                     </ul>
                 </div>
+                <!-- End Pagination -->
             <#else>
                 <div class="bg-white p-10 shadow text-center border border-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-sky-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
