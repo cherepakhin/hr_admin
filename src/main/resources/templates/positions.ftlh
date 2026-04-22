@@ -205,8 +205,8 @@
 </div>
 
 <script>
-    function openDeleteModal(url, name) {
-        document.getElementById('confirmDeleteBtn').href = url;
+    function openDeleteModal(url_delete_backend, name) {
+        document.getElementById('confirmDeleteBtn').href = url_delete_backend;
         document.getElementById('deleteName').textContent = name;
         const modal = document.getElementById('deleteModal');
         modal.style.display = 'flex';
