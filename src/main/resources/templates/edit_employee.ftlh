@@ -21,7 +21,7 @@
 
     <div class="w-full max-w-lg bg-white shadow-xl border border-gray-100">
         <div class="bg-sky-900 px-6 py-8 text-white text-center">
-            <h2 class="text-2xl font-semibold">Редактировать сотрудника</h2>
+            <h2 class="text-2xl font-semibold">Изменить информацию о сотруднике</h2>
             <p class="text-sky-200">Update employee information</p>
         </div>
         <form action="${springMacroRequestContext.contextPath}/employees/update/${employee.id}" method="post" class="p-6 space-y-6">
