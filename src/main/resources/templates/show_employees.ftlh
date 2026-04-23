@@ -280,6 +280,15 @@
     </div>
 </div>
 <script>
+    window.onclick = function(event) {
+        const modal = document.getElementById('confirmDeleteBtn');
+        console.log(`Clicked confirmDeleteBtn`);
+
+        if (event.target === modal && modal.classList.contains('show')) {
+            closeDeleteModal();
+        }
+    }
+
     function openDeleteModal(url, name) {
         document.getElementById('confirmDeleteBtn').href = url;
         document.getElementById('deleteName').textContent = name;
@@ -315,14 +324,6 @@
         location.reload();
     }
 
-    window.onclick = function(event) {
-        const modal = document.getElementById('confirmDeleteBtn');
-        console.log(`Clicked confirmDeleteBtn`);
-
-        if (event.target === modal && modal.classList.contains('show')) {
-            closeDeleteModal();
-        }
-    }
 </script>
 </body>
 
