@@ -159,6 +159,8 @@
                                     </#if>
                                 </span>
                             </th>
+                            <!-- Actions -->
+                            <th class="px-6 p-top-header cursor-pointer group font-medium font-black">Действия</th>
                         </thead>
                         <tbody>
                             <!-- Employee Details -->
@@ -168,7 +170,7 @@
                                     <td class="px-6 py-4">${empl.lastName}</td>
                                     <td class="px-6 py-4">${empl.email}</td>
                                     <td class="px-6 py-4">${empl.position.name}</td>
-                                    <td class="px-6 py-4 flex justify-center gap-4">
+                                    <td class="px-6 py-4 flex justify-left gap-2">
                                         <a href="${springMacroRequestContext.contextPath}/employees/edit/${empl.id}"
                                            class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
                                            title="Изменить">
