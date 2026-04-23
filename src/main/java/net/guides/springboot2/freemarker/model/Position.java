@@ -9,6 +9,7 @@ import java.util.Objects;
 @Table(name = "positions")
 public class Position {
     @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 	@Size(min = 3, max = 15, message = "Имя должности должно быть от 3 to 15 символов.")

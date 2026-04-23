@@ -52,14 +52,12 @@ public class EmployeeRepositoryGigaTest {
     public void shouldReturnEmptyListWhenNoEmployeesForPosition() {
         // Given
         Position manager = new Position();
-		manager.setId(10L);
         manager.setName("Manager");
-        positionRepository.save(manager);
+		manager = positionRepository.save(manager);
 
         Position developer = new Position();
-		developer.setId(100l);
         developer.setName("Developer");
-        positionRepository.save(developer);
+		developer = positionRepository.save(developer);
 
         Employee emp = new Employee("John", "Doe", "john@example.com", manager);
         employeeRepository.save(emp);
@@ -84,7 +82,7 @@ public class EmployeeRepositoryGigaTest {
     public void shouldReturnNextIdBasedOnMaxId() {
         // Given
         Position pos = new Position();
-		pos.setId(10L);
+		pos.setId(1L);
 		pos.setName("Developer");
 		positionRepository.save(pos);
         Employee e1 = new Employee("FirstName1", "LastName1", "a@b.com", pos);
@@ -129,8 +127,9 @@ public class EmployeeRepositoryGigaTest {
 
     @Test
     public void shouldFindByEmail() {
+		Position developer = positionRepository.save(new Position(1L, "Dev"));
         // Given
-        Employee emp = new Employee("Bob", "Lee", "bob@lee.com", null);
+        Employee emp = new Employee("Bob", "Lee", "bob@lee.com", developer);
         employeeRepository.save(emp);
 
         // When
@@ -173,8 +172,13 @@ public class EmployeeRepositoryGigaTest {
     @Test
     public void shouldFilterByPositionIds() {
         // Given
-        Position dev = new Position(); dev.setName("Developer"); positionRepository.save(dev);
-        Position mgr = new Position(); mgr.setName("Manager"); positionRepository.save(mgr);
+        Position dev = new Position();
+		dev.setName("Developer");
+		positionRepository.save(dev);
+
+		Position mgr = new Position();
+		mgr.setName("Manager");
+		positionRepository.save(mgr);
 
         Employee emp1 = new Employee("John", "Doe", "john@example.com", dev);
         Employee emp2 = new Employee("Jane", "Smith", "jane@example.com", mgr);
@@ -191,9 +195,12 @@ public class EmployeeRepositoryGigaTest {
 
     @Test
     public void shouldFilterByEmail() {
+		Position position = new Position();
+		position.setName("Developer");
+		positionRepository.save(position);
         // Given
-        Employee emp1 = new Employee("John", "Doe", "john.doe@company.com", null);
-        Employee emp2 = new Employee("Jane", "Smith", "jane@test.com", null);
+        Employee emp1 = new Employee("John", "Doe", "john.doe@company.com", position);
+        Employee emp2 = new Employee("Jane", "Smith", "jane@test.com", position);
         employeeRepository.saveAll(Arrays.asList(emp1, emp2));
 
         // When
@@ -207,9 +214,12 @@ public class EmployeeRepositoryGigaTest {
 
     @Test
     public void shouldReturnAllWhenNoFiltersProvided() {
+		Position position = new Position();
+		position.setName("Developer");
+		positionRepository.save(position);
         // Given
-        Employee emp1 = new Employee("John", "Doe", "john@example.com", null);
-        Employee emp2 = new Employee("Jane", "Smith", "jane@example.com", null);
+        Employee emp1 = new Employee("John", "Doe", "john@example.com", position);
+        Employee emp2 = new Employee("Jane", "Smith", "jane@example.com", position);
         employeeRepository.saveAll(Arrays.asList(emp1, emp2));
 
         // When
