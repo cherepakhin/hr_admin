@@ -152,7 +152,7 @@
     <!-- Positions List -->
     <main class="flex-1 p-6 overflow-y-auto bg-white">
         <#if positions?has_content>
-            <tabl class="w-full text-sm text-left text-gray-700">
+            <table class="w-full text-sm text-left text-gray-700">
                 <tbody>
                     <#list positions as position>
                         <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
@@ -180,7 +180,7 @@
                         </tr>
                     </#list>
                 </tbody>
-            </tabl>
+            </table>
         <#else>
             <p class="text-center py-6 text-gray-500">Должности не найдены.</p>
         </#if>
