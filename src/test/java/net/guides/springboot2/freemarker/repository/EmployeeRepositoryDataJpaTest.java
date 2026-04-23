@@ -1,6 +1,5 @@
 package net.guides.springboot2.freemarker.repository;
 
-import net.guides.springboot2.freemarker.controller.Direction;
 import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.model.Position;
 import org.junit.jupiter.api.Disabled;
@@ -67,11 +66,11 @@ public class EmployeeRepositoryDataJpaTest {
 	@Test
 	public void whenFindById_thenReturnEmployee11() {
 		Position position = new Position(2L, "Position 2");
-		positionRepository.save(position);
+		position = positionRepository.save(position);
 
 		// given
 		Employee employee = new Employee("FirstName", "LastName", "mail@example.com", position);
-		entityManager.persistAndFlush(employee);
+		employeeRepository.save(employee);
 
 		// when
 		Optional<Employee> foundEmployee = employeeRepository.findById(employee.getId());
@@ -87,7 +86,7 @@ public class EmployeeRepositoryDataJpaTest {
 	@Test
 	public void whenSaveEmployee_thenEmployeeShouldBePersisted() {
 		Position position = new Position(4L, "Position 4");
-		positionRepository.save(position);
+		position = positionRepository.save(position);
 		// given
 		Employee employee = new Employee("FirstName", "LastName", "mail@example.com", position);
 
@@ -105,7 +104,7 @@ public class EmployeeRepositoryDataJpaTest {
 	@Test
 	public void whenDeleteById_thenEmployeeShouldBeRemoved() {
 		Position position = new Position(3L, "Position 3");
-		positionRepository.save(position);
+		position = positionRepository.save(position);
 		// given
 		Employee employee = new Employee("FirstName", "LastName", "mail@example.com", position);
 
@@ -149,7 +148,7 @@ public class EmployeeRepositoryDataJpaTest {
 		Position developer = new Position();
 		developer.setId(100L);
 		developer.setName("Developer");
-		positionRepository.save(developer);
+		developer = positionRepository.save(developer);
 
 		Employee emp1 = new Employee("John", "Doe", "john@example.com", developer);
 		Employee emp2 = new Employee("Jane", "Smith", "jane@example.com", developer);
@@ -172,12 +171,12 @@ public class EmployeeRepositoryDataJpaTest {
 		Position manager = new Position();
 		manager.setId(10L);
 		manager.setName("Manager");
-		positionRepository.save(manager);
+		manager = positionRepository.save(manager);
 
 		Position developer = new Position();
 		developer.setId(20L);
 		developer.setName("Developer");
-		positionRepository.save(developer);
+		developer = positionRepository.save(developer);
 
 		Employee emp = new Employee("John", "Doe", "john@example.com", manager);
 		employeeRepository.save(emp);
@@ -194,7 +193,7 @@ public class EmployeeRepositoryDataJpaTest {
 		Position tester = new Position();
 		tester.setId(employeeRepository.getNextId());
 		tester.setName("Tester");
-		positionRepository.save(tester);
+		tester = positionRepository.save(tester);
 
 		// When
 		List<Employee> result = employeeRepository.findAllByPosition(tester.getId());

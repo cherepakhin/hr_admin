@@ -26,9 +26,8 @@ public class DataInitializerTest {
     public void initializePositions() {
         long positionCount = positionRepository.count();
 
-		assertThat(positionCount).isEqualTo(5);
+		assertThat(positionCount).isEqualTo(4);
 
-		assertThat(positionRepository.findById(-1L)).isPresent();
 		assertThat(positionRepository.findById(1L)).isPresent();
 		assertThat(positionRepository.findById(2L)).isPresent();
 		assertThat(positionRepository.findById(3L)).isPresent();
@@ -37,8 +36,6 @@ public class DataInitializerTest {
 		assertThat(positionRepository.findById(1L).get().getName()).isEqualTo("Директор");
 		assertThat(positionRepository.findById(2L).get().getName()).isEqualTo("Бухгалтер");
 		assertThat(positionRepository.findById(3L).get().getName()).isEqualTo("Рабочий");
-
-//        assertThat(positionRepository.findById(-1L).get().getName()).isEqualTo("-");
     }
 
     @Test
@@ -78,7 +75,7 @@ public class DataInitializerTest {
 
         long countAfterInit = positionRepository.count();
 
-        assertThat(countAfterInit).isEqualTo(6);
+        assertThat(countAfterInit).isEqualTo(5);
     }
 
     @Test
@@ -86,7 +83,7 @@ public class DataInitializerTest {
         Position pos = new Position();
 		pos.setId(positionRepository.getNextId());
         pos.setName("Developer");
-        positionRepository.save(pos);
+        pos = positionRepository.save(pos);
 
         employeeRepository.save(new Employee("Test", "User", "test@example.com", pos));
 

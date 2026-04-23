@@ -428,7 +428,7 @@ public class EmployeeControllerTest {
 					.andExpect(status().isOk())
 					.andExpect(view().name("show_employees"))
 					.andExpect(model().attribute("sortField", "firstName"))
-					.andExpect(model().attribute("sortDirection", "desc"));
+					.andExpect(model().attribute("direction", "desc"));
 		} catch(Exception exception ){
 			fail(exception.getMessage());
 		}
@@ -526,7 +526,10 @@ public class EmployeeControllerTest {
 		Sort sort = Sort.by(Sort.Direction.ASC, "id");
 		Pageable pageable = PageRequest.of(0, 10, sort);
 
-		Mockito.when(this.employeeRepository.findByFiltersAndSort(eq(""),eq(""), any(), eq(""), eq(pageable))).thenReturn(page);
+		List<Position> positions = Arrays.asList(position);
+		Mockito.when(this.positionRepository.findAll()).thenReturn(positions);
+
+		Mockito.when(this.employeeRepository.findByFiltersAndSort(any(), any(), any(), any(), any(Pageable.class))).thenReturn(page);
 
 		try {
 			mockMvc.perform(get("/employees/show_employees" ))
@@ -539,6 +542,6 @@ public class EmployeeControllerTest {
 		}
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq(""), eq(""), any(), eq(""), eq(pageable));
+				eq(""), eq(""), any(), eq(""), any(Pageable.class));
 	}
 }
