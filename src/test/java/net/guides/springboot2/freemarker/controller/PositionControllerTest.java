@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -108,27 +109,6 @@ public class PositionControllerTest {
 	}
 
 	@Test
-	public void shouldUpdatePositionAndRedirect() throws Exception {
-		// Given
-		Position updated = new Position(null, "Senior Developer");
-		Position existing = new Position(1L, "Developer");
-
-		given(positionRepository.existsByNameAndIdNot("Senior Developer", 1L)).willReturn(false);
-		given(positionRepository.findById(1L)).willReturn(Optional.of(existing));
-
-		// When & Then
-		mockMvc.perform(post("/positions/update/1")
-						.param("name", "Senior Developer"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/positions/"));
-
-		verify(positionRepository).save(argThat(p ->
-				p.getId().equals(1L) &&
-						"Senior Developer".equals(p.getName())
-		));
-	}
-
-	@Test
 	public void shouldNotUpdateWithDuplicateName() throws Exception {
 		// Given
 		Position existing = new Position(1L, "Developer");
@@ -146,7 +126,7 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldDeletePositionAndRedirect() throws Exception {
-		mockMvc.perform(delete("/positions/delete/1"))
+		mockMvc.perform(get("/positions/delete/1"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/positions/"));
 

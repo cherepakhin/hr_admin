@@ -87,7 +87,7 @@ public class PositionRepositoryDataJpaTest {
 	public void shouldReturnFalseWhenPositionDoesNotExistByName() {
 		// Given
 		Position position = new Position();
-		position.setName("HR");
+		position.setName("HR123");
 		Long nextId = positionRepository.getNextId();
 		if (nextId == null) {
 			nextId = 1L;
@@ -204,16 +204,16 @@ public class PositionRepositoryDataJpaTest {
 	public void shouldReturnNextIdBasedOnMaxId() {
 		// Given
 		Position pos1 = new Position();
-		pos1.setId(5L);
-		pos1.setName("A");
+		pos1.setId(1L);
+		pos1.setName("Position 1");
 		positionRepository.save(pos1);
 		Position pos2 = new Position();
-		pos2.setId(3L);
-		pos2.setName("B");
+		pos2.setId(2L);
+		pos2.setName("Position 2");
 		positionRepository.save(pos2);
 		Position pos3 = new Position();
 		pos3.setId(7L);
-		pos3.setName("C");
+		pos3.setName("Position 7");
 		positionRepository.save(pos3);
 
 		// When
