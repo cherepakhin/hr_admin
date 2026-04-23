@@ -152,10 +152,11 @@ public class EmployeeRepositoryGigaTest {
 
     @Test
     public void shouldFilterByFirstName() {
+		Position developer = positionRepository.save(new Position(1L, "Dev"));
         // Given
-        Employee emp1 = new Employee("John", "Doe", "john@example.com", null);
-        Employee emp2 = new Employee("Johnny", "Smith", "johnny@example.com", null);
-        Employee emp3 = new Employee("Alice", "Cooper", "alice@example.com", null);
+        Employee emp1 = new Employee("John", "Doe", "john@example.com", developer);
+        Employee emp2 = new Employee("Johnny", "Smith", "johnny@example.com", developer);
+        Employee emp3 = new Employee("Alice", "Cooper", "alice@example.com", developer);
         employeeRepository.saveAll(Arrays.asList(emp1, emp2, emp3));
 
         // When
