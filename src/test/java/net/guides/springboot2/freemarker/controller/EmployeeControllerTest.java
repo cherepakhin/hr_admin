@@ -435,7 +435,7 @@ public class EmployeeControllerTest {
 	}
 
 	@Test
-	public void shouldUseDefaultSortByIdAscWhenNoSortParams() {
+	public void shouldUseDefaultSortByLastNameAscWhenNoSortParams() {
 		Position position = new Position(1L, "Developer");
 		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position);
 		emp1.setId(1L);
@@ -453,8 +453,8 @@ public class EmployeeControllerTest {
 			mockMvc.perform(get("/employees/show_employees"))
 					.andExpect(status().isOk())
 					.andExpect(view().name("show_employees"))
-					.andExpect(model().attribute("sortField", "id"))
-					.andExpect(model().attribute("sortDirection", "asc"));
+					.andExpect(model().attribute("sortField", "lastName"))
+					.andExpect(model().attribute("direction", "asc"));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
