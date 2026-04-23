@@ -224,8 +224,8 @@ public class EmployeeController {
 			@RequestParam(required = false, defaultValue = "") String lastName,
 			@RequestParam(required = false, defaultValue = "") String email,
 			@RequestParam(required = false, defaultValue = "-1") Long positionId,
-			@RequestParam(required = false, defaultValue = "") String sortField,
-			@RequestParam(required = false, defaultValue = "") String direction
+			@RequestParam(required = false, defaultValue = "lastName") String sortField,
+			@RequestParam(required = false, defaultValue = "asc") String direction
 	) {
 		log.info("showAllEmployees");
 		log.info("firstName: {}", firstName);
@@ -237,15 +237,17 @@ public class EmployeeController {
 
 		currentIndexPage = "/" + NamesView.SHOW_EMPLOYEES;
 
-		// Сортировка
-		if (sortField == null || sortField.isEmpty()) {
-			sortField = Fields.ID;
-			log.info("SET sortField: {}", sortField);
-		}
-		if (direction == null || direction.isEmpty()) {
-			direction = Direction.ASC;
-			log.info("SET DEFAULT direction: {}", direction);
-		}
+		// Сортировка. Уже не нужно, т.е. определено в параметрах и вообще вся логика уже есть в форме
+		//if (sortField == null || sortField.isEmpty()) {
+		//	sortField = Fields.ID;
+		//	log.info("SET sortField: {}", sortField);
+		//}
+
+		// default defined in param
+		//if (direction == null || direction.isEmpty()) {
+		//	direction = Direction.ASC;
+		//	log.info("SET DEFAULT direction: {}", direction);
+		//}
 		// TODO: В запрос включены все должности, если не задан поиск по конкретной, хочется динамический sql
 		// при этом sql запрос будет position_id in (все id должностей)
 		// динамический sql в планах, см. как сделать в проекте для МТС
@@ -256,11 +258,13 @@ public class EmployeeController {
 		}
 		// define sort direction by field
 		log.info("sortField: {}", sortField);
+		// for position sort by 'name'
 		if(sortField.equals("position")) {
 			sortField ="position.name";
 		}
 		log.info("direction: {}", direction);
-		Sort sort = Sort.by(direction.equals(Direction.ASC) ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+		// direction.equals("desc") - значения "desc" или "asc" - задано в форме
+		Sort sort = Sort.by(direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
 		log.info("pageable:");
 		log.info(pageable.toString());
