@@ -22,28 +22,6 @@
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .btn-dark-blue {
-            @apply bg-sky-900 hover:bg-sky-800 text-white;
-        }
-        .sidebar-link:hover, .sidebar-link.active {
-            @apply bg-gray-100 text-sky-900;
-        }
-        .sidebar-link svg {
-            @apply transition-colors duration-200;
-        }
-        .sidebar-link:hover svg, .sidebar-link.active svg {
-            @apply text-sky-900;
-        }
-        .pagination-link {
-            @apply px-3 py-1 border border-gray-300 rounded hover:bg-sky-50 hover:text-sky-900 transition font-medium;
-        }
-        .pagination-current {
-            font-weight: 900;
-            color: cornflowerblue;
-        }
         .all-employees {
             padding-top: 0.6em;
             padding-bottom: 0.6em;
@@ -51,108 +29,6 @@
             padding-right: 1.5em;
         }
 
-        /* Мобильная адаптация */
-        @media (max-width: 640px) {
-            .mobile-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-            .mobile-sort-container {
-                flex-direction: column;
-                align-items: stretch;
-                width: 100%;
-                margin-top: 0.5rem;
-            }
-            .mobile-full-width {
-                width: 100% !important;
-            }
-            .w-40 {
-                width: 100%;
-            }
-            .flex\.justify-between\.items-right {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            #sortSelectHeader {
-                margin-bottom: 0.5rem;
-            }
-        }
-
-        /* Стили для модального окна Удаления */
-        #deleteModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-container {
-            background-color: white;
-            border-radius: 0rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            width: 90%;
-            max-width: 400px;
-            transform: scale(0.9);
-            opacity: 0;
-            transition: all 0.2s ease-out;
-        }
-        #deleteModal.show .modal-container {
-            transform: scale(1);
-            opacity: 1;
-        }
-        .modal-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #0a3d62;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-        }
-        .btn-cancel {
-            padding: 0.5rem 1rem;
-            background-color: #e2e8f0;
-            color: #2d3748;
-            border: none;
-            border-radius: 0 rem;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .btn-cancel:hover {
-            background-color: #cbd5e0;
-        }
-        .btn-delete {
-            padding: 0.5rem 1rem;
-            background-color: #e53e3e;
-            color: white;
-            border: none;
-            border-radius: 0rem;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .btn-delete:hover {
-            background-color: #c53030;
-        }
-        .warning-icon {
-            width: 1.5rem;
-            height: 1.5rem;
-            color: #dd6b20;
-        }
     </style>
 </head>
 
@@ -166,20 +42,20 @@
     <div class="flex-1 flex flex-col overflow-hidden">
 
         <!-- Header -->
-        <header class="bg-white shadow-sm border-b border-gray-100 all-employees">
+        <header class="bg-sky-900 shadow-sm border-b border-gray-100 all-employees text-white">
             <div class="flex mobile-header justify-between items-center">
-                <h2 class="font-semibold text-gray-800 px-2" style="font-size: 1.5rem; line-height: 1.75rem;">Все сотрудники</h2>
+                <h2 class="font-semibold px-2" style="font-size: 1.5rem; line-height: 1.75rem;">Все сотрудники</h2>
                 <div class="flex mobile-sort-container justify-between items-center gap-2">
                     <a href="${springMacroRequestContext.contextPath}/employees/new"
-                       class="btn-dark-blue mobile-add-btn px-5 py-2 font-medium shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 w-40">
+                       class="text-1xl btn-dark-blue mobile-add-btn px-5 py-2 font-semibold shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 w-40">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                         Добавить
                     </a>
-                    <h3 id="sortSelectHeader" class="text-1xl py-2 px-4 font-semibold text-gray-800 mb-0">Сортировать по:</h3>
+                    <h3 id="sortSelectHeader" class="text-1xl py-2 px-4 font-semibold mb-0">Сортировать по:</h3>
                     <!-- Combobox для сортировки с поддержкой выбранного значения -->
-                    <div id="sortSelectContainer" class="relative w-40 mobile-full-width">
+                    <div id="sortSelectContainer" class="relative w-40 mobile-full-width text-black">
                         <select
                             id="sortSelect"
                             onchange="window.location.href='?sortField=' + this.value + '&direction=asc'"
