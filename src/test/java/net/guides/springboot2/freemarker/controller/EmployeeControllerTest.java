@@ -396,8 +396,8 @@ public class EmployeeControllerTest {
 					.andExpect(model().attribute("totalPages", 1))
 					.andExpect(model().attribute("totalElements", 1L))
 					.andExpect(model().attribute("firstName", "John"))
-					.andExpect(model().attribute("sortField", "id"))
-					.andExpect(model().attribute("sortDirection", "asc"))
+					.andExpect(model().attribute("sortField", "lastName"))
+					.andExpect(model().attribute("direction", "asc"))
 					.andExpect(content().string(org.hamcrest.Matchers.containsString("John")))
 					.andExpect(content().string(org.hamcrest.Matchers.containsString("Doe")));
 		} catch(Exception excptn){
