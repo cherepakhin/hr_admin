@@ -9,17 +9,15 @@
     <link rel="icon" href="/hr_admin/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/hr_admin/favicon.ico" type="image/x-icon">
 
-    <!--<script src="https://cdn.tailwindcss.com"></script>-->
+    <!-- Tailwind CSS via CDN -->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
 
     <!-- Alpine.js for interactivity -->
     <!--<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>-->
-    <!--<script src="${springMacroRequestContext.contextPath}/js/cdn.min.js" defer></script>-->
+    <script src="${springMacroRequestContext.contextPath}/js/cdn.min.js" defer></script>
 
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 
     <style>
         .all-employees {
@@ -30,6 +28,7 @@
         }
 
     </style>
+    <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">

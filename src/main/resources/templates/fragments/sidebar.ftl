@@ -95,7 +95,8 @@ document.addEventListener('alpine:init', () => {
         toggle() {
             this.open = !this.open;
             // Сохраняем в localStorage
-            localStorage.setItem('sidebarOpen', JSON.stringify(this.open));
+            //localStorage.setItem('sidebarOpen', JSON.stringify(this.open));
+            localStorage.setItem('sidebarOpen', JSON.stringify(false));
         }
     }));
 });
