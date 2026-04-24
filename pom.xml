@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<maven.compiler.release>17</maven.compiler.release>
-		<jacoco.version>0.8.5</jacoco.version>
+		<jacoco.version>0.8.12</jacoco.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 	</properties>

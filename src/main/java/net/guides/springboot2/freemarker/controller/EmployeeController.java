@@ -256,12 +256,12 @@ public class EmployeeController {
 		if (!positionId.equals(-1L)) {
 			positions = positions.stream().filter(p -> p.equals(positionId)).toList();
 		}
-		// define sort direction by field
-		log.info("sortField: {}", sortField);
 		// for position sort by 'name'
 		if(sortField.equals("position")) {
 			sortField ="position.name";
 		}
+		// define sort direction by field
+		log.info("sortField: {}", sortField);
 		log.info("direction: {}", direction);
 		// direction.equals("desc") - значения "desc" или "asc" - задано в форме
 		Sort sort = Sort.by(direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortField);
