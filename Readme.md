@@ -882,3 +882,12 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
 [HTML код страницы с диалогом подтверждения удаления и комментариями](doc/view-source_127.0.0.1_8088_hr_admin_positions_.html)
  
 Стиль "gap-4" - уместить 4 элемента  
+
+### Включено логирование SQL запросов в application.yaml:
+
+````yaml
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: trace
+````
