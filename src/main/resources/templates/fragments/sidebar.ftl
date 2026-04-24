@@ -21,7 +21,7 @@
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
-                    <title>employee_group_solid</title>
+                    <title>Карточки сотрудиков</title>
                     <g id="ad30ea0b-4044-46a8-9d02-5476e64acf86" data-name="Layer 3">
                         <ellipse cx="18" cy="11.28" rx="4.76" ry="4.7"></ellipse>
                         <path d="M10.78,11.75c.16,0,.32,0,.48,0,0-.15,0-.28,0-.43a6.7,6.7,0,0,1,3.75-6,4.62,4.62,0,1,0-4.21,6.46Z"></path>
@@ -38,6 +38,7 @@
         <a href="${springMacroRequestContext.contextPath}/employees/new"
            class="flex items-center px-3 py-3 text-gray-700 font-medium transition rounded-none hover:bg-gray-200 hover:text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <title>Добавить нового сотрудника</title>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>
             <span x-show="open" class="ml-3 whitespace-nowrap">Добавить</span>
@@ -56,6 +57,7 @@
         <a href="${springMacroRequestContext.contextPath}/employees/show_employees"
            class="flex items-center px-3 py-3 text-gray-700 font-medium transition rounded-none hover:bg-gray-200 hover:text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <title>Список сотрудников</title>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
             <span x-show="open" class="ml-3 whitespace-nowrap">Сотрудники (табл.)</span>
@@ -64,6 +66,7 @@
         <a href="${springMacroRequestContext.contextPath}/positions/"
            class="flex items-center px-3 py-3 text-gray-700 font-medium transition rounded-none hover:bg-gray-200 hover:text-gray-700">
            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <title>Должности</title>
               <path d="M20.5,4H18.71L16.85,2.15A.36.36,0,0,0,16.69,2a.43.43,0,0,0-.19,0h-9a.43.43,0,0,0-.19,0,.36.36,0,0,0-.16.11L5.29,4H3.5A1.5,1.5,0,0,0,2,5.5v13A1.5,1.5,0,0,0,3.5,20H10l1.6,1.83a.51.51,0,0,0,.76,0L14,20H20.5A1.5,1.5,0,0,0,22,18.5V5.5A1.5,1.5,0,0,0,20.5,4ZM12.29,8h-.58l-1.5-1.5.5-.5h2.58l.5.5Zm1-3H10.71l-2-2h6.58Zm.92.5L16.5,3.21,17.79,4.5,15.5,6.79ZM7.5,3.21,9.79,5.5,8.5,6.79,6.21,4.5ZM3.5,19a.5.5,0,0,1-.5-.5V5.5A.5.5,0,0,1,3.5,5H5.29L8.15,7.85a.48.48,0,0,0,.7,0l.65-.64,1.43,1.43L8,17.34a.51.51,0,0,0,.09.49l1,1.17ZM12,20.74,9.06,17.39,11.86,9h.28l2.8,8.39Zm9-2.24a.5.5,0,0,1-.5.5H14.85l1-1.17a.51.51,0,0,0,.09-.49l-2.9-8.7L14.5,7.21l.65.64a.48.48,0,0,0,.7,0L18.71,5H20.5a.5.5,0,0,1,.5.5Z"/>
            </svg>
            <span x-show="open" class="ml-3 whitespace-nowrap">Должности</span>
@@ -74,6 +77,7 @@
            @click="toggle()"
            class="flex items-center px-3 py-3 text-gray-700 font-medium transition rounded-none hover:bg-gray-200 hover:text-gray-700 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <title>Открыть панель</title>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 6H3m18 0l-4 4m4-4l-4-4M3 18h18M3 18l4 4m-4-4l4-4"/>
             </svg>
             <span x-show="open" class="ml-3 whitespace-nowrap">Скрыть панель</span>
