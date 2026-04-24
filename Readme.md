@@ -891,3 +891,19 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: trace
 ````
+
+Log:
+````text
+Hibernate: 
+    insert 
+    into
+        employees
+        (email, first_name, last_name, position_id, id) 
+    values
+        (?, ?, ?, ?, default)
+23:54:07.281+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [emp9@example.com]
+23:54:07.282+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (2:VARCHAR) <- [Name 9]
+23:54:07.283+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (3:VARCHAR) <- [Lastname 9]
+23:54:07.293+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (4:BIGINT) <- [3]
+23:54:07.301+05:00  INFO 16885 --- [           main] n.g.s.f.initializer.DataInitializer      : Test data added.
+````
