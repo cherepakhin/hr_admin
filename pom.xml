@@ -8,10 +8,10 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>net.guides.springboot2</groupId>
+	<groupId>ru.perm.v</groupId>
 	<artifactId>hr-admin</artifactId>
 	<version>0.0.5</version>
-	<name>springboot2-freemarker</name>
+	<name>hr-admin</name>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -130,6 +130,29 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>ch.acanda.maven</groupId>
+				<artifactId>spring-banner-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<id>generate-spring-banner</id>
+						<phase>generate-resources</phase> <!--(1)-->
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration> <!--(2)-->
+					<text>${project.name}</text>
+					<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+					<filename>banner.txt</filename>
+					<includeInfo>true</includeInfo>
+					<info>Version: ${project.version}, Server: ${server.address:localhost}:${server.port:8080}, Profile: ${}</info>
+					<font>standard</font>
+					<color>yellow</color>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
