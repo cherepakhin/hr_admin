@@ -8,12 +8,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -131,5 +135,30 @@ public class PositionControllerTest {
 				.andExpect(redirectedUrl("/positions/"));
 
 		verify(positionRepository).deleteById(1L);
+	}
+
+	@Test
+	public void updateForShortName() throws Exception {
+		// "E" is short name
+		MvcResult result = mockMvc.perform(post("/positions/update/1")
+						.param("name", "E"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("edit_position"))
+				.andExpect(model().hasErrors())
+				.andExpect(model().attributeHasFieldErrors("position", "name")).andReturn();
+
+		java.util.Set<String> keysErrors = result.getModelAndView().getModel().keySet();
+		System.out.println("================Keys:");
+		for(String key :keysErrors){
+			System.out.println("----Key:");
+			System.out.println("Name key:" + key);
+			System.out.println("Value key:" + result.getModelAndView().getModel().get(key));
+		}
+
+		assertTrue(keysErrors.contains("name"));
+		assertEquals("E", result.getModelAndView().getModel().get("name"));
+
+		assertTrue(keysErrors.contains("error"));
+		assertEquals("Имя должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
 	}
 }
