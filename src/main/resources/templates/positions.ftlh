@@ -219,6 +219,8 @@
         //    console.log('Fetch Error :-S', err);
         // });
 
+        // Заполняю ссылку для кнопки потвердждния удаления вместо href=#
+        // НО! нужно проверить можно ли это сделать в контроллере (не назначена ли должность сотрудникам)
         document.getElementById('confirmDeleteBtn').href = '${springMacroRequestContext.contextPath}/positions/delete/' + id_position;
         document.getElementById('deleteName').textContent = name;
         const deleteModalDlg = document.getElementById('idDeleteModalDlg');
