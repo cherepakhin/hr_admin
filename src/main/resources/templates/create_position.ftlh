@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
     <title>Создать должность</title>
@@ -29,11 +29,14 @@
             <form action="${springMacroRequestContext.contextPath}/positions/" method="post" class="p-6 space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Название</label>
-                    <input type="text"
+                    <input
+                           id="position_name"
+                           type="text"
                            name="name"
+                           value="${position.name}"
                            required
-                           class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500"
-                    >
+                           autofocus
+                           class="mt-1 block w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500">
                     <#if error??>
                         <p class="text-red-600 text-xs mt-1">${error}</p>
                     </#if>

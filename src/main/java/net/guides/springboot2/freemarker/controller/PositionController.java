@@ -46,7 +46,9 @@ public class PositionController {
 	// GET /positions/new - форма создания
 	@GetMapping("/new")
 	public String showCreateForm(Model model) {
-		model.addAttribute("position", new Position());
+		Position position = new Position();
+		position.setName("?"); // значение по умолчанию
+		model.addAttribute("position", position);
 		return NamesView.CREATE_POSITION;
 	}
 
@@ -67,7 +69,10 @@ public class PositionController {
 			return NamesView.CREATE_POSITION;
 		}
 		if (positionRepository.existsByName(position.getName())) {
-			bindingResult.rejectValue("name", "error.position", "Должность с таким названием уже существует.");
+			log.error(String.format("Должность с названием '%s' уже существует.", position.getName()));
+			model.addAttribute("position", position);
+			model.addAttribute("error", "Должность с таким названием уже существует.");
+			return NamesView.CREATE_POSITION;
 		}
 		if (bindingResult.hasErrors()) {
 			return NamesView.CREATE_POSITION;
