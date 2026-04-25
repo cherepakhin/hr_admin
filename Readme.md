@@ -132,7 +132,7 @@ public class ProductController {
 
 Подключен плагин JaCoCo report для создания отчета покрытия тестами.
 
-Для генерации отчета выполнить:
+Для генерации отчета выполнить (__ОБЯЗАТЕЛЬНО__ проверить версию Java! export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64 ):
 
 ````shell
 ./mvnw jacoco:report
