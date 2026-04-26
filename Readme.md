@@ -785,6 +785,22 @@ verify(this.employeeRepository, times(1)).findByFiltersAndSort(eq("firstName1"),
 - justify-center - динамическое центрирование по вертикали
 - justify-end - прижать к правому краю
 
+### Прижать кнопки к правой стороне
+
+text-right - стиль для выравнивания текста
+
+````text
+                            <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
+                                <td class="px-4 py-2 font-medium">${position.name}</td>
+                                <td class="px-4 py-2 text-right">                       <!-- !!!!!!!!!!!!!!!!!!!!!! -->
+                                    <!-- Edit Action -->
+                                    <a ...</a>
+                                    <!-- Delete Action with Custom Modal -->
+                                    <button ... </button>
+                                </td>
+                            </tr>
+
+````
 ### Тестирование снаружи
 
 Screen shot tool URL [https://iotools.cloud/tool/website-screenshot/](https://iotools.cloud/tool/website-screenshot/)
