@@ -787,7 +787,8 @@ verify(this.employeeRepository, times(1)).findByFiltersAndSort(eq("firstName1"),
 
 ### Прижать кнопки к правой стороне
 
-text-right - стиль для выравнивания текста
+__text-right__ - стиль для выравнивания текста
+__justify-end__ - работает по другому принципу, чем __text-right__.
 
 ````text
                             <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
