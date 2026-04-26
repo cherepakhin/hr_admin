@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Должности - HR Admin</title>
+    <title>Positions - HR Admin</title>
 
     <!-- Favicon -->
     <link rel="icon" href="/hr_admin/favicon.ico" type="image/x-icon">
@@ -22,36 +22,8 @@
 
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
     <style>
-        .btn-dark-blue {
-            background-color: #0a3d62;
-            color: white;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0;
-            font-weight: 500;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: background-color 0.2s;
-        }
-        .btn-dark-blue:hover {
-            background-color: #0a3d62;
-            color: white;
-        }
-        .sidebar-link:hover, .sidebar-link.active {
-            background-color: #f1f5f9;
-            color: #0a3d62;
-        }
-        .sidebar-link svg {
-            transition: color 0.2s;
-        }
-        .all-positions {
-            padding-top: 0.75em;
-            padding-bottom: 0.75em;
-            padding-left: 1.5em;
-            padding-right: 1.5em;
-        }
-
         /* Стили для модального окна Удаления */
-        #deleteModal {
+        #deleteEmployeeModal {
             display: none;
             position: fixed;
             top: 0;
@@ -74,7 +46,7 @@
             opacity: 0;
             transition: all 0.2s ease-out;
         }
-        #deleteModal.show .modal-container {
+        #deleteEmployeeModal.show .modal-container {
             transform: scale(1);
             opacity: 1;
         }
@@ -128,49 +100,47 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">
+    <!-- Show positions page -->
     <!-- Include Sidebar Fragment -->
     <#include "fragments/sidebar.ftl">
+    <!-- End Include Sidebar Fragment -->
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <div class="flex flex-1 flex-col overflow-hidden">
         <!-- Header -->
-        <div class="bg-sky-900 px-6 py-3 logo-padding text-white text-center">
-            <div class="flex justify-between items-center">
-                <h2 class="text-2xl font-semibold text-white">Должности</h2>
-                <a href="${springMacroRequestContext.contextPath}/positions/new"
-                   class="btn-dark-blue px-5 py-2 font-medium shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 border-l-2 border-transparent hover:border-sky-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Добавить
-                </a>
+        <div class="w-full mx-auto bg-white shadow-xl border border-gray-100 text-left">
+            <div class="bg-sky-900 px-6 logo-padding text-white text-left py-4">
+                <h2 class="text-2xl font-semibold">Должности</h2>
             </div>
-        </div>
 
-        <!-- Positions List -->
-        <main class="flex-1 p-6 overflow-y-auto bg-white">
-            <#if positions?has_content>
-                <table class="w-full text-sm text-left text-gray-700">
+            <div class="p-6 overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-700 table-auto">
+                    <!-- Caption -->
+                    <thead class="uppercase border-t border-gray-100 bg-gray-50  py-1">
+                        <!-- Name -->
+                        <th class="px-6 cursor-pointer group font-medium font-black">Должность</th>
+                        <!-- Actions -->
+                        <th class="px-6 cursor-pointer group font-medium font-black">Действия</th>
+                    </thead> <!-- Caption -->
                     <tbody>
+                        <!-- Position Details -->
                         <#list positions as position>
-                            <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
-                                <td class="px-4 py-2 font-medium">${position.name}</td>
-                                <td class="px-4 py-2 text-right">
-                                    <!-- Edit Action -->
+                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition py-09rem text-base">
+                                <td class="px-6">${position.name}</td>
+                                <td class="px-6  flex justify-left gap-2">
                                     <a href="${springMacroRequestContext.contextPath}/positions/edit/${position.id}"
-                                       class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
-                                       title="Изменить">
-                                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-700" fill="none"
-                                          viewBox="0 0 24 24" stroke="currentColor">
-                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                       </svg>
+                                        class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
+                                        title="Изменить">
+                                        <svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                        </svg>
                                     </a>
-                                    <!-- Delete Action with Custom Modal -->
+                                    <!-- Delete Position with Confirmation -->
                                     <button type="button"
-                                        onclick="openDeleteModal('${position.id}', '${position.name}')"
-                                        class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-100 transition text-red-600"
-                                        title="Удалить">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        onclick="openDeleteModal('${springMacroRequestContext.contextPath}/positions/delete/${position.id}', '${position.name}')"
+                                        title="Удалить должность"
+                                        class="text-sky-900 hover:text-sky-700 hover:bg-red-100 font-medium text-sm transition flex items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
                                     </button>
@@ -179,83 +149,72 @@
                         </#list>
                     </tbody>
                 </table>
-            <#else>
-                <p class="text-center py-6 text-gray-500">Должности не найдены.</p>
-            </#if>
-        </main>
-</div>
+            </div>
+        </div> <!-- HEADER -->
+    </div> <!-- Main Content -->
 
-<!-- Confirmation Delete Modal Dialog -->
-<div id="idDeleteModalDlg" class="fixed inset-0 hidden">
-    <div class="modal-container">
-        <div class="modal-title">
-            <svg class="warning-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-            Подтверждение удаления
-        </div>
-        <p>Вы уверены, что хотите удалить должность "<span id="deleteName" class="font-medium"></span>"?</p>
-        <div class="modal-actions">
-            <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
-            <a id="confirmDeleteBtn" href="#" class="btn-delete">Удалить</a>
+    <!-- Confirmation Modal -->
+    <div id="deleteModal">
+        <div class="modal-container">
+            <div class="modal-title">
+                <svg class="warning-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                Подтверждение удаления
+            </div>
+            <p>Вы уверены, что хотите удалить <span id="deleteName" class="font-medium"></span>?</p>
+            <div class="modal-actions">
+                <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
+                <button id="confirmDeleteBtn" type="button" onclick="deletePosition()" class="btn-delete">Удалить</button>
+            </div>
         </div>
     </div>
-</div>
+    <script>
+        window.onclick = function(event) {
+            const modal = document.getElementById('confirmDeleteBtn');
+            console.log(`Clicked confirmDeleteBtn`);
 
-<script>
-    function openDeleteModal(id_position, name) {
-        // '${springMacroRequestContext.contextPath}/positions/delete/',
-        // fetch().then(function(response) {
-        //    return response.json();
-        // }).then(function(data) {
-        //    console.log(data);
-        // }).catch(function(err) {
-        //    console.log('Fetch Error :-S', err);
-        // });
-
-        // Заполняю ссылку для кнопки потвердждния удаления вместо href=#
-        // НО! нужно проверить можно ли это сделать в контроллере (не назначена ли должность сотрудникам)
-        console.info("document: ", document);
-        console.info("confirmDeleteBtn", document.getElementById('confirmDeleteBtn').href);
-
-        console.info("deleteName", document.getElementById('deleteName').textContent);
-        console.info("idDeleteModalDlg", document.getElementById('idDeleteModalDlg'));
-
-        document.getElementById('confirmDeleteBtn').href = '${springMacroRequestContext.contextPath}/positions/delete/' + id_position;
-        document.getElementById('deleteName').textContent = name;
-        const deleteModalDlg = document.getElementById('idDeleteModalDlg');
-        deleteModalDlg.style.display = 'flex';
-        // ОТКРЫТИЕ диалога с заданной задержкой делается добавлением класса 'show'
-        // setTimeout(() => modal.classList.add('show'), 1);
-
-        // или без задережки
-        deleteModalDlg.classList.add('show');
-        // задний план скрыт (становится серым)
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeDeleteModal() {
-        const modal = document.getElementById('deleteModal');
-
-        modal.classList.remove('show');
-
-        // скрытие диалогового окна  через удаление класса 'show' с заданной задержкой 1
-        //setTimeout(() => {
-        //    modal.style.display = 'none';
-        //}, 1);
-
-        // Скрытие без задержки
-        modal.style.display = 'none';
-        // активация заднего плана (становится не серым)
-        document.body.style.overflow = '';
-    }
-
-    window.onclick = function(event) {
-        const modal = document.getElementById('deleteModal');
-        if (event.target === modal && modal.classList.contains('show')) {
-            closeDeleteModal();
+            if (event.target === modal && modal.classList.contains('show')) {
+                closeDeleteModal();
+            }
         }
-    }
-</script>
+
+        function openDeleteModal(url, name) {
+            document.getElementById('confirmDeleteBtn').href = url;
+            document.getElementById('deleteName').textContent = name;
+            const modal = document.getElementById('deleteModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        function deletePosition() {
+            console.log("Deleting...");
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+
+            console.log(document.getElementById('confirmDeleteBtn').href);
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', document.getElementById('confirmDeleteBtn').href, false); // синхронный запрос
+            xhr.send();
+
+            document.body.style.overflow = '';
+            location.reload();
+        }
+
+    </script>
 </body>
+
 </html>

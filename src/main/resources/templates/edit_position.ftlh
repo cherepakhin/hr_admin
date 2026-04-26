@@ -29,7 +29,7 @@
             </div>
             <form action="${springMacroRequestContext.contextPath}/positions/update/${position.id}" method="post" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Название</label>
+                    <label class="block text-base font-medium text-gray-700">Название</label>
                     <input type="text"
                            name="name"
                            value="${position.name}"

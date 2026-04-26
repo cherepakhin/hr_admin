@@ -29,7 +29,7 @@
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
 
-         <div class="bg-sky-900 px-6 logo-padding text-white text-center py-4">
+         <div class="bg-sky-900 px-6 logo-padding text-white text-left py-4">
              <h2 class="text-2xl font-semibold">Введите данные о новом сотруднике</h2>
          </div>
 
