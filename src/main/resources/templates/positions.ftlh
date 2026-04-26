@@ -155,7 +155,7 @@
                         <#list positions as position>
                             <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
                                 <td class="px-4 py-2 font-medium">${position.name}</td>
-                                <td class="px-4 py-2 text-center">
+                                <td class="px-4 py-2 text-right">
                                     <!-- Edit Action -->
                                     <a href="${springMacroRequestContext.contextPath}/positions/edit/${position.id}"
                                        class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
