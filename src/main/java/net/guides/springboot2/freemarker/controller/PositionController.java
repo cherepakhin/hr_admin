@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.UUID;
 
 //TODO: добавить валидацию
 @Controller
@@ -37,7 +36,7 @@ public class PositionController {
 		log.info("get all positions");
 		List<Position> positions = positionRepository.findAll();
 		positions.forEach(p-> log.info(p.toString()));
-		ModelAndView mv= new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 		mv.setViewName(NamesView.POSITIONS);
 		mv.addObject("positions", positions);
 		return mv;
@@ -59,13 +58,13 @@ public class PositionController {
 		log.info("Create position: {}", position);
 		if (bindingResult.hasErrors()) {
 			log.info("Binding result: {}", bindingResult);
-			String errors = "";
+			StringBuilder errors = new StringBuilder();
 			for(ObjectError error :  bindingResult.getAllErrors()) {
-				errors += error.getDefaultMessage() +"\n";
+				errors.append(error.getDefaultMessage()).append("\n");
 				log.error(error.getDefaultMessage());
 			}
 			model.addAttribute("name", position.getName());
-			model.addAttribute("error", errors);
+			model.addAttribute("error", errors.toString());
 			return NamesView.CREATE_POSITION;
 		}
 		if (positionRepository.existsByName(position.getName())) {
