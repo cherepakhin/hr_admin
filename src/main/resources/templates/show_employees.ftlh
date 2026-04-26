@@ -109,7 +109,7 @@
     <div class="flex flex-1 flex-col overflow-hidden">
         <!-- Header -->
         <div class="w-full mx-auto bg-white shadow-xl border border-gray-100">
-            <div class="bg-sky-900 px-6 py-1 text-white text-center">
+            <div class="bg-sky-900 px-6 py-1 text-white text-left">
                 <h2 class="text-2xl font-semibold">Список сотрудников</h2>
                 <p class="text-sky-200">Страница ${currentPage + 1} из ${totalPages}, всего: ${totalElements} записей</p>
             </div>
@@ -119,7 +119,7 @@
                     <table class="w-full text-sm text-left text-gray-700 table-auto">
                         <thead class="uppercase border-t border-gray-100 bg-gray-50">
                             <!-- First Name -->
-                            <th class="px-6 p-header cursor-pointer group font-medium font-black"
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black"
                                 onclick="window.location.href='?page=${currentPage}&sortField=firstName&direction=${(sortField == 'firstName' && direction = 'asc')?string('desc','asc')}'">
                                 Имя
                                 <span class="text-gray-800 text-2xl">
@@ -130,7 +130,7 @@
                                 </span>
                             </th>
                             <!-- Last Name -->
-                            <th class="px-6 p-top-header cursor-pointer group font-medium font-black"
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black"
                                 onclick="window.location.href='?page=${currentPage}&sortField=lastName&direction=${(sortField == 'lastName' && direction = 'asc')?string('desc','asc')}'">Фамилия
                                 <span class="text-gray-800 text-2xl">
                                         <#if sortField == "lastName">
@@ -140,7 +140,7 @@
                                 </span>
                             </th>
                             <!-- E-mail -->
-                            <th class="px-6 p-top-header cursor-pointer group font-medium font-black"
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black"
                                 onclick="window.location.href='?page=${currentPage}&sortField=email&direction=${(sortField == 'email' && direction == 'asc')?string('desc','asc')}'">Email
                                 <span class="text-gray-800 text-2xl">
                                   <#if sortField == "email">
@@ -150,7 +150,7 @@
                                 </span>
                             </th>
                             <!-- Position -->
-                            <th class="px-6 p-top-header cursor-pointer group font-medium font-black"
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black"
                                 onclick="window.location.href='?page=${currentPage}&sortField=position<#if direction == 'desc'>&direction=asc<#else>&direction=desc</#if>'">Должность
                                 <span class="text-gray-800 text-2xl">
                                    <#if sortField == "position.name">
@@ -160,17 +160,17 @@
                                 </span>
                             </th>
                             <!-- Actions -->
-                            <th class="px-6 p-top-header cursor-pointer group font-medium font-black">Действия</th>
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black">Действия</th>
                         </thead>
                         <tbody>
                             <!-- Employee Details -->
                             <#list employees as empl>
                                 <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-                                    <td class="px-6 py-4 font-medium">${empl.firstName}</td>
-                                    <td class="px-6 py-4">${empl.lastName}</td>
-                                    <td class="px-6 py-4">${empl.email}</td>
-                                    <td class="px-6 py-4">${empl.position.name}</td>
-                                    <td class="px-6 py-4 flex justify-left gap-2">
+                                    <td class="px-6 py-05rem font-medium">${empl.firstName}</td>
+                                    <td class="px-6 py-05rem">${empl.lastName}</td>
+                                    <td class="px-6 py-05rem">${empl.email}</td>
+                                    <td class="px-6 py-05rem">${empl.position.name}</td>
+                                    <td class="px-6 py-05rem flex justify-left gap-2">
                                         <a href="${springMacroRequestContext.contextPath}/employees/edit/${empl.id}"
                                            class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
                                            title="Изменить">

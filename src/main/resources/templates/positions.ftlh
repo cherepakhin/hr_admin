@@ -116,18 +116,18 @@
             <div class="p-6 overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-700 table-auto">
                     <!-- Caption -->
-                    <thead class="uppercase border-t border-gray-100 bg-gray-50  py-1">
+                    <thead class="uppercase border-t border-gray-100 bg-gray-50">
                         <!-- Name -->
-                        <th class="px-6 cursor-pointer group font-medium font-black">Должность</th>
+                        <th class="px-6 py-09rem cursor-pointer group font-medium font-black">Должность</th>
                         <!-- Actions -->
-                        <th class="px-6 cursor-pointer group font-medium font-black">Действия</th>
+                        <th class="px-6 py-09rem cursor-pointer group font-medium font-black">Действия</th>
                     </thead> <!-- Caption -->
                     <tbody>
                         <!-- Position Details -->
                         <#list positions as position>
-                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition py-09rem text-base">
-                                <td class="px-6">${position.name}</td>
-                                <td class="px-6  flex justify-left gap-2">
+                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition text-base">
+                                <td class="px-6 py-05rem">${position.name}</td>
+                                <td class="px-6 flex justify-left gap-2 py-05rem">
                                     <a href="${springMacroRequestContext.contextPath}/positions/edit/${position.id}"
                                         class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
                                         title="Изменить">
