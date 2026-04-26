@@ -109,13 +109,13 @@
     <div class="flex flex-1 flex-col overflow-hidden">
         <!-- Header -->
         <div class="w-full mx-auto bg-white shadow-xl border border-gray-100 text-left">
-            <div class="bg-sky-900 px-6 py-4 logo-padding text-white text-left flex flex-wrap items-center justify-between gap-4">
+            <div class="bg-sky-900 px-6 py-3 logo-padding text-white text-left flex flex-wrap items-center justify-between gap-4">
                 <h2 class="font-semibold px-2 " style="font-size: 1.5rem; line-height: 2rem;">Должности</h2>
 
                 <div class="flex  mobile-sort-container justify-between items-center gap-2">
                     <a href="${springMacroRequestContext.contextPath}/positions/new"
-                       class="btn-dark-blue mobile-add-btn px-5 font-semibold shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 whitespace-nowrap "
-                       style="padding-top: 0.25em; padding-bottom: 0.25em;"
+                       class="btn-dark-blue mobile-add-btn px-5 py-2 font-semibold shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 whitespace-nowrap "
+
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
