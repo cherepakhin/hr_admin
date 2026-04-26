@@ -67,14 +67,19 @@ body {
     padding-bottom: 0;
 }
 
+.py-025rem {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
 .py-05rem {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
 }
 
-.py-025rem {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+.py-075rem {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
 }
 
 .py-09rem {
