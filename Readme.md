@@ -124,6 +124,23 @@ public class ProductController {
     }
 ````
 
+Обращение из __файлов шаблонов (*.ftlh)__ к ресурсам __src/resource/STATIC/__ происходит через переменную __springMacroRequestContext.contextPath__.
+Нужно для минимизации запросов к внешним ресурсам интернета (и прочим вопросам безопаснотси). 
+Пример из [src/resource/templates/positions.ftlh](src/resource/templates/positions.ftlh):
+
+````
+<head>
+    <!-- Tailwind CSS via CDN -->
+    <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
+
+    <!-- Alpine.js for interactivity -->
+    <!--<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>-->
+    <script src="${springMacroRequestContext.contextPath}/js/cdn.min.js" defer></script>
+...
+````
+
+
+
 ### Тестирование
 
 ````shell
