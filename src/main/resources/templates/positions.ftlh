@@ -134,7 +134,7 @@
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
         <!-- Header -->
-        <div class="bg-sky-900 px-6 logo-padding text-white text-center py-4">
+        <div class="bg-sky-900 px-6 py-3 logo-padding text-white text-center">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl font-semibold text-white">Должности</h2>
                 <a href="${springMacroRequestContext.contextPath}/positions/new"
