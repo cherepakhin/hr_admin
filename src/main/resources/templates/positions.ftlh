@@ -149,7 +149,7 @@
                                     </a>
                                     <!-- Delete Position with Confirmation -->
                                     <button type="button"
-                                        onclick="openDeleteModal('${springMacroRequestContext.contextPath}/positions/delete/${position.id}', '${position.name}')"
+                                        onclick="openDeleteModal('${springMacroRequestContext.contextPath}/positions/', '${position.id}', '${position.name}')"
                                         title="Удалить должность"
                                         class="text-sky-900 hover:text-sky-700 hover:bg-red-100 font-medium text-sm transition flex items-center gap-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
@@ -191,8 +191,9 @@
             }
         }
 
-        function openDeleteModal(url, name) {
-            document.getElementById('confirmDeleteBtn').href = url;
+        function openDeleteModal(url, id, name) {
+            console.debug(url + 'delete/' + id);
+            document.getElementById('confirmDeleteBtn').href = url + 'delete/' + id;
             document.getElementById('deleteName').textContent = name;
             const modal = document.getElementById('deleteModal');
             modal.style.display = 'flex';

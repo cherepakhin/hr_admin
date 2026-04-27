@@ -63,8 +63,9 @@ public class PositionController {
 				errors.append(error.getDefaultMessage()).append("\n");
 				log.error(error.getDefaultMessage());
 			}
+			// find in create_position.ftlh by name="name" (<input ... name="name")
 			model.addAttribute("name", position.getName());
-			model.addAttribute("error", errors.toString());
+			model.addAttribute("error", errors.toString()); // <p class="text-red-600 text-xs mt-1">${error}</p>
 			return NamesView.CREATE_POSITION;
 		}
 		if (positionRepository.existsByName(position.getName())) {
@@ -81,7 +82,7 @@ public class PositionController {
 		return "redirect:/" + NamesView.POSITIONS + "/";
 	}
 
-	// GET /positions/edit/{id} - форма редактирования
+	// GET /positions/edit/{id} - вызов формы для редактирования
 	@GetMapping("/edit/{id}")
 	public String showEditForm(@PathVariable Long id, Model model) {
 		Position position = positionRepository.findById(id)
