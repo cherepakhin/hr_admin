@@ -115,7 +115,6 @@
                 <div class="flex  mobile-sort-container justify-between items-center gap-2">
                     <a href="${springMacroRequestContext.contextPath}/positions/new"
                        class="btn-dark-blue mobile-add-btn px-5 py-2 font-semibold shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 whitespace-nowrap "
-
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -138,7 +137,7 @@
                         <!-- Position Details -->
                         <#list positions as position>
                             <tr class="border-b border-gray-100 hover:bg-gray-50 transition text-base">
-                                <td class="px-6 py-05rem">${position.name}</td>
+                                <td class="px-6 py-05rem">${position.name} (${position.id})</td>
                                 <td class="px-6 flex justify-left gap-2 py-05rem">
                                     <a href="${springMacroRequestContext.contextPath}/positions/edit/${position.id}"
                                         class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
@@ -148,8 +147,10 @@
                                         </svg>
                                     </a>
                                     <!-- Delete Position with Confirmation -->
+                                    <!-- onclick="openDeleteModal(${position.id})" -->
+                                    <!-- ID ???? При фиксированном ID работает !!!! -->
                                     <button type="button"
-                                        onclick="openDeleteModal('${springMacroRequestContext.contextPath}/positions/', '${position.id}', '${position.name}')"
+                                        onclick="openDeleteModal(${position.id})"
                                         title="Удалить должность"
                                         class="text-sky-900 hover:text-sky-700 hover:bg-red-100 font-medium text-sm transition flex items-center gap-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
@@ -177,28 +178,64 @@
             <p>Вы уверены, что хотите удалить <span id="deleteName" class="font-medium"></span>?</p>
             <div class="modal-actions">
                 <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
-                <button id="confirmDeleteBtn" type="button" onclick="deletePosition()" class="btn-delete">Удалить</button>
+                <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. НО НЕ ОБНОВЛЯЕТСЯ. И где взять ID ?-->
+                <button id="confirmDeleteBtn" type="button" onclick="deletePosition(4)" class="btn-delete">Удалить</button>
+                <!-- НЕ РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ, ОБНОВЛЯЕТСЯ. НУЖНО ТОЛЬКО УСТАНОВИТЬ ID -->
+                <a id='link_delete_a' class="btn-delete" href="${springMacroRequestContext.contextPath}/positions/delete/4">Delete</a>
             </div>
         </div>
     </div>
     <script>
-        window.onclick = function(event) {
-            const modal = document.getElementById('confirmDeleteBtn');
-            console.log(`Clicked confirmDeleteBtn`);
+        async function openDeleteModal(id) {
+            // url - ${springMacroRequestContext.contextPath}/positions
+            console.log("openDeleteModal: id=" + id);
+            console.log("${springMacroRequestContext.contextPath}/rest/positions/delete/" + id);
+            document.getElementById('deleteName').textContent = id;
+            document.getElementById('confirmDeleteBtn').onclick = "deletePosition("+id+")";
+            document.getElementById('link_delete_a').href = "${springMacroRequestContext.contextPath}/positions/delete/" + id;
 
-            if (event.target === modal && modal.classList.contains('show')) {
-                closeDeleteModal();
+            // delete action
+            //const xhr = new XMLHttpRequest();
+            console.log(`Can be deleted for id=` + id);
+            const response = await fetch("${springMacroRequestContext.contextPath}/rest/positions/can_delete/" + id);
+            const responseText = await response.text();
+            console.log("response can_delete:");
+            console.log(responseText);
+            const answerJson = JSON.parse(responseText);
+            console.log("receive answerJson:");
+            console.log(answerJson);
+            console.log("answerJson.deleteable:");
+            console.log(answerJson.deleteable);
+            if(answerJson.deleteable == true) {
+                console.log("set on click to confirm DELETE");
+                console.log("${springMacroRequestContext.contextPath}/positions/delete/" + id);
+                const btn = document.getElementById('confirmDeleteBtn');
+                btn.onclick = function() {
+                    console.log('!!!');
+                    console.log("deleting id=" + id);
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', "${springMacroRequestContext.contextPath}/positions/delete/" + id, false); // синхронный запрос
+                    xhr.send();
+                    closeDeleteModal();
+                };
+                // btn.onclick = "deletePosition("+"${springMacroRequestContext.contextPath}/positions/delete/" + id+")";
+            } else {
+                console.log("can not be_deleted");
             }
-        }
-
-        function openDeleteModal(url, id, name) {
-            console.debug(url + 'delete/' + id);
-            document.getElementById('confirmDeleteBtn').href = url + 'delete/' + id;
-            document.getElementById('deleteName').textContent = name;
+            //console.log(`Can be deleted response:` + response);
+            //if (response.ok) {
+            //    console.log(`Can be deleted response:` + response);
+            //    console.log(response);
+            //    let json = response.json();
+            //} else {
+            //    alert("Ошибка HTTP: " + response.status);
+            //}
             const modal = document.getElementById('deleteModal');
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('show'), 10);
             document.body.style.overflow = 'hidden';
+            console.log("answerJson");
+            console.log(answerJson);
         }
 
         function closeDeleteModal() {
@@ -210,21 +247,26 @@
             document.body.style.overflow = '';
         }
 
-        function deletePosition() {
+        function deletePosition(id) {
+            // Работает удаление
             console.log("Deleting...");
+            console.log(id);
+            // console.log("${springMacroRequestContext.contextPath}/rest/positions/delete/" + id);
+
             const modal = document.getElementById('deleteModal');
             modal.classList.remove('show');
             setTimeout(() => {
-                modal.style.display = 'none';
+               modal.style.display = 'none';
             }, 300);
 
-            console.log(document.getElementById('confirmDeleteBtn').href);
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', document.getElementById('confirmDeleteBtn').href, false); // синхронный запрос
-            xhr.send();
+            // console.log(document.getElementById('confirmDeleteBtn').href);
+            // const xhr = new XMLHttpRequest();
+            // xhr.open('GET', document.getElementById('confirmDeleteBtn').href, false); // синхронный запрос
+            // xhr.send();
 
-            document.body.style.overflow = '';
-            location.reload();
+            // document.body.style.overflow = '';
+
+            //location.reload();
         }
 
     </script>
