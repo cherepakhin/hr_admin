@@ -163,7 +163,7 @@
                                     <!-- Delete Position with Confirmation -->
                                     <!-- onclick="openDeleteModal(${position.id})" -->
                                     <button type="button"
-                                        onclick="canDeletePosition(${position.id})"
+                                        onclick="canDeletePosition(${position.id}, '${position.name}')";
                                         title="Удалить должность"
                                         class="text-sky-900 hover:text-sky-700 hover:bg-red-100 font-medium text-sm transition flex items-center gap-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
@@ -198,7 +198,7 @@
 
                 <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. ОБНОВЛЕНИЕ ПОСЛЕ УДАЛЕНИЯ ПРОИСХОДИТ !!! -->
                 <!-- НЕ ВАЖНО !!! что href=".../delete/4",  ссылка будет заменена в  <button type="button" onclick="openDeleteModal({position.id})" См. выше в списке отображения должностей -->
-                <a id='link_delete_a' class="btn-delete" href="${springMacroRequestContext.contextPath}/positions/delete/4">Удалить</a>
+                <a id='link_delete_a' class="btn-delete" href="${springMacroRequestContext.contextPath}/positions/delete/{position.id}">Удалить</a>
                 <!-- href будет установлено в async function openDeleteModal(id) (см.ниже) -->
                 <!--<a id='link_delete_a' class="btn-delete" href="">Delete</a>-->
             </div>
@@ -222,7 +222,7 @@
     </div>
 
     <script>
-        async function canDeletePosition(id) {
+        async function canDeletePosition(id, name) {
             // delete action
             console.log(`canDeletePosition: Can be deleted for id=` + id);
             const response = await fetch("${springMacroRequestContext.contextPath}/rest/positions/can_delete/" + id);
@@ -239,16 +239,16 @@
             }
             if(answer.deleteable) {
                 console.log("can be deteted bool answer.deleteable=true if(answer.deleteable)");
-                openDeleteModal(id);
+                openDeleteModal(id, name);
             } else {
                 console.log("canNOT be deteted bool answer.deleteable=true if(!answer.deleteable)");
-                openCanNotBeDeleteModal(id);
+                openCanNotBeDeleteModal(id, name);
             }
         }
 
-        async function openCanNotBeDeleteModal(id) {
+        async function openCanNotBeDeleteModal(position) {
             // url - ${springMacroRequestContext.contextPath}/positions
-            console.log("openCanNotBeDeleteModal: id=" + id);
+            console.log("openCanNotBeDeleteModal: id=" + position.id);
 
             const modal = document.getElementById('canNotDeleteModal');
             modal.style.display = 'flex';
@@ -256,11 +256,11 @@
             document.body.style.overflow = 'hidden';
         }
 
-        async function openDeleteModal(id) {
+        async function openDeleteModal(id, name) {
             // url - ${springMacroRequestContext.contextPath}/positions
             console.log("openDeleteModal: id=" + id);
             console.log("${springMacroRequestContext.contextPath}/rest/positions/delete/" + id);
-            document.getElementById('deleteName').textContent = id;
+            document.getElementById('deleteName').textContent = name;
 
             // так тоже можно с другим вариантом кнопки. (см.выше). Не удалять, оставить для примера
             // document.getElementById('confirmDeleteBtn').onclick = "deletePosition("+id+")";
