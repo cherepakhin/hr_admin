@@ -126,14 +126,9 @@ public class PositionController {
 
 	// GET /positions/delete/{id} - удаление
 
-	//@GetMapping("/delete/{id}")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String deletePosition(@PathVariable Long id) {
-		log.info("Delete position id: {}", id);
-
-		// TODO: Проверить на существование
-		// TODO: Проверить, используется ли позиция где-то ещё (например, у сотрудников)
-		// TODO: Диалог сообщения о невозможности удаления взять из Подтверждения удаления сотрудника из index.ftlh
+		// Проверка на возможность удаления сделана в форме
 		positionRepository.sqlDeleteById(id);
 
 		// Вместо простого редиректа, добавляем уникальный параметр
