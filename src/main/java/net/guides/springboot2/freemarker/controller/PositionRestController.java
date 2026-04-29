@@ -1,5 +1,6 @@
 package net.guides.springboot2.freemarker.controller;
 
+import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/rest/positions/")
@@ -26,10 +29,13 @@ public class PositionRestController {
 	}
 
 	@GetMapping("/can_delete/{id}")
-	public String canDeletePosition(@PathVariable String id, Model model) {
+	public String canDeletePosition(@PathVariable Long id, Model model) {
 		log.info("Verify delete position id: {}", id);
-		//List<Employee> employees = employeeRepository.findAllByPosition(id);
-		//TODO: "false" всегда
-		return "{\"deleteable\": true}";
+		List<Employee> employees = employeeRepository.findAllByPosition(id);
+		if(employees.size()>0) {
+			return "{\"deleteable\": false}";
+		} else {
+			return "{\"deleteable\": true}";
+		}
 	}
 }

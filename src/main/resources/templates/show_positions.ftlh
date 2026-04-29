@@ -22,8 +22,22 @@
 
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
     <style>
-        /* Стили для модального окна Удаления */
+        /* Стили для модального окна Не могу удалить */
         #deleteEmployeeModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Стили для модального окна Удаления */
+        #canNotDeleteEmployeeModal {
             display: none;
             position: fixed;
             top: 0;
@@ -149,7 +163,7 @@
                                     <!-- Delete Position with Confirmation -->
                                     <!-- onclick="openDeleteModal(${position.id})" -->
                                     <button type="button"
-                                        onclick="openDeleteModal(${position.id})"
+                                        onclick="canDeletePosition(${position.id})"
                                         title="Удалить должность"
                                         class="text-sky-900 hover:text-sky-700 hover:bg-red-100 font-medium text-sm transition flex items-center gap-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
@@ -190,14 +204,65 @@
             </div>
         </div>
     </div>
+
+    <!-- Can`t Be Deleted Confirmation Modal -->
+    <div id="canNotDeleteModal">
+        <div class="modal-container">
+            <div class="modal-title">
+                <svg class="warning-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                Не могу удалить
+            </div>
+            <p>Не могу удалить, т.к. есть сотрудники с этой должностью. Сначала нужно перевести их на другую должность.</p>
+            <div class="modal-actions">
+                <button type="button" onclick="closeCanNotDeleteModal()" class="btn-cancel">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        async function canDeletePosition(id) {
+            // delete action
+            console.log(`canDeletePosition: Can be deleted for id=` + id);
+            const response = await fetch("${springMacroRequestContext.contextPath}/rest/positions/can_delete/" + id);
+            const responseText = await response.text();
+            console.log("canDeletePosition: response can_delete:");
+            console.log(responseText);
+            const answer = JSON.parse(responseText);
+            console.log(answer);
+            if(answer.deleteable == false) {
+                console.log("BOOL answer.deleteable == false");
+            }
+            if(answer.deleteable == true) {
+                console.log("BOOL answer.deleteable == true");
+            }
+            if(answer.deleteable) {
+                console.log("can be deteted bool answer.deleteable=true if(answer.deleteable)");
+                openDeleteModal(id);
+            } else {
+                console.log("canNOT be deteted bool answer.deleteable=true if(!answer.deleteable)");
+                openCanNotBeDeleteModal(id);
+            }
+        }
+
+        async function openCanNotBeDeleteModal(id) {
+            // url - ${springMacroRequestContext.contextPath}/positions
+            console.log("openCanNotBeDeleteModal: id=" + id);
+
+            const modal = document.getElementById('canNotDeleteModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
         async function openDeleteModal(id) {
             // url - ${springMacroRequestContext.contextPath}/positions
             console.log("openDeleteModal: id=" + id);
             console.log("${springMacroRequestContext.contextPath}/rest/positions/delete/" + id);
             document.getElementById('deleteName').textContent = id;
 
-            // так тоже можно с ругим вариантом кнопки. (см.выше). Не удалять, оставить для примера
+            // так тоже можно с другим вариантом кнопки. (см.выше). Не удалять, оставить для примера
             // document.getElementById('confirmDeleteBtn').onclick = "deletePosition("+id+")";
             // удаление через GET ссылку
             document.getElementById('link_delete_a').href = "${springMacroRequestContext.contextPath}/positions/delete/" + id;
@@ -213,6 +278,8 @@
             console.log(answerJson);
             console.log("answerJson.deleteable:");
             console.log(answerJson.deleteable);
+            console.log("answerJson");
+            console.log(answerJson);
             if(answerJson.deleteable == true) {
                 console.log("set on click to confirm DELETE");
                 console.log("${springMacroRequestContext.contextPath}/positions/delete/" + id);
@@ -242,12 +309,19 @@
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('show'), 10);
             document.body.style.overflow = 'hidden';
-            console.log("answerJson");
-            console.log(answerJson);
         }
 
         function closeDeleteModal() {
             const modal = document.getElementById('deleteModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        function closeCanNotDeleteModal() {
+            const modal = document.getElementById('canNotDeleteModal');
             modal.classList.remove('show');
             setTimeout(() => {
                 modal.style.display = 'none';

@@ -163,6 +163,20 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+#canNotDeleteModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
 .modal-container {
     background-color: white;
     border-radius: 0rem;
@@ -178,6 +192,12 @@ body {
     transform: scale(1);
     opacity: 1;
 }
+
+#canNotDeleteModal.show .modal-container {
+    transform: scale(1);
+    opacity: 1;
+}
+
 .modal-title {
     font-size: 1.25rem;
     font-weight: 600;
