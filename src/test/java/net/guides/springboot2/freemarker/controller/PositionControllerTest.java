@@ -139,7 +139,7 @@ public class PositionControllerTest {
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/positions/"));
 
-		verify(positionRepository).deleteById(1L);
+		verify(positionRepository).sqlDeleteById(1L);
 	}
 
 	@Test
