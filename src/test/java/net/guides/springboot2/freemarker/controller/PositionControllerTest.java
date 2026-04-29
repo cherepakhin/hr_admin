@@ -1,6 +1,7 @@
 package net.guides.springboot2.freemarker.controller;
 
 import net.guides.springboot2.freemarker.model.Position;
+import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class PositionControllerTest {
 	@MockBean
 	private PositionRepository positionRepository;
 
+	@MockBean
+	private EmployeeRepository employeeRepository;
+
 	@Test
 	public void shouldListPositions() throws Exception {
 		// Given
@@ -43,7 +47,7 @@ public class PositionControllerTest {
 		// When & Then
 		mockMvc.perform(get("/positions/"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("positions"))
+				.andExpect(view().name("show_positions"))
 				.andExpect(model().attributeExists("positions"))
 				.andExpect(model().attribute("positions", org.hamcrest.Matchers.hasSize(1)))
 				.andExpect(content().string(org.hamcrest.Matchers.containsString("Developer")));
@@ -73,16 +77,16 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldNotCreateDuplicatePosition() throws Exception {
+		String NAME_POSITION ="Developer";
 		// Given
-		given(positionRepository.existsByName("Developer")).willReturn(true);
+		given(positionRepository.existsByName(NAME_POSITION)).willReturn(true);
 
 		// When & Then
 		mockMvc.perform(post("/positions/")
-						.param("name", "Developer"))
+				.param("name", NAME_POSITION))
 				.andExpect(status().isOk())
 				.andExpect(view().name("create_position"))
-				.andExpect(model().hasErrors())
-				.andExpect(model().attributeHasFieldErrors("position", "name"));
+				.andExpect(model().attribute("error", "Должность с таким названием уже существует."));
 	}
 
 	@Test

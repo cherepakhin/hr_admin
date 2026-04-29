@@ -149,7 +149,7 @@
 					<outputDirectory>${project.build.outputDirectory}</outputDirectory>
 					<filename>banner.txt</filename>
 					<includeInfo>true</includeInfo>
-					<info>Version: ${project.version}, Server: ${server.address:localhost}:${server.port:8080}, Profile: ${}</info>
+					<info>Version: ${project.version}, Server: ${server.address:localhost}:${server.port:8080}</info>
 					<font>standard</font>
 					<color>yellow</color>
 				</configuration>
