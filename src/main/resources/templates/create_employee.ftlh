@@ -34,7 +34,7 @@
          </div>
 
         <div class="w-full mx-0 bg-white shadow-xl border border-gray-100 all-employees">
-            <div class="p-6 overflow-x-auto">
+            <div class="p-0 overflow-x-auto"> <!-- old variant p-6 -->
                 <form action="${springMacroRequestContext.contextPath}/employees/" method="post" class="p-0 bg-white rounded-lg space-y-4">
                     <!-- First Name -->
                     <div>
