@@ -179,13 +179,14 @@
                 <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
                 <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. НО НЕ ОБНОВЛЯЕТСЯ !!! ПОСЛЕ УДАЛЕНИЯ-->
                 <!-- не важно что onclick="deletePosition(4)", ссылка будет заменена в openDeleteModal -->
-                <!--<button id="confirmDeleteBtn" type="button" onclick="deletePosition(4)" class="btn-delete">Удалить</button>-->
+                <!-- НЕ УДАЛЯТЬ. Оставить для примера -->
+                <!-- <button id="confirmDeleteBtn" type="button" onclick="deletePosition(4)" class="btn-delete">Удалить</button> -->
 
                 <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. ОБНОВЛЕНИЕ ПОСЛЕ УДАЛЕНИЯ ПРОИСХОДИТ !!! -->
                 <!-- НЕ ВАЖНО !!! что href=".../delete/4",  ссылка будет заменена в  <button type="button" onclick="openDeleteModal({position.id})" См. выше в списке отображения должностей -->
-                <!-- <a id='link_delete_a' class="btn-delete" href="${springMacroRequestContext.contextPath}/positions/delete/4">Delete</a> -->
+                <a id='link_delete_a' class="btn-delete" href="${springMacroRequestContext.contextPath}/positions/delete/4">Удалить</a>
                 <!-- href будет установлено в async function openDeleteModal(id) (см.ниже) -->
-                <a id='link_delete_a' class="btn-delete" href="">Delete</a>
+                <!--<a id='link_delete_a' class="btn-delete" href="">Delete</a>-->
             </div>
         </div>
     </div>
@@ -195,8 +196,10 @@
             console.log("openDeleteModal: id=" + id);
             console.log("${springMacroRequestContext.contextPath}/rest/positions/delete/" + id);
             document.getElementById('deleteName').textContent = id;
-            // так тоже можно
+
+            // так тоже можно с ругим вариантом кнопки. (см.выше). Не удалять, оставить для примера
             // document.getElementById('confirmDeleteBtn').onclick = "deletePosition("+id+")";
+            // удаление через GET ссылку
             document.getElementById('link_delete_a').href = "${springMacroRequestContext.contextPath}/positions/delete/" + id;
 
             // delete action
@@ -213,15 +216,16 @@
             if(answerJson.deleteable == true) {
                 console.log("set on click to confirm DELETE");
                 console.log("${springMacroRequestContext.contextPath}/positions/delete/" + id);
-                const btn = document.getElementById('confirmDeleteBtn');
-                btn.onclick = function() {
-                    console.log('!!!');
-                    console.log("deleting id=" + id);
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('GET', "${springMacroRequestContext.contextPath}/positions/delete/" + id, false); // синхронный запрос
-                    xhr.send();
-                    closeDeleteModal();
-                };
+                // Не удалять. Оставить для примера
+                //const btn = document.getElementById('confirmDeleteBtn');
+                //btn.onclick = function() {
+                //    console.log('!!!');
+                //    console.log("deleting id=" + id);
+                //    const xhr = new XMLHttpRequest();
+                //    xhr.open('GET', "${springMacroRequestContext.contextPath}/positions/delete/" + id, false); // синхронный запрос
+                //    xhr.send();
+                //    closeDeleteModal();
+                //};
                 // btn.onclick = "deletePosition("+"${springMacroRequestContext.contextPath}/positions/delete/" + id+")";
             } else {
                 console.log("can not be_deleted");
