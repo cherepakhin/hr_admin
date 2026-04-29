@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Создать должность</title>
 
     <!-- Favicon -->
@@ -16,12 +17,16 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex">
     <!-- Create Position page -->
+    <!-- На мобилах будет криво выглядеть. -->
+    <!-- Для приведения в порядок нужно сделать адаптивную верстку, как в create_employee.html -->
+    <!-- или в edit_employee.html (там другой вариант) -->
+    <!-- СПЕЦИАЛЬНО ОСТАВИЛ ТАК ДЛЯ ПРИМЕРА -->
     <!-- Sidebar -->
     <#include "fragments/sidebar.ftl">
     <!-- End Include Sidebar Fragment -->
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden p-6">
+    <div class="flex-1 flex flex-col overflow-hidden">
         <div class="max-w-md mx-auto bg-white shadow-xl rounded-lg overflow-hidden w-full">
             <div class="bg-sky-900 text-white p-6">
                 <h1 class="text-xl font-semibold">Новая должность</h1>
