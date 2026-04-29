@@ -144,9 +144,12 @@ public class PositionControllerTest {
 
 	@Test
 	public void updateForShortName() throws Exception {
+		Long ID_POSITION= 1L;
 		// "E" is short name
-		MvcResult result = mockMvc.perform(post("/positions/update/1")
-						.param("name", "E"))
+		String SHORT_NAME_POSITION = "E";
+
+		MvcResult result = mockMvc.perform(post("/positions/update/" + ID_POSITION)
+						.param("name", SHORT_NAME_POSITION))
 				.andExpect(status().isOk())
 				.andExpect(view().name("edit_position"))
 				.andExpect(model().hasErrors())
