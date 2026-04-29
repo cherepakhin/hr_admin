@@ -148,7 +148,6 @@
                                     </a>
                                     <!-- Delete Position with Confirmation -->
                                     <!-- onclick="openDeleteModal(${position.id})" -->
-                                    <!-- ID ???? При фиксированном ID работает !!!! -->
                                     <button type="button"
                                         onclick="openDeleteModal(${position.id})"
                                         title="Удалить должность"
@@ -178,10 +177,15 @@
             <p>Вы уверены, что хотите удалить <span id="deleteName" class="font-medium"></span>?</p>
             <div class="modal-actions">
                 <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
-                <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. НО НЕ ОБНОВЛЯЕТСЯ. И где взять ID ?-->
-                <button id="confirmDeleteBtn" type="button" onclick="deletePosition(4)" class="btn-delete">Удалить</button>
-                <!-- НЕ РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ, ОБНОВЛЯЕТСЯ. НУЖНО ТОЛЬКО УСТАНОВИТЬ ID -->
-                <a id='link_delete_a' class="btn-delete" href="${springMacroRequestContext.contextPath}/positions/delete/4">Delete</a>
+                <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. НО НЕ ОБНОВЛЯЕТСЯ !!! ПОСЛЕ УДАЛЕНИЯ-->
+                <!-- не важно что onclick="deletePosition(4)", ссылка будет заменена в openDeleteModal -->
+                <!--<button id="confirmDeleteBtn" type="button" onclick="deletePosition(4)" class="btn-delete">Удалить</button>-->
+
+                <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. ОБНОВЛЕНИЕ ПОСЛЕ УДАЛЕНИЯ ПРОИСХОДИТ !!! -->
+                <!-- НЕ ВАЖНО !!! что href=".../delete/4",  ссылка будет заменена в  <button type="button" onclick="openDeleteModal({position.id})" См. выше в списке отображения должностей -->
+                <!-- <a id='link_delete_a' class="btn-delete" href="${springMacroRequestContext.contextPath}/positions/delete/4">Delete</a> -->
+                <!-- href будет установлено в async function openDeleteModal(id) (см.ниже) -->
+                <a id='link_delete_a' class="btn-delete" href="">Delete</a>
             </div>
         </div>
     </div>
@@ -191,11 +195,11 @@
             console.log("openDeleteModal: id=" + id);
             console.log("${springMacroRequestContext.contextPath}/rest/positions/delete/" + id);
             document.getElementById('deleteName').textContent = id;
-            document.getElementById('confirmDeleteBtn').onclick = "deletePosition("+id+")";
+            // так тоже можно
+            // document.getElementById('confirmDeleteBtn').onclick = "deletePosition("+id+")";
             document.getElementById('link_delete_a').href = "${springMacroRequestContext.contextPath}/positions/delete/" + id;
 
             // delete action
-            //const xhr = new XMLHttpRequest();
             console.log(`Can be deleted for id=` + id);
             const response = await fetch("${springMacroRequestContext.contextPath}/rest/positions/can_delete/" + id);
             const responseText = await response.text();
