@@ -18,8 +18,8 @@
 <body class="bg-gray-50 min-h-screen flex">
     <!-- Create Position page -->
     <!-- На мобилах будет криво выглядеть. -->
-    <!-- Для приведения в порядок нужно сделать адаптивную верстку, как в create_employee.html -->
-    <!-- или в edit_employee.html (там другой вариант) -->
+    <!-- Для приведения в порядок нужно сделать адаптивную верстку, как в create_employee.html (с toolbar слева) -->
+    <!-- или в edit_employee.html (там другой вариант, без toolbar слева) -->
     <!-- СПЕЦИАЛЬНО ОСТАВИЛ ТАК ДЛЯ ПРИМЕРА -->
     <!-- Sidebar -->
     <#include "fragments/sidebar.ftl">
