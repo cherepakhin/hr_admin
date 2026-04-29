@@ -188,7 +188,7 @@
                 </svg>
                 Подтверждение удаления
             </div>
-            <p>Вы уверены, что хотите удалить <span id="deleteName" class="font-medium"></span>?</p>
+            <p>Вы уверены, что хотите удалить "<span id="deleteName" class="font-medium"></span>"?</p>
             <div class="modal-actions">
                 <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
                 <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. НО НЕ ОБНОВЛЯЕТСЯ !!! ПОСЛЕ УДАЛЕНИЯ-->
