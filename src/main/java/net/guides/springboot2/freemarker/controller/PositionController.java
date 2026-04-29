@@ -112,8 +112,8 @@ public class PositionController {
 			model.addAttribute("error", errors);
 		}
 
-		if (positionRepository.existsByNameAndIdNot(position.getName(), id)) {
-			bindingResult.rejectValue("name", "error.position", "Должность с таким названием уже существует.");
+		if (!positionRepository.existsByName(position.getName())) {
+			bindingResult.rejectValue("name", "error.position", "Должность с таким ID и названием НЕ существует.");
 		}
 		if (bindingResult.hasErrors()) {
 			position.setId(id); // Восстанавливаем id для формы

@@ -105,31 +105,32 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldReturn404WhenPositionNotFoundForEdit() {
+		Long POSITION_ID=999L;
 		// Given
-		given(positionRepository.findById(999L)).willReturn(Optional.empty());
+		given(positionRepository.findById(POSITION_ID)).willReturn(Optional.empty());
 
 		// When & Then
 		try {
-			mockMvc.perform(get("/positions/edit/999"));
+			mockMvc.perform(get("/positions/edit/" + POSITION_ID));
 		} catch (Exception e) {
-			assertThat(e.getMessage()).isEqualTo("Request processing failed: java.lang.IllegalArgumentException: Invalid position ID: 999");
+			assertThat(e.getMessage()).isEqualTo("Request processing failed: java.lang.IllegalArgumentException: Invalid position ID: " + POSITION_ID);
 		}
 	}
 
 	@Test
-	public void shouldNotUpdateWithDuplicateName() throws Exception {
+	public void shouldUpdate() throws Exception {
+		String NAME_POSITION = "Developer";
+		Long ID_POSITION= 1L;
 		// Given
-		Position existing = new Position(1L, "Developer");
-		given(positionRepository.findById(1L)).willReturn(Optional.of(existing));
-		given(positionRepository.existsByNameAndIdNot("Developer", 1L)).willReturn(true);
+		Position existing = new Position(ID_POSITION, NAME_POSITION);
+		given(positionRepository.findById(ID_POSITION)).willReturn(Optional.of(existing));
+		given(positionRepository.existsByName(NAME_POSITION)).willReturn(true);
 
 		// When & Then
-		mockMvc.perform(post("/positions/update/1")
-						.param("name", "Developer"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("edit_position"))
-				.andExpect(model().hasErrors())
-				.andExpect(model().attributeHasFieldErrors("position", "name"));
+		mockMvc.perform(post("/positions/update/" + ID_POSITION)
+						.param("name", NAME_POSITION))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/show_positions/"));
 	}
 
 	@Test
