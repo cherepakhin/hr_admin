@@ -27,4 +27,5 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: trace
   file:
-    path: log/hr-admin.log
+    name: logs/hr_admin.log
+    path: logs/
