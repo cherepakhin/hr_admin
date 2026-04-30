@@ -42,7 +42,7 @@
                         <input
                             id="firstName"
                             name="firstName"
-                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500"
                             required
                             autofocus
                         />
@@ -54,7 +54,7 @@
                         <input
                             id="lastName"
                             name="lastName"
-                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500"
                             required
                         />
                     </div>
@@ -66,7 +66,7 @@
                             id="email"
                             name="email"
                             type="email"
-                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                            class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500"
                             required
                         />
                     </div>
@@ -77,7 +77,7 @@
                         <select
                             id="position_id"
                             name="position.id"
-                            class="border border-gray-300 shadow-sm py-2 px-3 focus:ring-2 focus:ring-sky-500 focus:outline-none combo-btn"
+                            class="border border-gray-300 shadow-sm py-2 px-3 focus:ring-0 focus:ring-sky-500 focus:outline-none combo-btn"
                             style="width: 12em; padding-left: 1em; padding-right: 1em;"
                             required>
                             <#list positions as pos>

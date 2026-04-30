@@ -58,7 +58,7 @@
                         <select
                             id="sortSelect"
                             onchange="window.location.href='?sortField=' + this.value + '&direction=asc'"
-                            class="block w-full px-5 py-2 bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 appearance-none rounded-none">
+                            class="block w-full px-5 py-2 bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500 appearance-none rounded-none">
                             <option value="firstName" <#if sortField?? && sortField == "firstName">selected</#if>>Имени</option>
                             <option value="lastName" <#if sortField?? && sortField == "lastName" || !sortField??>selected</#if>>Фамилии</option>
                             <option value="email" <#if sortField?? && sortField == "email">selected</#if>>Email</option>
@@ -90,8 +90,8 @@
                                     <a href="${springMacroRequestContext.contextPath}/employees/edit/${employee.id}">
                                     ${employee.firstName} ${employee.lastName}</a>
                                 </h3>
-                                <p class="text-sm text-gray-500">${employee.position.name}</p>
-                                <p class="text-sm text-gray-500">${employee.email}</p>
+                                <p class="text-sm text-gray-500 employees-list-item-padding">${employee.position.name}</p>
+                                <p class="text-sm text-gray-500 employees-list-item-padding">${employee.email}</p>
                             </div>
                         </div>
                         <div class="flex justify-end gap-2">
