@@ -11,3 +11,4 @@ bin
 htmlReport/
 doc/https/keystore.p12
 doc/example_template/
+log/
