@@ -109,11 +109,11 @@ body {
 }
 
 .employees-list-item-padding {
-    padding-top: 0.1em;
-    padding-right: 0.1em;
-    padding-bottom: 0.1em;
-    border-left-width: 0.1em;
-    padding-left: unset;
+    padding-top: 0.2em;
+    padding-right: 0.2em;
+    padding-bottom: 0.2em;
+    border-left-width: 0em;
+    padding-left: 0.2em;
 }
 
 .btn-cancel {
