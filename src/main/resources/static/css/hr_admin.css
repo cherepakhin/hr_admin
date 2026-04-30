@@ -230,3 +230,7 @@ body {
     padding-bottom: 1em;
     margin-left: -1em;
 }
+
+.head_show_employees {
+    padding-top: 0;
+}
