@@ -549,14 +549,19 @@ public class EmployeeControllerMvcTest {
 		emp2.setId(2L);
 		Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
-		Sort sort = Sort.by(Sort.Direction.ASC, "id");
-		Pageable pageable = PageRequest.of(0, 10, sort);
-
 		List<Position> positions = Arrays.asList(position);
 		Mockito.when(this.positionRepository.findAll()).thenReturn(positions);
 
-		Mockito.when(this.employeeRepository.findByFiltersAndSort(any(), any(), any(), any(), any(Pageable.class))).thenReturn(page);
+		// так работает (any(Pageable.class))
+		// firstName. lastName, positionIds, email, pagination
+		// Mockito.when(this.employeeRepository.findByFiltersAndSort(
+		//		eq(""), eq(""), anyList(), eq(""), any(Pageable.class))).thenReturn(page);
 
+		Sort sort = Sort.by(Sort.Direction.ASC, "lastName");
+		Pageable pageable = PageRequest.of(0, 10, sort);
+
+		Mockito.when(this.employeeRepository.findByFiltersAndSort(
+				eq(""), eq(""), any(List.class), eq(""), eq(pageable))).thenReturn(page);
 		try {
 			mockMvc.perform(get("/employees/show_employees" ))
 					.andExpect(status().isOk())
@@ -568,7 +573,7 @@ public class EmployeeControllerMvcTest {
 		}
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq(""), eq(""), any(), eq(""), any(Pageable.class));
+				eq(""), eq(""), any(), eq(""), eq(pageable));
 	}
 
 	@Test
@@ -601,5 +606,9 @@ public class EmployeeControllerMvcTest {
 
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
 				eq(""), eq(""), anyList(), eq(""), eq(pageable));
+	}
+
+	public void showAllEmployeesForEmptyPositionId() {
+
 	}
 }

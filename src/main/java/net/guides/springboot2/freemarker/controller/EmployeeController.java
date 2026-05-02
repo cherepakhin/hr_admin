@@ -236,6 +236,7 @@ public class EmployeeController {
 		List<Long> positions = positionRepository.findAll().stream().map(Position::getId).collect(Collectors.toList());
 		log.debug("positions: {}", positions);
 		// если задана позиция, то в списке должностей оставить только ее
+		// иначе выбирать по всем позициям
 		if (!positionId.equals(-1L)) {
 			positions = positions.stream().filter(p -> p.equals(positionId)).toList();
 		}
