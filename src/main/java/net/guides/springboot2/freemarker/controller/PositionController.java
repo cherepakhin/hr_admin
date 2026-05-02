@@ -79,9 +79,6 @@ public class PositionController {
 			model.addAttribute("error", "Должность с таким названием уже существует.");
 			return NamesView.CREATE_POSITION;
 		}
-		if (bindingResult.hasErrors()) {
-			return NamesView.CREATE_POSITION;
-		}
 		position.setId(positionRepository.getNextId());
 		positionRepository.save(position);
 		return "redirect:/positions/";

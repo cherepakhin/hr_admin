@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -166,5 +167,35 @@ public class PositionControllerMvcTest {
 
 		assertTrue(keysErrors.contains("error"));
 		assertEquals("Имя должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
+	}
+
+	@Test
+	public void createForShortName() throws Exception {
+		// "E" is short name
+		String SHORT_NAME_POSITION = "E";
+
+		MvcResult result = mockMvc.perform(post("/positions/")
+						.param("name", SHORT_NAME_POSITION))
+				.andExpect(status().isOk())
+				.andExpect(view().name("create_position"))
+				.andExpect(model().hasErrors())
+				.andExpect(model().attributeHasFieldErrors("position", "name")).andReturn();
+
+		java.util.Set<String> keysErrors = result.getModelAndView().getModel().keySet();
+		System.out.println("================Keys:");
+		for (String key : keysErrors) {
+			System.out.println("----Key:");
+			System.out.println("Name key:" + key);
+			System.out.println("Value key:" + result.getModelAndView().getModel().get(key));
+		}
+
+		assertTrue(keysErrors.contains("name"));
+		assertEquals("E", result.getModelAndView().getModel().get("name"));
+
+		assertTrue(keysErrors.contains("error"));
+		assertEquals("Имя должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
+
+		ModelAndView model = result.getModelAndView();
+		assertTrue(model.getModel().containsKey("error"));
 	}
 }
