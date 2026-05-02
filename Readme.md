@@ -90,6 +90,8 @@ public class ProductController {
 
 В этом проекте возвращаются имена __view__. 
 
+Внедрение значений в html файлы осуществляется через __Model__ [EmployeeController.java](src/main/java/net/guides/springboot2/freemarker/controller/EmployeeController.java). 
+
 ````java
 	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
 	public String showCreateForm(Model model) {
@@ -101,6 +103,25 @@ public class ProductController {
 	}
 ````
 
+Пример использования __positions__ из примера выше в форме [src/main/resources/templates/create_employee.ftlh](src/main/resources/templates/create_employee.ftlh):
+
+````html
+                    <!-- Position -->
+                    <div>
+                        <label for="position_id">Должность</label>
+                        <select
+                            id="position_id"
+                            name="position.id"
+                            class="border border-gray-300 shadow-sm py-2 px-3 focus:ring-0 focus:ring-sky-500 focus:outline-none combo-btn"
+                            style="width: 12em; padding-left: 1em; padding-right: 1em;"
+                            required>
+                            <#list positions as pos> <!-- Пример использования positions -->
+                                <option value="${pos.id}">${pos.name}</option>
+                            </#list>
+                        </select>
+                    </div>
+
+````
 
 При этом подходе есть особенности тестирования. Пример:
 
