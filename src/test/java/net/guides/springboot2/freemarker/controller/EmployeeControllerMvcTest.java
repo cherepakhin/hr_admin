@@ -373,8 +373,11 @@ public class EmployeeControllerMvcTest {
 		emp2.setId(2L);
 		Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
+		Sort sort = Sort.by(Sort.Direction.ASC, "lastName");
+		Pageable pageable = PageRequest.of(0, 1, sort);
+
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				any(), any(), any(), any(), any())).thenReturn(page);
+				any(), any(), any(), any(), eq(pageable))).thenReturn(page);
 
 		try {
 			mockMvc.perform(get("/employees/show_employees?page=0&size=1&firstName=f&lastName=l&email=e" ))
@@ -386,8 +389,7 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage());
 		}
 
-		Sort sort = Sort.by(Sort.Direction.ASC, "lastName");
-		Pageable pageable = PageRequest.of(0, 1, sort);
+		// verify params !!! see mockMvc.perform(get("/employees/show_employees?page=0&size=1&firstName=f&lastName=l&email=e" ))
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
 				eq("f"), eq("l"), any(), eq("e"), eq(pageable));
 	}
