@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PositionController.class)
-public class PositionControllerTest {
+public class PositionControllerMvcTest {
 
 	@Autowired
 	private MockMvc mockMvc;
