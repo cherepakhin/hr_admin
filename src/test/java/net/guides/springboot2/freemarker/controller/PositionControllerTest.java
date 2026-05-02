@@ -7,12 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -23,7 +20,8 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PositionController.class)
@@ -64,7 +62,7 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldCreatePositionAndRedirect() throws Exception {
-		String NAME_POSITION="Manager";
+		String NAME_POSITION = "Manager";
 		when(positionRepository.existsByName(NAME_POSITION)).thenReturn(Boolean.FALSE);
 
 		mockMvc.perform(post("/positions/")
@@ -77,13 +75,13 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldNotCreateDuplicatePosition() throws Exception {
-		String NAME_POSITION ="Developer";
+		String NAME_POSITION = "Developer";
 		// Given
 		given(positionRepository.existsByName(NAME_POSITION)).willReturn(true);
 
 		// When & Then
 		mockMvc.perform(post("/positions/")
-				.param("name", NAME_POSITION))
+						.param("name", NAME_POSITION))
 				.andExpect(status().isOk())
 				.andExpect(view().name("create_position"))
 				.andExpect(model().attribute("error", "Должность с таким названием уже существует."));
@@ -105,7 +103,7 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldReturn404WhenPositionNotFoundForEdit() {
-		Long POSITION_ID=999L;
+		Long POSITION_ID = 999L;
 		// Given
 		given(positionRepository.findById(POSITION_ID)).willReturn(Optional.empty());
 
@@ -120,7 +118,7 @@ public class PositionControllerTest {
 	@Test
 	public void shouldUpdate() throws Exception {
 		String NAME_POSITION = "Developer";
-		Long ID_POSITION= 1L;
+		Long ID_POSITION = 1L;
 		// Given
 		Position existing = new Position(ID_POSITION, NAME_POSITION);
 		given(positionRepository.findById(ID_POSITION)).willReturn(Optional.of(existing));
@@ -144,7 +142,7 @@ public class PositionControllerTest {
 
 	@Test
 	public void updateForShortName() throws Exception {
-		Long ID_POSITION= 1L;
+		Long ID_POSITION = 1L;
 		// "E" is short name
 		String SHORT_NAME_POSITION = "E";
 
@@ -157,7 +155,7 @@ public class PositionControllerTest {
 
 		java.util.Set<String> keysErrors = result.getModelAndView().getModel().keySet();
 		System.out.println("================Keys:");
-		for(String key :keysErrors){
+		for (String key : keysErrors) {
 			System.out.println("----Key:");
 			System.out.println("Name key:" + key);
 			System.out.println("Value key:" + result.getModelAndView().getModel().get(key));

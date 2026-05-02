@@ -234,6 +234,7 @@ public class EmployeeController {
 		// при этом sql запрос будет position_id in (все id должностей)
 		// динамический sql в планах, см. как сделать в проекте для МТС
 		List<Long> positions = positionRepository.findAll().stream().map(Position::getId).collect(Collectors.toList());
+		log.debug("positions: {}", positions);
 		// если задана позиция, то в списке должностей оставить только ее
 		if (!positionId.equals(-1L)) {
 			positions = positions.stream().filter(p -> p.equals(positionId)).toList();

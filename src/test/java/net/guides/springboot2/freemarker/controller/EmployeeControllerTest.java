@@ -125,8 +125,8 @@ public class EmployeeControllerTest {
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
 		employee.setId(1L);
 
-		given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
 		given(positionRepository.findAll()).willReturn(List.of(position));
+		given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
 
 		// When & Then
 		try {
@@ -195,6 +195,31 @@ public class EmployeeControllerTest {
 			mockMvc.perform(get("/employees/delete/1"))
 					.andExpect(status().is3xxRedirection())
 					.andExpect(redirectedUrl("/index/"));
+		} catch (Exception e) {
+			fail(e.getMessage()) ;
+		}
+
+		verify(employeeRepository).deleteById(1L);
+	}
+
+	@Test
+	public void deleteEmployeeFromShowEmployeesAndRedirect() {
+		Position position = new Position(1L, "Developer");
+		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
+		employee.setId(1L);
+
+		doNothing().when(employeeRepository).deleteById(1L);
+
+		Page<Employee> page = new PageImpl<Employee>(List.of(employee));
+		given(employeeRepository.findAll(any(), any(Sort.class))).willReturn(List.of(employee));
+		given(employeeRepository.findByFiltersAndSort(any(), any(), any(), any(), any())).willReturn(page);
+		given(positionRepository.findAll()).willReturn(List.of(position));
+
+		try {
+			mockMvc.perform((get("/employees/show_employees"))); // set current page for return
+			mockMvc.perform(get("/employees/delete/1"))
+					.andExpect(status().is3xxRedirection())
+					.andExpect(redirectedUrl("/show_employees/"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
