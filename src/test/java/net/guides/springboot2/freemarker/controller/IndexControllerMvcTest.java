@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -36,11 +36,11 @@ public class IndexControllerMvcTest {
 		Employee emp1 = new Employee("Firstname1", "Lastname1", "emp1@example.com", position);
 		emp1.setId(1L);
 
-		Page<Employee> employeePage = new PageImpl<>(Arrays.asList(emp1), PageRequest.of(0, 1), 1);
+		Page<Employee> employeePage = new PageImpl<>(List.of(emp1), PageRequest.of(0, 1), 1);
 		Pageable pageable = PageRequest.of(0, 2);
-		given(employeeRepository.findAll(any(pageable.getClass()))).willReturn(employeePage);
+		given(this.employeeRepository.findAll(any(pageable.getClass()))).willReturn(employeePage);
 
-		mockMvc.perform(get("/"))
+		this.mockMvc.perform(get("/"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("/employees/"));
 	}
