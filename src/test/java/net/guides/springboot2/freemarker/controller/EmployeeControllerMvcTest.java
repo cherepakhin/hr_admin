@@ -48,7 +48,7 @@ public class EmployeeControllerMvcTest {
 
 		Page<Employee> employeePage = new PageImpl<>(asList(emp1, emp2), PageRequest.of(0, 10), 2);
 
-		given(employeeRepository.findAll(any(Pageable.class))).willReturn(employeePage);
+		given(this.employeeRepository.findAll(any(Pageable.class))).willReturn(employeePage);
 
 		try {
 			// When & Then
@@ -64,13 +64,13 @@ public class EmployeeControllerMvcTest {
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
-		verify(employeeRepository, times(1)).findAll(any(Pageable.class));
+		verify(this.employeeRepository, times(1)).findAll(any(Pageable.class));
 	}
 
 	@Test
 	public void shouldShowCreateForm() {
 		// Given
-		given(positionRepository.findAll()).willReturn(Collections.singletonList(new Position(1L, "Developer")));
+		given(this.positionRepository.findAll()).willReturn(Collections.singletonList(new Position(1L, "Developer")));
 
 		// When & Then
 		try {
@@ -82,7 +82,7 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage()) ;
 		}
 
-		verify(positionRepository, times(1)).findAll();
+		verify(this.positionRepository, times(1)).findAll();
 	}
 
 	@Test
@@ -101,7 +101,7 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage()) ;
 		}
 
-		verify(employeeRepository, times(1)).save(employee);
+		verify(this.employeeRepository, times(1)).save(employee);
 	}
 
 	@Test
@@ -125,8 +125,8 @@ public class EmployeeControllerMvcTest {
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
 		employee.setId(1L);
 
-		given(positionRepository.findAll()).willReturn(List.of(position));
-		given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+		given(this.positionRepository.findAll()).willReturn(List.of(position));
+		given(this.employeeRepository.findById(1L)).willReturn(Optional.of(employee));
 
 		// When & Then
 		try {
@@ -139,14 +139,14 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage()) ;
 		}
 
-		verify(positionRepository, times(1)).findAll();
-		verify(employeeRepository, times(1)).findById(1L);
+		verify(this.positionRepository, times(1)).findAll();
+		verify(this.employeeRepository, times(1)).findById(1L);
 	}
 
 	@Test
 	public void shouldReturn404WhenEditEmployeeNotFound() {
 		// Given
-		given(employeeRepository.findById(999L)).willReturn(Optional.empty());
+		given(this.employeeRepository.findById(999L)).willReturn(Optional.empty());
 
 		// When & Then
 		Exception excp = null;
@@ -176,7 +176,7 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage()) ;
 		}
 
-		verify(employeeRepository).save(updatedEmployee);
+		verify(this.employeeRepository).save(updatedEmployee);
 	}
 
 	@Test
@@ -185,10 +185,10 @@ public class EmployeeControllerMvcTest {
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
 		employee.setId(1L);
 
-		given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+		given(this.employeeRepository.findById(1L)).willReturn(Optional.of(employee));
 
 		Page<Employee> page = new PageImpl<Employee>(List.of(employee));
-		given(employeeRepository.findAll(any(Pageable.class))).willReturn(page);
+		given(this.employeeRepository.findAll(any(Pageable.class))).willReturn(page);
 
 		try {
 			mockMvc.perform((get("/employees/"))); // set current page for return
@@ -199,7 +199,7 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage()) ;
 		}
 
-		verify(employeeRepository).deleteById(1L);
+		verify(this.employeeRepository).deleteById(1L);
 	}
 
 	@Test
@@ -208,12 +208,12 @@ public class EmployeeControllerMvcTest {
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
 		employee.setId(1L);
 
-		doNothing().when(employeeRepository).deleteById(1L);
+		doNothing().when(this.employeeRepository).deleteById(1L);
 
 		Page<Employee> page = new PageImpl<Employee>(List.of(employee));
-		given(employeeRepository.findAll(any(), any(Sort.class))).willReturn(List.of(employee));
-		given(employeeRepository.findByFiltersAndSort(any(), any(), any(), any(), any())).willReturn(page);
-		given(positionRepository.findAll()).willReturn(List.of(position));
+		given(this.employeeRepository.findAll(any(), any(Sort.class))).willReturn(List.of(employee));
+		given(this.employeeRepository.findByFiltersAndSort(any(), any(), any(), any(), any())).willReturn(page);
+		given(this.positionRepository.findAll()).willReturn(List.of(position));
 
 		try {
 			mockMvc.perform((get("/employees/show_employees"))); // set current page for return
@@ -224,7 +224,7 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage()) ;
 		}
 
-		verify(employeeRepository).deleteById(1L);
+		verify(this.employeeRepository).deleteById(1L);
 	}
 
 	@Test
@@ -233,7 +233,7 @@ public class EmployeeControllerMvcTest {
 		Employee employee = new Employee(1L,"Firstname1", "Lastname1", "email1@example.com", new Position(1L, "Developer"));
 		Page<Employee> page = new PageImpl<>(List.of(employee));
 
-		given(employeeRepository.findByFiltersAndSort(
+		given(this.employeeRepository.findByFiltersAndSort(
 				eq("Firstname1"), any(), any(), any(), any(Pageable.class)))
 				.willReturn(page);
 
@@ -297,7 +297,7 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage()) ;
 		}
 
-		verify(positionRepository, times(1)).findAll();
+		verify(this.positionRepository, times(1)).findAll();
 	}
 
 	@Test
@@ -373,11 +373,8 @@ public class EmployeeControllerMvcTest {
 		emp2.setId(2L);
 		Page<Employee> page = new PageImpl<>(asList(emp1, emp2));
 
-		Sort sort = Sort.by(Sort.Direction.ASC, "id");
-		Pageable pageable = PageRequest.of(0, 1, sort);
-
 		Mockito.when(this.employeeRepository.findByFiltersAndSort(
-				any(), any(), any(), any(), any(Pageable.class))).thenReturn(page);
+				any(), any(), any(), any(), any())).thenReturn(page);
 
 		try {
 			mockMvc.perform(get("/employees/show_employees?page=0&size=1&firstName=f&lastName=l&email=e" ))
@@ -389,8 +386,10 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage());
 		}
 
+		Sort sort = Sort.by(Sort.Direction.ASC, "lastName");
+		Pageable pageable = PageRequest.of(0, 1, sort);
 		verify(this.employeeRepository, times(1)).findByFiltersAndSort(
-				eq("f"), eq("l"), any(), eq("e"), any(Pageable.class)); // Pageable not compared
+				eq("f"), eq("l"), any(), eq("e"), eq(pageable));
 	}
 
 	@Test
@@ -402,11 +401,11 @@ public class EmployeeControllerMvcTest {
 		List<Employee> employees = List.of(emp1);
 		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
 
-		given(employeeRepository.findByFiltersAndSort(
+		given(this.employeeRepository.findByFiltersAndSort(
 				eq("John"), eq(""), any(), eq(""), any(Pageable.class)))
 				.willReturn(employeePage);
 
-		given(positionRepository.findAll()).willReturn(asList(position));
+		given(this.positionRepository.findAll()).willReturn(asList(position));
 
 		try {
 			// When & Then
@@ -439,11 +438,11 @@ public class EmployeeControllerMvcTest {
 		List<Employee> employees = asList(emp1);
 		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
 
-		given(employeeRepository.findByFiltersAndSort(
+		given(this.employeeRepository.findByFiltersAndSort(
 				eq(""), eq(""), any(), eq(""), any(Pageable.class)))
 				.willReturn(employeePage);
 
-		given(positionRepository.findAll()).willReturn(asList(position));
+		given(this.positionRepository.findAll()).willReturn(asList(position));
 
 		try {
 			// When & Then
@@ -468,11 +467,11 @@ public class EmployeeControllerMvcTest {
 		List<Employee> employees = asList(emp1);
 		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
 
-		given(employeeRepository.findByFiltersAndSort(
+		given(this.employeeRepository.findByFiltersAndSort(
 				eq(""), eq(""), any(), eq(""), any(Pageable.class)))
 				.willReturn(employeePage);
 
-		given(positionRepository.findAll()).willReturn(asList(position));
+		given(this.positionRepository.findAll()).willReturn(asList(position));
 
 		try {
 			mockMvc.perform(get("/employees/show_employees"))
@@ -494,7 +493,7 @@ public class EmployeeControllerMvcTest {
 				eq("Unknown"), eq(""), any(), eq(""), any(Pageable.class)))
 				.willReturn(emptyPage);
 
-		given(positionRepository.findAll()).willReturn(asList());
+		given(this.positionRepository.findAll()).willReturn(asList());
 
 		// When & Then
 		try {
