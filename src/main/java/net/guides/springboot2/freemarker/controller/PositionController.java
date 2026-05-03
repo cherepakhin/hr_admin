@@ -69,6 +69,7 @@ public class PositionController {
 		}
 		if (positionRepository.existsByName(position.getName())) {
 			log.error(String.format("Должность с названием '%s' уже существует.", position.getName()));
+			model.addAttribute("name", position.getName());
 			model.addAttribute("position", position);
 			model.addAttribute("error", "Должность с таким названием уже существует.");
 			return NamesView.CREATE_POSITION;
