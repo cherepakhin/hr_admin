@@ -67,14 +67,19 @@ body {
     padding-bottom: 0;
 }
 
+.py-025rem {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
 .py-05rem {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
 }
 
-.py-025rem {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+.py-075rem {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
 }
 
 .py-09rem {
@@ -104,11 +109,11 @@ body {
 }
 
 .employees-list-item-padding {
-    padding-top: 0.1em;
-    padding-right: 0.1em;
-    padding-bottom: 0.1em;
-    border-left-width: 0.1em;
-    padding-left: unset;
+    padding-top: 0.2em;
+    padding-right: 0.2em;
+    padding-bottom: 0.2em;
+    border-left-width: 0em;
+    padding-left: 0.2em;
 }
 
 .btn-cancel {
@@ -158,6 +163,20 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+#canNotDeleteModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
 .modal-container {
     background-color: white;
     border-radius: 0rem;
@@ -173,6 +192,12 @@ body {
     transform: scale(1);
     opacity: 1;
 }
+
+#canNotDeleteModal.show .modal-container {
+    transform: scale(1);
+    opacity: 1;
+}
+
 .modal-title {
     font-size: 1.25rem;
     font-weight: 600;
@@ -192,4 +217,20 @@ body {
     width: 1.5rem;
     height: 1.5rem;
     color: #dd6b20;
+}
+
+.padding-1em {
+    padding: 1em;
+}
+
+.padding-left_top_right-1em {
+    padding-right: 1em;
+    padding-left: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-left: -1em;
+}
+
+.head_show_employees {
+    padding-top: 0;
 }

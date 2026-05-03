@@ -30,8 +30,7 @@ public class EmployeeController {
 	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 	private String currentIndexPage = "/";
 
-	private String sortField = Fields.ID;
-	private String direction = Direction.ASC;
+	private static final  String defaultSortField = Fields.ID;
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
@@ -47,17 +46,6 @@ public class EmployeeController {
 
 	) {
 		log.info("listEmployees");
-
-		if (!sortField.isEmpty()) {
-			this.sortField = sortField;
-		} else {
-			this.sortField = Fields.ID;
-		}
-		if (!direction.isEmpty()) {
-			this.direction = direction;
-		} else {
-			this.direction = Direction.ASC;
-		}
 
 		log.info("page: {}, sortField: {}, direction: {}", page, sortField, direction);
 		this.refreshEmployees(model, page, size, sortField, direction);
@@ -106,7 +94,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping("")
-	public String createEmployeeFroEmpty(@ModelAttribute Employee employee) {
+	public String createEmployeeForEmpty(@ModelAttribute Employee employee) {
 		return "redirect:" + "/employees/";
 	}
 
@@ -174,33 +162,27 @@ public class EmployeeController {
 		}
 	}
 
-	private void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
-		if (!sortField.isEmpty()) {
-			this.sortField = sortField;
-		} else {
-			this.sortField = Fields.ID;
-		}
-
-		if (!direction.isEmpty()) {
-			this.direction = direction;
-		} else {
-			this.direction = Direction.ASC;
+	protected void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
+		if (sortField.isEmpty()) {
+			sortField = defaultSortField;
 		}
 
 		Sort.Direction directionSort;
-		if (this.direction.equals(Direction.DESC)) {
+		if (direction.equals(Direction.DESC)) {
 			directionSort = Sort.Direction.DESC;
 		} else {
 			directionSort = Sort.Direction.ASC;
 		}
 
 		log.info("refreshEmployees");
+		log.info("sortField: {}", sortField);
+		log.info("directionSort: {}", directionSort);
 		Sort sort = Sort.by(directionSort, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
 		Page<Employee> employeePage = employeeRepository.findAll(pageable);
 		model.addAttribute("employees", employeePage.getContent());
 		model.addAttribute("sortField", sortField);
-		model.addAttribute("direction", direction);
+		model.addAttribute("direction", directionSort);
 		model.addAttribute("currentPage", employeePage.getNumber());
 		model.addAttribute("totalPages", employeePage.getTotalPages());
 		model.addAttribute("totalElements", employeePage.getTotalElements());
@@ -252,7 +234,9 @@ public class EmployeeController {
 		// при этом sql запрос будет position_id in (все id должностей)
 		// динамический sql в планах, см. как сделать в проекте для МТС
 		List<Long> positions = positionRepository.findAll().stream().map(Position::getId).collect(Collectors.toList());
+		log.debug("positions: {}", positions);
 		// если задана позиция, то в списке должностей оставить только ее
+		// иначе выбирать по всем позициям
 		if (!positionId.equals(-1L)) {
 			positions = positions.stream().filter(p -> p.equals(positionId)).toList();
 		}

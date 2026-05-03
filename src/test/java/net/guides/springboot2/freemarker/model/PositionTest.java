@@ -45,4 +45,19 @@ public class PositionTest {
 
 		assertNotEquals(position1.hashCode(), position2.hashCode());
 	}
+
+	@Test
+	public void testSetName() {
+		Position p=new Position();
+		p.setName("test");
+
+		assertEquals("test", p.getName());
+	}
+
+	@Test
+	public void constructorSetName() {
+		Position p=new Position("test");
+
+		assertEquals("test", p.getName());
+	}
 }

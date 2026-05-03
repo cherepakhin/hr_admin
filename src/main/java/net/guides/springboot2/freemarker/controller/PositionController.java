@@ -1,7 +1,9 @@
 package net.guides.springboot2.freemarker.controller;
 
 import jakarta.validation.Valid;
+import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.model.Position;
+import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,30 +25,33 @@ public class PositionController {
 	private static final Logger log = LoggerFactory.getLogger(PositionController.class);
 
 	private final PositionRepository positionRepository;
+	private final EmployeeRepository employeeRepository;
 
 	// Используем внедрение через конструктор (рекомендуется)
 	@Autowired
-	public PositionController(PositionRepository positionRepository) {
+	public PositionController(PositionRepository positionRepository, EmployeeRepository employeeRepository) {
 		this.positionRepository = positionRepository;
+		this.employeeRepository=employeeRepository;
 	}
 
 	// GET /positions/ - отображение списка
-	@GetMapping("/")
-	public ModelAndView listPositions(Model model) {
+	@RequestMapping("/")
+	public String listPositions(Model model) {
 		log.info("get all positions");
 		List<Position> positions = positionRepository.findAll();
 		positions.forEach(p-> log.info(p.toString()));
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName(NamesView.POSITIONS);
-		mv.addObject("positions", positions);
-		return mv;
+		//ModelAndView mv = new ModelAndView();
+		//mv.setViewName(NamesView.POSITIONS);
+		model.addAttribute("positions", positions);
+		return "show_positions";
+		// return mv;
 	}
 
 	// GET /positions/new - форма создания
-	@GetMapping("/new")
+	@RequestMapping("/new")
 	public String showCreateForm(Model model) {
 		Position position = new Position();
-		position.setName("?"); // значение по умолчанию
+		position.setName(""); // значение по умолчанию
 		model.addAttribute("position", position);
 		return NamesView.CREATE_POSITION;
 	}
@@ -63,8 +68,9 @@ public class PositionController {
 				errors.append(error.getDefaultMessage()).append("\n");
 				log.error(error.getDefaultMessage());
 			}
+			// find in create_position.ftlh by name="name" (<input ... name="name")
 			model.addAttribute("name", position.getName());
-			model.addAttribute("error", errors.toString());
+			model.addAttribute("error", errors.toString()); // <p class="text-red-600 text-xs mt-1">${error}</p>
 			return NamesView.CREATE_POSITION;
 		}
 		if (positionRepository.existsByName(position.getName())) {
@@ -74,16 +80,13 @@ public class PositionController {
 			model.addAttribute("error", "Должность с таким названием уже существует.");
 			return NamesView.CREATE_POSITION;
 		}
-		if (bindingResult.hasErrors()) {
-			return NamesView.CREATE_POSITION;
-		}
 		position.setId(positionRepository.getNextId());
 		positionRepository.save(position);
-		return "redirect:/" + NamesView.POSITIONS + "/";
+		return "redirect:/positions/";
 	}
 
-	// GET /positions/edit/{id} - форма редактирования
-	@GetMapping("/edit/{id}")
+	// GET /positions/edit/{id} - вызов формы для редактирования
+	@RequestMapping("/edit/{id}")
 	public String showEditForm(@PathVariable Long id, Model model) {
 		Position position = positionRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid position ID: " + id));
@@ -107,8 +110,8 @@ public class PositionController {
 			model.addAttribute("error", errors);
 		}
 
-		if (positionRepository.existsByNameAndIdNot(position.getName(), id)) {
-			bindingResult.rejectValue("name", "error.position", "Должность с таким названием уже существует.");
+		if (!positionRepository.existsByName(position.getName())) {
+			bindingResult.rejectValue("name", "error.position", "Должность с таким ID и названием НЕ существует.");
 		}
 		if (bindingResult.hasErrors()) {
 			position.setId(id); // Восстанавливаем id для формы
@@ -120,24 +123,29 @@ public class PositionController {
 	}
 
 	// GET /positions/delete/{id} - удаление
-	@GetMapping("/delete/{id}")
-	public ModelAndView deletePosition(@PathVariable Long id, Model model) {
-		log.info("Delete position id: {}", id);
-		ModelAndView mv = new ModelAndView(NamesView.POSITIONS);
-		mv.clear();
 
-		// TODO: Проверить на существование
-		// TODO: Проверить, используется ли позиция где-то ещё (например, у сотрудников)
-
-		positionRepository.deleteById(id);
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public String deletePosition(@PathVariable Long id) {
+		// Проверка на возможность удаления сделана в форме
+		positionRepository.sqlDeleteById(id);
 
 		// Вместо простого редиректа, добавляем уникальный параметр
 		// UUID.randomUUID().toString() создаст случайную строку типа "a1b2-c3d4..."
 		//String redirectUrl = "/" + NamesView.POSITIONS + "/?v==" + UUID.randomUUID().toString();
 		//return redirectUrl;
 		//mv.addreturn listPositions(model);
-		mv.setViewName("redirect:/" +NamesView.POSITIONS +"/");
-		return mv;
+		//mv.setViewName("redirect:/" +NamesView.POSITIONS +"/");
+		log.info("get all positions");
+//		List<Position> positions = positionRepository.findAll();
+//		positions.forEach(p-> log.info(p.toString()));
+		// ModelAndView mv = new ModelAndView();
+//		model.addAttribute("positions", positions);
+		//mv.setViewName(NamesView.POSITIONS);
+		//mv.addObject("positions", positions);
+		//return NamesView.POSITIONS;
+		 return "redirect:/positions/";
+//		return NamesView.POSITIONS;
+		//return mv;
 
 //		return "redirect:" + redirectUrl;
 	}

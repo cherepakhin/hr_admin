@@ -119,7 +119,7 @@
                     <table class="w-full text-sm text-left text-gray-700 table-auto">
                         <thead class="uppercase border-t border-gray-100 bg-gray-50">
                             <!-- First Name -->
-                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black"
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black head_show_employees"
                                 onclick="window.location.href='?page=${currentPage}&sortField=firstName&direction=${(sortField == 'firstName' && direction = 'asc')?string('desc','asc')}'">
                                 Имя
                                 <span class="text-gray-800 text-2xl">
@@ -130,7 +130,7 @@
                                 </span>
                             </th>
                             <!-- Last Name -->
-                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black"
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black head_show_employees"
                                 onclick="window.location.href='?page=${currentPage}&sortField=lastName&direction=${(sortField == 'lastName' && direction = 'asc')?string('desc','asc')}'">Фамилия
                                 <span class="text-gray-800 text-2xl">
                                         <#if sortField == "lastName">
@@ -140,7 +140,7 @@
                                 </span>
                             </th>
                             <!-- E-mail -->
-                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black"
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black head_show_employees"
                                 onclick="window.location.href='?page=${currentPage}&sortField=email&direction=${(sortField == 'email' && direction == 'asc')?string('desc','asc')}'">Email
                                 <span class="text-gray-800 text-2xl">
                                   <#if sortField == "email">
@@ -150,7 +150,7 @@
                                 </span>
                             </th>
                             <!-- Position -->
-                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black"
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black head_show_employees"
                                 onclick="window.location.href='?page=${currentPage}&sortField=position<#if direction == 'desc'>&direction=asc<#else>&direction=desc</#if>'">Должность
                                 <span class="text-gray-800 text-2xl">
                                    <#if sortField == "position.name">
@@ -160,7 +160,7 @@
                                 </span>
                             </th>
                             <!-- Actions -->
-                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black">Действия</th>
+                            <th class="px-6 py-05rem cursor-pointer group font-medium font-black head_show_employees">Действия</th>
                         </thead>
                         <tbody>
                             <!-- Employee Details -->

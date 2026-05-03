@@ -28,15 +28,15 @@
             <input type="hidden" name="id" value="${employee.id}" />
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
-                <input name="firstName" value="${employee.firstName}" class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500" required />
+                <input name="firstName" value="${employee.firstName}" class="w-full px-4 py-3 border border-gray-300 focus:ring-0 focus:ring-sky-500" required />
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Фамилия</label>
-                <input name="lastName" value="${employee.lastName}" class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500" required />
+                <input name="lastName" value="${employee.lastName}" class="w-full px-4 py-3 border border-gray-300 focus:ring-0 focus:ring-sky-500" required />
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input name="email" value="${employee.email}" type="email" class="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-sky-500" required />
+                <input name="email" value="${employee.email}" type="email" class="w-full px-4 py-3 border border-gray-300 focus:ring-0 focus:ring-sky-500" required />
             </div>
             <!-- Position -->
             <div class="mb-4">

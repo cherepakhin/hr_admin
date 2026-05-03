@@ -47,7 +47,7 @@
                         <input type="text"
                                name="firstName"
                                placeholder="Например: Анна"
-                               class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                               class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500">
                     </div>
 
                     <!-- Last Name -->
@@ -56,7 +56,7 @@
                         <input type="text"
                                name="lastName"
                                placeholder="Например: Иванова"
-                               class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                               class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500">
                     </div>
 
                     <!-- Email -->
@@ -65,7 +65,7 @@
                         <input type="text"
                                name="email"
                                placeholder="Например: anna@example.com"
-                               class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                               class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500">
                     </div>
                     <!-- Position Filter -->
                     <div>
