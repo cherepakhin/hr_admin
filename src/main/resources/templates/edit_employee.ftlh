@@ -24,7 +24,7 @@
             <h2 class="text-2xl font-semibold">Изменить информацию о сотруднике</h2>
             <p class="text-sky-200">Update employee information</p>
         </div>
-        <form action="${springMacroRequestContext.contextPath}/employees/update/${employee.id}" method="post" class="p-6 space-y-6">
+        <form action="${springMacroRequestContext.contextPath}/employees/update/${employee.id}" method="post" class="p-6 space-y-6 pt-0">
             <input type="hidden" name="id" value="${employee.id}" />
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
@@ -56,10 +56,10 @@
                 <button type="submit" class="btn-dark-blue w-full py-3 px-4 font-medium  hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Обновить</button>
                 <#if prevPage == '/show_employees'>
                     <a href="${springMacroRequestContext.contextPath}/employees/show_employees"
-                        class="btn-dark-blue w-full py-3 px-4 font-medium text-center' hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Назад</a>
+                        class="btn-dark-blue w-full py-3 px-4 font-medium text-center' hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900 text-center">Назад</a>
                 <#else>
                     <a href="${springMacroRequestContext.contextPath}${prevPage}"
-                        class="btn-dark-blue w-full py-3 px-4 font-medium text-centerhover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900">Назад</a>
+                        class="btn-dark-blue w-full py-3 px-4 font-medium hover:bg-sky-50 hover:text-sky-900 border-transparent hover:border-sky-900 text-center">Назад</a>
                 </#if>
             </div>
         </form>
