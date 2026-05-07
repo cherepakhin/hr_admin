@@ -166,7 +166,7 @@ public class PositionControllerMvcTest {
 		assertEquals("E", result.getModelAndView().getModel().get("name"));
 
 		assertTrue(keysErrors.contains("error"));
-		assertEquals("Имя должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
+		assertEquals("Название должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
 	}
 
 	@Test
@@ -193,7 +193,7 @@ public class PositionControllerMvcTest {
 		assertEquals("E", result.getModelAndView().getModel().get("name"));
 
 		assertTrue(keysErrors.contains("error"));
-		assertEquals("Имя должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
+		assertEquals("Название должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
 
 		ModelAndView model = result.getModelAndView();
 		assertTrue(model.getModel().containsKey("error"));

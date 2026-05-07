@@ -12,7 +12,7 @@ public class Position {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@Size(min = 3, max = 15, message = "Имя должности должно быть от 3 to 15 символов.")
+	@Size(min = 3, max = 15, message = "Название должности должно быть от 3 to 15 символов.")
     @Column(nullable = false, unique = true, length = 15)
     private String name = "";
 
