@@ -168,6 +168,20 @@ public class ProductController {
 ./mvnw clean test
 ````
 
+При тестировании с MockMVC, подстановка bean в модель страницы можно выполнить вручную с помощью __.flashAttr__:
+
+````java
+		ResultActions result = mockMvc.perform(post("/employees/")
+				.flashAttr("positions", asList(position1)) // подстановка в модель аттрибута positions как asList(position1) !!!
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("firstName", "0123456789_0123456789_0123456789_0123456789")  // > 15 символов
+				.param("lastName", "LastName")
+				.param("email", "user@example.com")
+				.param("position.id", "1"));
+````
+
+### Покрытие тестами
+
 Подключен плагин JaCoCo report для создания отчета покрытия тестами.
 
 Для генерации отчета выполнить (__ОБЯЗАТЕЛЬНО__ проверить версию Java! export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64 ):

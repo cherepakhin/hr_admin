@@ -280,4 +280,20 @@ public class EmployeeController {
 
 		return NamesView.SHOW_EMPLOYEES;
 	}
+
+	public EmployeeRepository getEmployeeRepository() {
+		return employeeRepository;
+	}
+
+	public void setEmployeeRepository(@Autowired EmployeeRepository employeeRepository) {
+		this.employeeRepository = employeeRepository;
+	}
+
+	public PositionRepository getPositionRepository() {
+		return positionRepository;
+	}
+
+	public void setPositionRepository(@Autowired PositionRepository positionRepository) {
+		this.positionRepository = positionRepository;
+	}
 }
