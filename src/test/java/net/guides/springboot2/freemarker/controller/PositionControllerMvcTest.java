@@ -143,9 +143,14 @@ public class PositionControllerMvcTest {
 
 	@Test
 	public void updateForShortName() throws Exception {
-		Long ID_POSITION = 1L;
 		// "E" is short name
+		Long ID_POSITION = 1L;
 		String SHORT_NAME_POSITION = "E";
+
+		// Given
+		Position existing = new Position(ID_POSITION, SHORT_NAME_POSITION);
+//		given(positionRepository.findById(ID_POSITION)).willReturn(Optional.of(existing));
+//		given(positionRepository.existsByName(SHORT_NAME_POSITION)).willReturn(true);
 
 		MvcResult result = mockMvc.perform(post("/positions/update/" + ID_POSITION)
 						.param("name", SHORT_NAME_POSITION))
@@ -161,6 +166,7 @@ public class PositionControllerMvcTest {
 			System.out.println("Name key:" + key);
 			System.out.println("Value key:" + result.getModelAndView().getModel().get(key));
 		}
+		System.out.println("================End Keys");
 
 		assertTrue(keysErrors.contains("name"));
 		assertEquals("E", result.getModelAndView().getModel().get("name"));

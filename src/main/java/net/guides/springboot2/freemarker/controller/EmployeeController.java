@@ -106,7 +106,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping("")
-	public String createEmployeeForEmpty(@ModelAttribute Employee employee) {
+	public String createEmployeeForEmptyURL(@ModelAttribute Employee employee) {
 		return "redirect:" + "/employees/";
 	}
 

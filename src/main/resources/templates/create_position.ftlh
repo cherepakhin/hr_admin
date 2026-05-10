@@ -11,6 +11,7 @@
 
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
+    <script src="${springMacroRequestContext.contextPath}/js/cdn.min.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <style> body { font-family: 'Inter', sans-serif; } </style>
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
@@ -27,7 +28,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
-        <div class="max-w-md mx-auto bg-white shadow-xl rounded-lg overflow-hidden w-full">
+        <div class="max-w-md mx-auto bg-white shadow-xl overflow-hidden w-full">
             <div class="bg-sky-900 text-white p-6">
                 <h1 class="text-xl font-semibold">Новая должность</h1>
             </div>

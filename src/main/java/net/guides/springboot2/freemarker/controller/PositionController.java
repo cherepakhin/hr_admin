@@ -61,7 +61,7 @@ public class PositionController {
 	public String createPosition(@Valid @ModelAttribute Position position,
 								 BindingResult bindingResult,  Model model) {
 		log.info("Create position: {}", position);
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) { // в bindingResult результаты валидации
 			log.info("Binding result: {}", bindingResult);
 			StringBuilder errors = new StringBuilder();
 			for(ObjectError error :  bindingResult.getAllErrors()) {
@@ -107,13 +107,17 @@ public class PositionController {
 			}
 			model.addAttribute("name", position.getName());
 			model.addAttribute("error", errors);
+			position.setId(id); // Восстановление id для формы
+			return NamesView.EDIT_POSITION;
 		}
 
 		if (!positionRepository.existsByName(position.getName())) {
 			bindingResult.rejectValue("name", "error.position", "Должность с таким ID и названием НЕ существует.");
+			position.setId(id); // Восстанавливаю id для формы
+			return NamesView.EDIT_POSITION;
 		}
 		if (bindingResult.hasErrors()) {
-			position.setId(id); // Восстанавливаем id для формы
+			position.setId(id); // Восстановление id для формы
 			return NamesView.EDIT_POSITION;
 		}
 		position.setId(id);
