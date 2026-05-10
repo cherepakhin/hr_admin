@@ -669,13 +669,13 @@ public class EmployeeControllerMvcTest {
 				.param("firstName", "0123456789_0123456789_0123456789_0123456789")  // > 15 символов
 				.param("lastName", "LastName")
 				.param("email", "user@example.com")
-				.param("position.id", "1"));
-//				.andExpect(status().isBadRequest());
-//				.andExpect(view().name(NamesView.CREATE_EMPLOYEE))
-//				.andExpect(model().attributeExists("error"))
-//				.andExpect(model().attribute("firstName", "0123456789_0123456789_0123456789_0123456789"));
+				.param("position.id", "1"))
+				.andExpect(status().isOk())
+				.andExpect(view().name(NamesView.CREATE_EMPLOYEE))
+				.andExpect(model().attributeExists("error"))
+				.andExpect(model().attribute("error", "First name must be between 3 to 20 characters long.\n"));
 
-//		verify(employeeRepository, never()).save(any(Employee.class));
+		verify(employeeRepository, never()).save(any(Employee.class));
 	}
 
 	@Test
