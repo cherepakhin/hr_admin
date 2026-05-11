@@ -1,4 +1,4 @@
-### Заготовка для UI проектов со Spring Boot Web
+### Заготовка для UI проектов со Spring Boot Web и FreeMarker
 
 Java 17:
 
@@ -90,7 +90,8 @@ public class ProductController {
 
 В этом проекте возвращаются имена __view__. 
 
-Внедрение значений в html файлы осуществляется через __Model__ [EmployeeController.java](src/main/java/net/guides/springboot2/freemarker/controller/EmployeeController.java). 
+Внедрение значений в html файлы осуществляется через __Model__ [EmployeeController.java](src/main/java/net/guides/springboot2/freemarker/controller/EmployeeController.java) и 
+возврат имени view (не ModelAndVew) 
 
 ````java
 	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
@@ -159,8 +160,6 @@ public class ProductController {
     <script src="${springMacroRequestContext.contextPath}/js/cdn.min.js" defer></script>
 ...
 ````
-
-
 
 ### Тестирование
 

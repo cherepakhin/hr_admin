@@ -38,7 +38,7 @@ public class PositionControllerMvcTest {
 	private EmployeeRepository employeeRepository;
 
 	@Test
-	public void shouldListPositions() throws Exception {
+	public void listPositions() throws Exception {
 		// Given
 		Position dev = new Position(1L, "Developer");
 		given(positionRepository.findAll()).willReturn(Collections.singletonList(dev));
@@ -53,7 +53,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldShowCreateForm() throws Exception {
+	public void showCreateForm() throws Exception {
 		// When & Then
 		mockMvc.perform(get("/positions/new"))
 				.andExpect(status().isOk())
@@ -62,7 +62,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldCreatePositionAndRedirect() throws Exception {
+	public void createPositionAndRedirect() throws Exception {
 		String NAME_POSITION = "Manager";
 		when(positionRepository.existsByName(NAME_POSITION)).thenReturn(Boolean.FALSE);
 
@@ -75,7 +75,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldNotCreateDuplicatePosition() throws Exception {
+	public void notCreateDuplicatePosition() throws Exception {
 		String NAME_POSITION = "Developer";
 		// Given
 		given(positionRepository.existsByName(NAME_POSITION)).willReturn(true);
@@ -89,7 +89,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldShowEditFormForExistingPosition() throws Exception {
+	public void showEditFormForExistingPosition() throws Exception {
 		// Given
 		Position position = new Position(1L, "Developer");
 		given(positionRepository.findById(1L)).willReturn(Optional.of(position));
@@ -103,7 +103,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldReturn404WhenPositionNotFoundForEdit() {
+	public void return404WhenPositionNotFoundForEdit() {
 		Long POSITION_ID = 999L;
 		// Given
 		given(positionRepository.findById(POSITION_ID)).willReturn(Optional.empty());
@@ -133,7 +133,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldDeletePositionAndRedirect() throws Exception {
+	public void deletePositionAndRedirect() throws Exception {
 		mockMvc.perform(get("/positions/delete/1"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/positions/"));

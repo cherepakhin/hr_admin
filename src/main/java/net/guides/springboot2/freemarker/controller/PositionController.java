@@ -1,7 +1,6 @@
 package net.guides.springboot2.freemarker.controller;
 
 import jakarta.validation.Valid;
-import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
@@ -13,8 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //TODO: добавить валидацию
@@ -39,7 +38,11 @@ public class PositionController {
 	public String listPositions(Model model) {
 		log.info("get all positions");
 		List<Position> positions = positionRepository.findAll();
+		if(positions == null || positions.isEmpty()) {
+			positions = new ArrayList<>();
+		}
 		positions.forEach(p-> log.info(p.toString()));
+
 		//ModelAndView mv = new ModelAndView();
 		//mv.setViewName(NamesView.POSITIONS);
 		model.addAttribute("positions", positions);
@@ -98,6 +101,7 @@ public class PositionController {
 	public String updatePosition(@PathVariable Long id,
 								 @Valid @ModelAttribute Position position,
 								 BindingResult bindingResult, Model model) {
+		// Обработка ошибок @Valid
 		if (bindingResult.hasErrors()) {
 			log.info("Binding result: {}", bindingResult);
 			String errors = "";
@@ -129,10 +133,13 @@ public class PositionController {
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String deletePosition(@PathVariable Long id) {
-		// Проверка на возможность удаления сделана в форме
+		// Проверка на возможность удаления уже сделана в форме и в PositionRestController и здесь не делается
+		// через const response = await fetch("${springMacroRequestContext.contextPath}/rest/positions/can_delete/" + id);
+		// PositionRestController это REST контроллер, выделен в отдельный класс, т.к. он не связан со Spring MVC
 		positionRepository.sqlDeleteById(id);
 
-		// Вместо простого редиректа, добавляем уникальный параметр
+		// Вместо простого редиректа, добавляем уникальный параметр для отключения кеша браузера
+		// Здесь не используется, т.к. сделано через "redirect", но оставил как напоминание
 		// UUID.randomUUID().toString() создаст случайную строку типа "a1b2-c3d4..."
 		//String redirectUrl = "/" + NamesView.POSITIONS + "/?v==" + UUID.randomUUID().toString();
 		//return redirectUrl;
