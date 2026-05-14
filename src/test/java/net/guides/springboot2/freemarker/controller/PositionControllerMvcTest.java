@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -41,7 +43,7 @@ public class PositionControllerMvcTest {
 	public void listPositions() throws Exception {
 		// Given
 		Position dev = new Position(1L, "Developer");
-		given(positionRepository.findAll()).willReturn(Collections.singletonList(dev));
+		given(positionRepository.findAllAndSort(any(Sort.class))).willReturn(Collections.singletonList(dev));
 
 		// When & Then
 		mockMvc.perform(get("/positions/"))

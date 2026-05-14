@@ -28,5 +28,5 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
 	void sqlDeleteById(@Param("id") long positionId);
 
 	@Query("select p from Position p")
-	List<Position> findByAndSort(Sort sort);
+	List<Position> findAllAndSort(Sort sort);
 }

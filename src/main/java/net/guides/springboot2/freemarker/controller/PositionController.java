@@ -50,7 +50,7 @@ public class PositionController {
 			sort = Sort.by(sortField).ascending();
 		}
 
-		List<Position> positions = positionRepository.findByAndSort(sort);
+		List<Position> positions = positionRepository.findAllAndSort(sort);
 		if(positions == null || positions.isEmpty()) {
 			positions = new ArrayList<>();
 		}

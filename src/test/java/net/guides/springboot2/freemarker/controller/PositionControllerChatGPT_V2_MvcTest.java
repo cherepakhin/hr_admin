@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -42,14 +43,17 @@ public class PositionControllerChatGPT_V2_MvcTest {
 		position.setId(1L);
 		position.setName("Developer");
 
-		when(positionRepository.findAll()).thenReturn(List.of(position));
+		when(positionRepository.findAll(any(Sort.class))).thenReturn(List.of(position));
 
 		mockMvc.perform(get("/positions/"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("show_positions"))
 				.andExpect(model().attributeExists("positions"));
 
-		verify(positionRepository).findAll();
+		verify(positionRepository).findAllAndSort(any(Sort.class));
+
+		Sort sort = Sort.by("name").ascending();
+		verify(positionRepository).findAllAndSort(eq(sort));
 	}
 
 	@Test
