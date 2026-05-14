@@ -1,5 +1,7 @@
 package net.guides.springboot2.freemarker.repository;
 
+import jakarta.persistence.Table;
+import jakarta.persistence.TableGenerator;
 import net.guides.springboot2.freemarker.model.Position;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
+@Table(name = "position")
 @Transactional
 public interface PositionRepository extends JpaRepository<Position, Long> {
     boolean existsByName(String name);
