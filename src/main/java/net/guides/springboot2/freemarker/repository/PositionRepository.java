@@ -1,7 +1,6 @@
 package net.guides.springboot2.freemarker.repository;
 
 import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
 import net.guides.springboot2.freemarker.model.Position;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
