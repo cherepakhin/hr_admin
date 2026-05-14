@@ -164,6 +164,7 @@ public class ProductController {
 ### Тестирование
 
 ````shell
+export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 ./mvnw clean test
 ````
 
@@ -280,6 +281,8 @@ root@v:/etc/apache2/sites-enabled# cat 000-default-le-ssl.conf
     </VirtualHost>
 </IfModule>
 ````
+
+Логи на сервере смотреть в v.perm.ru:/home/vasi/temp/hr_admin/hr_admin.log.
 
 ### Разное
 
