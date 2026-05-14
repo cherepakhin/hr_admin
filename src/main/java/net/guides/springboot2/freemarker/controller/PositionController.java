@@ -7,6 +7,7 @@ import net.guides.springboot2.freemarker.repository.PositionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,9 +36,21 @@ public class PositionController {
 
 	// GET /positions/ - отображение списка
 	@RequestMapping("/")
-	public String listPositions(Model model) {
+	public String listPositions(Model model,
+								@RequestParam(defaultValue = "name") String sortField,
+								@RequestParam(defaultValue = "asc") String direction) {
 		log.info("get all positions");
-		List<Position> positions = positionRepository.findAll();
+		log.info("sortField {}", sortField);
+		log.info("direction {}", direction);
+//		List<Position> positions = positionRepository.findAll();
+		Sort sort;
+		if(direction.equals("desc")) {
+			sort = Sort.by(sortField).descending();
+		} else {
+			sort = Sort.by(sortField).ascending();
+		}
+
+		List<Position> positions = positionRepository.findByAndSort(sort);
 		if(positions == null || positions.isEmpty()) {
 			positions = new ArrayList<>();
 		}
@@ -46,6 +59,8 @@ public class PositionController {
 		//ModelAndView mv = new ModelAndView();
 		//mv.setViewName(NamesView.POSITIONS);
 		model.addAttribute("positions", positions);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("direction", direction);
 		return "show_positions";
 		// return mv;
 	}
