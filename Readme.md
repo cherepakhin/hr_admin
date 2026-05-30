@@ -828,17 +828,17 @@ __text-right__ - стиль для выравнивания текста
 __justify-end__ - работает по другому принципу, чем __text-right__.
 
 ````text
-                            <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
-                                <td class="px-4 py-2 font-medium">${position.name}</td>
-                                <td class="px-4 py-2 text-right">                       <!-- !!!!!!!!!!!!!!!!!!!!!! -->
-                                    <!-- Edit Action -->
-                                    <a ...</a>
-                                    <!-- Delete Action with Custom Modal -->
-                                    <button ... </button>
-                                </td>
-                            </tr>
-
+    <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
+        <td class="px-4 py-2 font-medium">${position.name}</td>
+        <td class="px-4 py-2 text-right">                       <!-- !!!!!!!!!!!!!!!!!!!!!! -->
+            <!-- Edit Action -->
+            <a ...</a>
+            <!-- Delete Action with Custom Modal -->
+            <button ... </button>
+        </td>
+    </tr>
 ````
+
 ### Тестирование снаружи
 
 Screen shot tool URL [https://iotools.cloud/tool/website-screenshot/](https://iotools.cloud/tool/website-screenshot/)
@@ -977,4 +977,51 @@ Hibernate:
 23:54:07.283+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (3:VARCHAR) <- [Lastname 9]
 23:54:07.293+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (4:BIGINT) <- [3]
 23:54:07.301+05:00  INFO 16885 --- [           main] n.g.s.f.initializer.DataInitializer      : Test data added.
+````
+
+### Запуск как сервис в Linux
+
+Описано здесь [Autostart сервиса в linux](https://v.perm.ru/index.php/instrumenty-devops/autostart-service).
+
+Создать файл hr_admin.service в /etc/systemd:
+
+````text
+[Unit]
+Description=HR admin
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=simple
+User=vasi
+Group=vasi
+ExecReload=/bin/kill -HUP 
+ExecStart=/home/vasi/temp/hr_admin.sh
+SyslogIdentifier=hr_admin
+Restart=always
+[Install]
+WantedBy=multi-user.target
+````
+
+/home/vasi/temp/hr_admin.sh:
+
+````shell
+/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /home/vasi/temp/hr-admin-0.0.5.jar --server.port=8088
+````
+
+Перечитать сервисы:
+
+````shell
+sudo systemctl daemon-reload
+````
+
+Включить сервис:
+
+````shell
+systemctl enable hr_admin.service
+````
+
+Запустить сервис:
+
+````shell
+systemctl start hr_admin.service
 ````
