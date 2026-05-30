@@ -275,6 +275,7 @@
 
             // delete action
             console.log(`Can be deleted for id=` + id);
+            // Запрос к backend для удаление позиции
             const response = await fetch("${springMacroRequestContext.contextPath}/rest/positions/can_delete/" + id);
             const responseText = await response.text();
             console.log("response can_delete:");
@@ -314,6 +315,7 @@
             const modal = document.getElementById('deleteModal');
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('show'), 10);
+            // Скрытие диалогового окна после удаления
             document.body.style.overflow = 'hidden';
         }
 

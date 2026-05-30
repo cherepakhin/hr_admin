@@ -862,7 +862,7 @@ Today is a wonderful day.
 
 ### Удаление
 
-Совет [отсюда](https://stackoverflow.com/questions/24256051/delete-or-put-methods-in-thymeleaf)
+Выполнение DELETE запроса (совет [отсюда](https://stackoverflow.com/questions/24256051/delete-or-put-methods-in-thymeleaf)):
 
 ````javascript
 <script th:inline="javascript">
@@ -884,6 +884,7 @@ Today is a wonderful day.
 ````html
 <a type="button" th:with="url = @{<your_url>}" th:onclick="sendDelete([[${url}]])">Delete</a>
 ````
+
 
 ### Ветки
 
