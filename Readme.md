@@ -6,6 +6,8 @@ Java 17:
 export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 ````
 
+Открыть [http://127.0.0.1:8088/hr_admin/](http://127.0.0.1:8088/hr_admin/)
+
 URL для разработки [http://127.0.0.1:8088/hr_admin/employees/](http://127.0.0.1:8088/hr_admin/employees/)
 
 Основная цель __ТОЛЬКО FRONTEND__.
