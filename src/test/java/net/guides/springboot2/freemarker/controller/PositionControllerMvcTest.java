@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -38,10 +40,10 @@ public class PositionControllerMvcTest {
 	private EmployeeRepository employeeRepository;
 
 	@Test
-	public void shouldListPositions() throws Exception {
+	public void listPositions() throws Exception {
 		// Given
 		Position dev = new Position(1L, "Developer");
-		given(positionRepository.findAll()).willReturn(Collections.singletonList(dev));
+		given(positionRepository.findAllAndSort(any(Sort.class))).willReturn(Collections.singletonList(dev));
 
 		// When & Then
 		mockMvc.perform(get("/positions/"))
@@ -53,7 +55,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldShowCreateForm() throws Exception {
+	public void showCreateForm() throws Exception {
 		// When & Then
 		mockMvc.perform(get("/positions/new"))
 				.andExpect(status().isOk())
@@ -62,7 +64,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldCreatePositionAndRedirect() throws Exception {
+	public void createPositionAndRedirect() throws Exception {
 		String NAME_POSITION = "Manager";
 		when(positionRepository.existsByName(NAME_POSITION)).thenReturn(Boolean.FALSE);
 
@@ -75,7 +77,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldNotCreateDuplicatePosition() throws Exception {
+	public void notCreateDuplicatePosition() throws Exception {
 		String NAME_POSITION = "Developer";
 		// Given
 		given(positionRepository.existsByName(NAME_POSITION)).willReturn(true);
@@ -89,7 +91,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldShowEditFormForExistingPosition() throws Exception {
+	public void showEditFormForExistingPosition() throws Exception {
 		// Given
 		Position position = new Position(1L, "Developer");
 		given(positionRepository.findById(1L)).willReturn(Optional.of(position));
@@ -103,7 +105,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldReturn404WhenPositionNotFoundForEdit() {
+	public void return404WhenPositionNotFoundForEdit() {
 		Long POSITION_ID = 999L;
 		// Given
 		given(positionRepository.findById(POSITION_ID)).willReturn(Optional.empty());
@@ -133,7 +135,7 @@ public class PositionControllerMvcTest {
 	}
 
 	@Test
-	public void shouldDeletePositionAndRedirect() throws Exception {
+	public void deletePositionAndRedirect() throws Exception {
 		mockMvc.perform(get("/positions/delete/1"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/positions/"));
@@ -143,9 +145,14 @@ public class PositionControllerMvcTest {
 
 	@Test
 	public void updateForShortName() throws Exception {
-		Long ID_POSITION = 1L;
 		// "E" is short name
+		Long ID_POSITION = 1L;
 		String SHORT_NAME_POSITION = "E";
+
+		// Given
+		Position existing = new Position(ID_POSITION, SHORT_NAME_POSITION);
+//		given(positionRepository.findById(ID_POSITION)).willReturn(Optional.of(existing));
+//		given(positionRepository.existsByName(SHORT_NAME_POSITION)).willReturn(true);
 
 		MvcResult result = mockMvc.perform(post("/positions/update/" + ID_POSITION)
 						.param("name", SHORT_NAME_POSITION))
@@ -161,12 +168,13 @@ public class PositionControllerMvcTest {
 			System.out.println("Name key:" + key);
 			System.out.println("Value key:" + result.getModelAndView().getModel().get(key));
 		}
+		System.out.println("================End Keys");
 
 		assertTrue(keysErrors.contains("name"));
 		assertEquals("E", result.getModelAndView().getModel().get("name"));
 
 		assertTrue(keysErrors.contains("error"));
-		assertEquals("Имя должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
+		assertEquals("Название должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
 	}
 
 	@Test
@@ -193,7 +201,7 @@ public class PositionControllerMvcTest {
 		assertEquals("E", result.getModelAndView().getModel().get("name"));
 
 		assertTrue(keysErrors.contains("error"));
-		assertEquals("Имя должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
+		assertEquals("Название должности должно быть от 3 to 15 символов.\n", result.getModelAndView().getModel().get("error"));
 
 		ModelAndView model = result.getModelAndView();
 		assertTrue(model.getModel().containsKey("error"));

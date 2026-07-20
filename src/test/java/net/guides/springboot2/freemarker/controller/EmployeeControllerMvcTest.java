@@ -10,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -610,5 +614,119 @@ public class EmployeeControllerMvcTest {
 
 	public void showAllEmployeesForEmptyPositionId() {
 
+	}
+
+
+	@Test
+	public void shouldReturnCreateFormWithErrorWhenFirstNameTooShort() throws Exception {
+		Position position1 = new Position(1L, "Position1");
+		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position1);
+		emp1.setId(1L);
+
+		List<Employee> employees = asList(emp1);
+		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
+
+		given(this.employeeRepository.findByFiltersAndSort(
+				eq(""), eq(""), any(), eq(""), any(Pageable.class)))
+				.willReturn(employeePage);
+
+		given(this.positionRepository.findAll()).willReturn(asList(position1));
+
+		mockMvc.perform(post("/employees/")
+					.flashAttr("positions", asList(position1)) // подстановка в модель аттрибута !!!
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+					.param("firstName", "Jo")  // слишком короткое (менее 3 символов)
+					.param("lastName", "Doe")
+					.param("email", "jo@example.com")
+					.param("position.id", "1"))
+				.andExpect(model().attributeExists("firstName"))
+				.andExpect(status().isOk())
+				.andExpect(view().name(NamesView.CREATE_EMPLOYEE))
+				.andExpect(model().attributeExists("error"))
+				.andExpect(model().attribute("firstName", "Jo"));
+
+		verify(employeeRepository, never()).save(any(Employee.class));
+	}
+
+	@Test
+	public void createFormWithErrorWhenFirstNameTooLong() throws Exception {
+		Position position1 = new Position(1L, "Position1");
+		Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position1);
+		emp1.setId(1L);
+
+		List<Employee> employees = asList(emp1);
+		Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
+
+		given(this.employeeRepository.findByFiltersAndSort(
+				eq(""), eq(""), any(), eq(""), any(Pageable.class)))
+				.willReturn(employeePage);
+
+		given(this.positionRepository.findAll()).willReturn(asList(position1));
+
+		ResultActions result = mockMvc.perform(post("/employees/")
+				.flashAttr("positions", asList(position1)) // подстановка в модель аттрибута !!!
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("firstName", "0123456789_0123456789_0123456789_0123456789")  // > 15 символов
+				.param("lastName", "LastName")
+				.param("email", "user@example.com")
+				.param("position.id", "1"))
+				.andExpect(status().isOk())
+				.andExpect(view().name(NamesView.CREATE_EMPLOYEE))
+				.andExpect(model().attributeExists("error"))
+				.andExpect(model().attribute("error", "First name must be between 3 to 20 characters long.\n"));
+
+		verify(employeeRepository, never()).save(any(Employee.class));
+	}
+
+	@Test
+	public void shouldSaveEmployeeWhenValidData() throws Exception {
+		// Given
+		Position position = new Position(1L, "Developer");
+		when(positionRepository.findAll()).thenReturn(List.of(position));
+		when(positionRepository.findById(1L)).thenReturn(Optional.of(position));
+
+		// When & Then
+		mockMvc.perform(post("/employees/")
+						.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+						.param("firstName", "John")
+						.param("lastName", "Doe")
+						.param("email", "john@example.com")
+						.param("position.id", "1"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/"));
+
+		verify(employeeRepository).save(argThat(emp ->
+				"John".equals(emp.getFirstName()) &&
+						"Doe".equals(emp.getLastName()) &&
+						"john@example.com".equals(emp.getEmail()) &&
+						emp.getPosition().getId().equals(1L)
+		));
+	}
+
+	@Test
+	public void shouldAddErrorToModelWhenBindingFails() {
+		// Given
+		Model model = mock(Model.class);
+		BindingResult bindingResult = mock(BindingResult.class);
+
+		when(bindingResult.hasErrors()).thenReturn(true);
+		when(bindingResult.getAllErrors()).thenReturn(List.of(
+				new org.springframework.validation.FieldError("employee", "firstName",
+						"First name must be between 3 to 15 characters long.")
+		));
+
+		Employee invalidEmployee = new Employee();
+		invalidEmployee.setFirstName("A");
+
+		EmployeeController employeeController = new EmployeeController();
+		employeeController.setEmployeeRepository(employeeRepository);
+		// When
+		String viewName = employeeController.createEmployee(invalidEmployee, bindingResult, model);
+
+		// Then
+		verify(model).addAttribute(eq("firstName"), eq("A"));
+		verify(model).addAttribute(eq("error"), eq("First name must be between 3 to 15 characters long.\n"));
+		verify(employeeRepository, never()).save(any(Employee.class));
+		assert viewName.equals(NamesView.CREATE_EMPLOYEE);
 	}
 }

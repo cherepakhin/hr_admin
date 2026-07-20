@@ -24,7 +24,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 			Pageable pageable
 	);
 
-
 	@Query("select COALESCE(max(id)+1, 1) from Employee")
 	Long getNextId();
 

@@ -143,7 +143,13 @@
                     <!-- Caption -->
                     <thead class="uppercase border-t border-gray-100 bg-gray-50">
                         <!-- Name -->
-                        <th class="px-6 py-09rem cursor-pointer group font-medium font-black">Должность</th>
+                        <th class="px-6 py-09rem cursor-pointer group font-medium font-black"
+                            onclick="window.location.href='?page=$sortField=name&direction=${(sortField == 'name' && direction = 'asc')?string('desc','asc')}'"
+                        >Должность<span class="text-gray-800 text-2xl">
+                                    <#if direction == "asc">↓</#if>
+                                    <#if direction == "desc">↑</#if>
+                                    </span>
+                        </th>
                         <!-- Actions -->
                         <th class="px-6 py-09rem cursor-pointer group font-medium font-black">Действия</th>
                     </thead> <!-- Caption -->
@@ -151,7 +157,7 @@
                         <!-- Position Details -->
                         <#list positions as position>
                             <tr class="border-b border-gray-100 hover:bg-gray-50 transition text-base">
-                                <td class="px-6 py-05rem">${position.name} (${position.id})</td>
+                                <td class="px-6 py-05rem" style="width: 20em;">${position.name} (id=${position.id})</td>
                                 <td class="px-6 flex justify-left gap-2 py-05rem">
                                     <a href="${springMacroRequestContext.contextPath}/positions/edit/${position.id}"
                                         class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
@@ -269,6 +275,7 @@
 
             // delete action
             console.log(`Can be deleted for id=` + id);
+            // Запрос к backend для удаление позиции
             const response = await fetch("${springMacroRequestContext.contextPath}/rest/positions/can_delete/" + id);
             const responseText = await response.text();
             console.log("response can_delete:");
@@ -308,6 +315,7 @@
             const modal = document.getElementById('deleteModal');
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('show'), 10);
+            // Скрытие диалогового окна после удаления
             document.body.style.overflow = 'hidden';
         }
 

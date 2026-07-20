@@ -11,6 +11,7 @@
 
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
+    <script src="${springMacroRequestContext.contextPath}/js/cdn.min.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <style> body { font-family: 'Inter', sans-serif; } </style>
     <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
@@ -18,16 +19,16 @@
 <body class="bg-gray-50 min-h-screen flex">
     <!-- Create Position page -->
     <!-- На мобилах будет криво выглядеть. -->
+    <!-- !!!!!!!!!!! СПЕЦИАЛЬНО ОСТАВИЛ ТАК ДЛЯ ПРИМЕРА !!!!!!!!!!! -->
     <!-- Для приведения в порядок нужно сделать адаптивную верстку, как в create_employee.html (с toolbar слева) -->
     <!-- или в edit_employee.html (там другой вариант, без toolbar слева) -->
-    <!-- СПЕЦИАЛЬНО ОСТАВИЛ ТАК ДЛЯ ПРИМЕРА -->
     <!-- Sidebar -->
     <#include "fragments/sidebar.ftl">
     <!-- End Include Sidebar Fragment -->
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
-        <div class="max-w-md mx-auto bg-white shadow-xl rounded-lg overflow-hidden w-full">
+        <div class="max-w-md mx-auto bg-white shadow-xl overflow-hidden w-full">
             <div class="bg-sky-900 text-white p-6">
                 <h1 class="text-xl font-semibold">Новая должность</h1>
             </div>

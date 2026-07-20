@@ -2,15 +2,10 @@ package net.guides.springboot2.freemarker.repository;
 
 import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.model.Position;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
@@ -202,17 +197,4 @@ public class EmployeeRepositoryDataJpaTest {
 		assertThat(result).isEmpty();
 	}
 
-	@Test
-	@Disabled
-	//TODO: кароче фигня это все делать через один большой sql. надо делать через динамический запрос
-	public void findByFiltersAndSortByPosition() {
-		Sort sort = Sort.by(Sort.Direction.ASC, "id");
-		Integer size = 10;
-		Integer page = 0;
-
-		Pageable pageable = PageRequest.of(page, size, sort);
-		List<Long> positions = positionRepository.findAll().stream().map(Position::getId).toList();
-		Page<Employee> found = employeeRepository.findByFiltersAndSort("", "", positions, "", pageable);
-		assertThat(found).isNotEmpty();
-	}
 }

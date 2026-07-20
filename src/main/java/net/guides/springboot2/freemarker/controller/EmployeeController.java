@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -45,9 +46,7 @@ public class EmployeeController {
 								@RequestParam(defaultValue = "asc") String direction
 
 	) {
-		log.info("listEmployees");
-
-		log.info("page: {}, sortField: {}, direction: {}", page, sortField, direction);
+		log.info("listEmployees. page: {}, sortField: {}, direction: {}", page, sortField, direction);
 		this.refreshEmployees(model, page, size, sortField, direction);
 
 		/*
@@ -84,7 +83,20 @@ public class EmployeeController {
 	}
 */
 	@PostMapping("/")
-	public String createEmployee(@Valid @ModelAttribute Employee employee) {
+	public String createEmployee(@Valid @ModelAttribute Employee employee,
+								 BindingResult bindingResult,  Model model) {
+		if (bindingResult.hasErrors()) {
+			log.info("Binding result: {}", bindingResult);
+			StringBuilder errors = new StringBuilder();
+			for(ObjectError error :  bindingResult.getAllErrors()) {
+				errors.append(error.getDefaultMessage()).append("\n");
+				log.error(error.getDefaultMessage());
+			}
+			// find in create_position.ftlh by name="name" (<input ... name="name")
+			model.addAttribute("firstName", employee.getFirstName());
+			model.addAttribute("error", errors.toString()); // <p class="text-red-600 text-xs mt-1">${error}</p>
+			return NamesView.CREATE_EMPLOYEE;
+		}
 		log.info("createEmployee {}:", employee);
 		employeeRepository.save(employee);
 
@@ -94,7 +106,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping("")
-	public String createEmployeeForEmpty(@ModelAttribute Employee employee) {
+	public String createEmployeeForEmptyURL(@ModelAttribute Employee employee) {
 		return "redirect:" + "/employees/";
 	}
 
@@ -174,9 +186,8 @@ public class EmployeeController {
 			directionSort = Sort.Direction.ASC;
 		}
 
-		log.info("refreshEmployees");
-		log.info("sortField: {}", sortField);
-		log.info("directionSort: {}", directionSort);
+		log.info("refreshEmployees.sortField: {}", sortField);
+		log.info("refreshEmployees.directionSort: {}", directionSort);
 		Sort sort = Sort.by(directionSort, sortField);
 		Pageable pageable = PageRequest.of(page, size, sort);
 		Page<Employee> employeePage = employeeRepository.findAll(pageable);
@@ -268,5 +279,21 @@ public class EmployeeController {
 		model.addAttribute("direction", direction);
 
 		return NamesView.SHOW_EMPLOYEES;
+	}
+
+	public EmployeeRepository getEmployeeRepository() {
+		return employeeRepository;
+	}
+
+	public void setEmployeeRepository(@Autowired EmployeeRepository employeeRepository) {
+		this.employeeRepository = employeeRepository;
+	}
+
+	public PositionRepository getPositionRepository() {
+		return positionRepository;
+	}
+
+	public void setPositionRepository(@Autowired PositionRepository positionRepository) {
+		this.positionRepository = positionRepository;
 	}
 }

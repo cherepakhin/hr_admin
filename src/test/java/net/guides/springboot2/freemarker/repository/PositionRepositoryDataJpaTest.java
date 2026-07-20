@@ -4,8 +4,10 @@ import net.guides.springboot2.freemarker.model.Position;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 	С DataJpaTest программа будет загружена полностью
  */
 @DataJpaTest
+// @Sql("/positions.sql") - если нужно загрузить скрипты sql для тестирования
 /*
 DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD
 При таком режиме контекст приложения помечается как грязный после выполнения каждого
@@ -216,5 +219,43 @@ public class PositionRepositoryDataJpaTest {
 
 		// Then
 		assertThat(nextId.intValue() > 0);
+	}
+
+	@Test
+	public void findSortByPositionId() {
+		Position positon1 = new Position(1L, "NAME_1");
+		positionRepository.save(positon1);
+		Position positon2 = new Position(2L, "NAME_2");
+		positionRepository.save(positon2);
+
+		List<Position> positions = positionRepository.findAllAndSort(Sort.by(Sort.Direction.ASC, "id"));
+		System.out.println(positions.size());
+		assertThat(positions).hasSize(2);
+	}
+
+	@Test
+	public void findSortByPositionNameASC() {
+		Position positon1 = new Position(1L, "NAME_200");
+		positionRepository.save(positon1);
+		Position positon2 = new Position(2L, "NAME_100");
+		positionRepository.save(positon2);
+
+		List<Position> positions = positionRepository.findAllAndSort(Sort.by(Sort.Direction.ASC, "name"));
+
+		assertThat(positions).hasSize(2);
+		assertThat(positions.get(0).getName()).isEqualTo("NAME_100");
+		assertThat(positions.get(1).getName()).isEqualTo("NAME_200");
+	}
+
+	@Test
+	public void findSortByPositionNameDESC() {
+		positionRepository.save(new Position(1L, "NAME_200"));
+		positionRepository.save(new Position(2L, "NAME_100"));
+
+		List<Position> positions = positionRepository.findAllAndSort(Sort.by(Sort.Direction.DESC, "name"));
+
+		assertThat(positions).hasSize(2);
+		assertThat(positions.get(0).getName()).isEqualTo("NAME_200");
+		assertThat(positions.get(1).getName()).isEqualTo("NAME_100");
 	}
 }

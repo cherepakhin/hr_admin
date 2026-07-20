@@ -1,4 +1,4 @@
-### Заготовка для UI проектов со Spring Boot Web
+### Заготовка для UI проектов со Spring Boot Web и FreeMarker
 
 Java 17:
 
@@ -9,6 +9,8 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 Открыть [http://127.0.0.1:8088/hr_admin/](http://127.0.0.1:8088/hr_admin/)
 
 URL для разработки [http://127.0.0.1:8088/hr_admin/employees/](http://127.0.0.1:8088/hr_admin/employees/)
+
+Развернуто на [https://v.perm.ru/hr_admin/](https://v.perm.ru/hr_admin/).
 
 Основная цель __ТОЛЬКО FRONTEND__.
 
@@ -48,7 +50,7 @@ URL для разработки [http://127.0.0.1:8088/hr_admin/employees/](http
 
 ![doc/edit_position.png](doc/edit_position.png)
 
-Экраны с мобильного телефона: [doc/mobile_screens/](doc/mobile_screens/)
+Экранные формы для мобильных устройств: [doc/mobile_screens/](doc/mobile_screens/)
 
 ### Создание maven wrapper
 
@@ -92,7 +94,8 @@ public class ProductController {
 
 В этом проекте возвращаются имена __view__. 
 
-Внедрение значений в html файлы осуществляется через __Model__ [EmployeeController.java](src/main/java/net/guides/springboot2/freemarker/controller/EmployeeController.java). 
+Внедрение значений в html файлы осуществляется через __Model__ [EmployeeController.java](src/main/java/net/guides/springboot2/freemarker/controller/EmployeeController.java) и 
+возврат имени view (не ModelAndVew) 
 
 ````java
 	@RequestMapping(value = "/employees/new", method = RequestMethod.GET)
@@ -162,13 +165,26 @@ public class ProductController {
 ...
 ````
 
-
-
 ### Тестирование
 
 ````shell
+export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 ./mvnw clean test
 ````
+
+При тестировании с MockMVC, подстановка bean в модель страницы можно выполнить вручную с помощью __.flashAttr__:
+
+````java
+		ResultActions result = mockMvc.perform(post("/employees/")
+				.flashAttr("positions", asList(position1)) // подстановка в модель аттрибута positions как asList(position1) !!!
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("firstName", "0123456789_0123456789_0123456789_0123456789")  // > 15 символов
+				.param("lastName", "LastName")
+				.param("email", "user@example.com")
+				.param("position.id", "1"));
+````
+
+### Покрытие тестами
 
 Подключен плагин JaCoCo report для создания отчета покрытия тестами.
 
@@ -269,6 +285,8 @@ root@v:/etc/apache2/sites-enabled# cat 000-default-le-ssl.conf
     </VirtualHost>
 </IfModule>
 ````
+
+Логи на сервере смотреть в v.perm.ru:/home/vasi/temp/hr_admin/hr_admin.log.
 
 ### Разное
 
@@ -814,17 +832,17 @@ __text-right__ - стиль для выравнивания текста
 __justify-end__ - работает по другому принципу, чем __text-right__.
 
 ````text
-                            <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
-                                <td class="px-4 py-2 font-medium">${position.name}</td>
-                                <td class="px-4 py-2 text-right">                       <!-- !!!!!!!!!!!!!!!!!!!!!! -->
-                                    <!-- Edit Action -->
-                                    <a ...</a>
-                                    <!-- Delete Action with Custom Modal -->
-                                    <button ... </button>
-                                </td>
-                            </tr>
-
+    <tr id="position-${position.id}" class="border-b border-gray-100 hover:bg-gray-50 transition">
+        <td class="px-4 py-2 font-medium">${position.name}</td>
+        <td class="px-4 py-2 text-right">                       <!-- !!!!!!!!!!!!!!!!!!!!!! -->
+            <!-- Edit Action -->
+            <a ...</a>
+            <!-- Delete Action with Custom Modal -->
+            <button ... </button>
+        </td>
+    </tr>
 ````
+
 ### Тестирование снаружи
 
 Screen shot tool URL [https://iotools.cloud/tool/website-screenshot/](https://iotools.cloud/tool/website-screenshot/)
@@ -848,7 +866,7 @@ Today is a wonderful day.
 
 ### Удаление
 
-Совет [отсюда](https://stackoverflow.com/questions/24256051/delete-or-put-methods-in-thymeleaf)
+Выполнение DELETE запроса (совет [отсюда](https://stackoverflow.com/questions/24256051/delete-or-put-methods-in-thymeleaf)):
 
 ````javascript
 <script th:inline="javascript">
@@ -870,6 +888,7 @@ Today is a wonderful day.
 ````html
 <a type="button" th:with="url = @{<your_url>}" th:onclick="sendDelete([[${url}]])">Delete</a>
 ````
+
 
 ### Ветки
 
@@ -963,4 +982,51 @@ Hibernate:
 23:54:07.283+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (3:VARCHAR) <- [Lastname 9]
 23:54:07.293+05:00 TRACE 16885 --- [           main] org.hibernate.orm.jdbc.bind              : binding parameter (4:BIGINT) <- [3]
 23:54:07.301+05:00  INFO 16885 --- [           main] n.g.s.f.initializer.DataInitializer      : Test data added.
+````
+
+### Запуск как сервис в Linux
+
+Описано здесь [Autostart сервиса в linux](https://v.perm.ru/index.php/instrumenty-devops/autostart-service).
+
+Создать файл hr_admin.service в /etc/systemd:
+
+````text
+[Unit]
+Description=HR admin
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=simple
+User=vasi
+Group=vasi
+ExecReload=/bin/kill -HUP 
+ExecStart=/home/vasi/temp/hr_admin.sh
+SyslogIdentifier=hr_admin
+Restart=always
+[Install]
+WantedBy=multi-user.target
+````
+
+/home/vasi/temp/hr_admin.sh:
+
+````shell
+/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /home/vasi/temp/hr-admin-0.0.5.jar --server.port=8088
+````
+
+Перечитать сервисы:
+
+````shell
+sudo systemctl daemon-reload
+````
+
+Включить сервис:
+
+````shell
+systemctl enable hr_admin.service
+````
+
+Запустить сервис:
+
+````shell
+systemctl start hr_admin.service
 ````
