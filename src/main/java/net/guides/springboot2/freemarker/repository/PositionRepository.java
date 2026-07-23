@@ -33,4 +33,6 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
 	List<Position> findAllAndSort(Sort sort);
 
 	List<Position> findPositionByName(String name);
+
+	List<Position> findPositionByNameContainsIgnoreCase(String name);
 }

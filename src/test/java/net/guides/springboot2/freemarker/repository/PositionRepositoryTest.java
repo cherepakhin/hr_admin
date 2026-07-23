@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -20,5 +21,13 @@ class PositionRepositoryTest {
         List<Position> positions = positionRepository.findAll();
 
         assertTrue(positions.size() > 0);
+    }
+
+    @Test
+    void findPositionByNameContainsIgnoreCase() {
+        List<Position> positions = positionRepository.findPositionByNameContainsIgnoreCase("директор");
+
+        assertEquals(1, positions.size());
+        assertEquals("Директор", positions.get(0).getName());
     }
 }
