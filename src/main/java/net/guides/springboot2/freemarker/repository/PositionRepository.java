@@ -31,4 +31,6 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
 
 	@Query("select p from Position p")
 	List<Position> findAllAndSort(Sort sort);
+
+	List<Position> findPositionByName(String name);
 }
