@@ -1,5 +1,7 @@
 ### Заготовка для UI проектов со Spring Boot Web и FreeMarker
 
+Git репозиторий [https://github.com/cherepakhin/hr_admin.git](https://github.com/cherepakhin/hr_admin.git).
+
 Java 17:
 
 ````shell
