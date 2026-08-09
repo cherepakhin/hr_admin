@@ -1033,7 +1033,7 @@ systemctl enable hr_admin.service
 systemctl start hr_admin.service
 ````
 
-# Подключение к MCP сервису для VS Code
+### Подключение к MCP сервису для VS Code
 
 Создать каталог .codeassistant в каталоге проекта. В нем создать файл mcp.json:
 
