@@ -1,5 +1,7 @@
 ### Заготовка для UI проектов со Spring Boot Web и FreeMarker
 
+Git репозиторий [https://github.com/cherepakhin/hr_admin.git](https://github.com/cherepakhin/hr_admin.git).
+
 Java 17:
 
 ````shell
@@ -1029,4 +1031,36 @@ systemctl enable hr_admin.service
 
 ````shell
 systemctl start hr_admin.service
+````
+
+### Подключение к MCP сервису для VS Code
+
+Создать каталог .codeassistant в каталоге проекта. В нем создать файл mcp.json:
+
+````json
+{
+  "mcpServers": {
+    "github": {
+      "type": "stdio",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e",
+        "GITHUB_TOOLSETS",
+        "-e",
+        "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "ТОКЕН_GITHUB",
+        "GITHUB_TOOLSETS": "",
+        "GITHUB_READ_ONLY": ""
+      }
+    }
+  }
+}
 ````

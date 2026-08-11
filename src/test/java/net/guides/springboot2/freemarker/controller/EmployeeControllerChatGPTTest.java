@@ -41,6 +41,7 @@ class EmployeeControllerChatGPTTest {
 	private PositionRepository positionRepository;
 
 	private Employee sample;
+	
 
 	@BeforeEach
 	void setup() {
@@ -55,6 +56,7 @@ class EmployeeControllerChatGPTTest {
 	@Test
 	void testListEmployees() throws Exception {
 		// Prepare a page of employees
+	
 		Employee e1 = sample;
 		Page<Employee> page = new PageImpl<>(Arrays.asList(e1), PageRequest.of(0, 10, Sort.by("id")), 1);
 		given(employeeRepository.findAll(ArgumentMatchers.any(Pageable.class))).willReturn(page);
