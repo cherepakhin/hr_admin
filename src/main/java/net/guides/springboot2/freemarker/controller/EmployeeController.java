@@ -33,8 +33,10 @@ public class EmployeeController {
 
 	private static final  String defaultSortField = Fields.ID;
 
+	@Autowired
 	private EmployeeRepository employeeRepository;
 
+	@Autowired
 	private PositionRepository positionRepository;
 
 	@GetMapping("/")
