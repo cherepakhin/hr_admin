@@ -26,16 +26,15 @@ import java.util.stream.Collectors;
 //TODO: добавить валидацию
 // Методы могут отдавать, либо ModelAndView, либо просто строку
 @Controller
-@RequestMapping(value = "/employees")
+@RequestMapping("/employees")
 public class EmployeeController {
 	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 	private String currentIndexPage = "/";
 
 	private static final  String defaultSortField = Fields.ID;
 
-	@Autowired
 	private EmployeeRepository employeeRepository;
-	@Autowired
+
 	private PositionRepository positionRepository;
 
 	@GetMapping("/")
@@ -152,7 +151,7 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/delete/{id}")
-	public ModelAndView deletePosition(@PathVariable Long id, Model model) {
+	public ModelAndView deleteEmployee(@PathVariable Long id, Model model) {
 		// TODO: проверка на существование
 		// if(id == null) {
 		//	throw new Exception("id is null for /delete/{id}");
