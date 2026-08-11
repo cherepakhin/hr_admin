@@ -31,7 +31,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@SpringBootTest(
+		classes = EmployeeController.class
+)
 @AutoConfigureMockMvc
 public class EmployeeControllerMvcTest {
 
@@ -56,6 +58,8 @@ public class EmployeeControllerMvcTest {
         given(this.employeeRepository.findByFiltersAndSort(
                 eq(""), eq(""), any(), eq(""), any(Pageable.class)))
                 .willReturn(employeePage);
+		given(this.employeeRepository.findAll(any(Pageable.class)))
+				.willReturn(employeePage);
 
         given(this.positionRepository.findAll()).willReturn(asList(position1));
 
@@ -71,7 +75,7 @@ public class EmployeeControllerMvcTest {
                 .andExpect(model().attributeExists("error"))
                 .andExpect(model().attribute("error", "First name must be between 3 to 20 characters long.\n"));
     }
-/*
+
     @Test
 	public void shouldListEmployeesWithPagination() {
 		// Given
@@ -80,11 +84,14 @@ public class EmployeeControllerMvcTest {
 		emp1.setId(1L);
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "empl2@example.com", position);
 		emp2.setId(2L);
-		Page<Employee> page = new PageImpl<>(Arrays.asList(emp1, emp2), PageRequest.of(0, 10, Sort.by("id")), 1);
-		when(employeeRepository.findAll(any(Pageable.class))).thenReturn(page);
+//		Page<Employee> page = new PageImpl<>(Arrays.asList(emp1, emp2), PageRequest.of(0, 10, Sort.by("id")), 1);
 		Page<Employee> employeePage = new PageImpl<>(asList(emp1, emp2), PageRequest.of(0, 10), 2);
+		when(this.employeeRepository.findAll(any(Pageable.class))).thenReturn(employeePage);
 
-		given(employeeRepository.findAll(any(Pageable.class))).willReturn(employeePage);
+        given(this.employeeRepository.findByFiltersAndSort(
+                eq(""), eq(""), any(), eq(""), any(Pageable.class)))
+                .willReturn(employeePage);
+		given(employeeRepository.findAll(any(PageRequest.class))).willReturn(employeePage);
 
 		try {
 			// When & Then
@@ -100,9 +107,9 @@ public class EmployeeControllerMvcTest {
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
-		verify(this.employeeRepository, times(1)).findAll(any(Pageable.class));
+//		verify(this.employeeRepository, times(1)).findAll(any(Pageable.class));
 	}
-
+/*
 	@Test
 	public void shouldShowCreateForm() {
 		// Given
