@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -59,7 +59,7 @@ class EmployeeControllerChatGPTTest {
 	
 		Employee e1 = sample;
 		Page<Employee> page = new PageImpl<>(Arrays.asList(e1), PageRequest.of(0, 10, Sort.by("id")), 1);
-		given(employeeRepository.findAll(ArgumentMatchers.any(Pageable.class))).willReturn(page);
+		given(this.employeeRepository.findAll(any(Pageable.class))).willReturn(page);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/employees/"))
 				.andExpect(MockMvcResultMatchers.status().isOk())
