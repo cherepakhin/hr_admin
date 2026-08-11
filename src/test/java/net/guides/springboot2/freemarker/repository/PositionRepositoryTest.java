@@ -21,6 +21,7 @@ class PositionRepositoryTest {
         List<Position> positions = positionRepository.findAll();
 
         assertTrue(positions.size() > 0);
+        assertEquals(new Position(2L, "Бухгалтер"), positions.get(0));
     }
 
     @Test
