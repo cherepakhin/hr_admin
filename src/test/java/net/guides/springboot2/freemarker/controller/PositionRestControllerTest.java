@@ -22,6 +22,7 @@ class PositionRestControllerTest {
 		Employee employee1 = new Employee();
 		Long EMPLOYEE_ID = 10L;
 		employee1.setId(EMPLOYEE_ID);
+
 		Position position = new Position();
 		Long POSITION_ID = 20L;
 		position.setId(POSITION_ID);
