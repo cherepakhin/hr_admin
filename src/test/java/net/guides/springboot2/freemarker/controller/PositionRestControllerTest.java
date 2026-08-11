@@ -41,9 +41,7 @@ class PositionRestControllerTest {
 	void canDeletePosition() {
 		PositionRepository mockPositionRepo = mock(PositionRepository.class);
 		EmployeeRepository mockEemployeeRepository = mock(EmployeeRepository.class);
-		Position position = new Position();
 		Long POSITION_ID = 20L;
-		position.setId(POSITION_ID);
 
 		Mockito.when(mockEemployeeRepository.findAllByPosition(POSITION_ID)).thenReturn(List.of());
 
