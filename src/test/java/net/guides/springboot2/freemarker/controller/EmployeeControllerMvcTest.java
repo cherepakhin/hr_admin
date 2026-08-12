@@ -233,7 +233,6 @@ public class EmployeeControllerMvcTest {
 		verify(this.employeeRepository).deleteById(1L);
 	}
 
-	/*
 	@Test
 	public void deleteEmployeeFromShowEmployeesAndRedirect() {
 		Position position = new Position(1L, "Developer");
@@ -248,16 +247,18 @@ public class EmployeeControllerMvcTest {
 		given(this.positionRepository.findAll()).willReturn(List.of(position));
 
 		try {
-			mockMvc.perform((get("/employees/show_employees"))); // set current page for return
+			mockMvc.perform((get("/show_employees"))); // set current page for return
 			mockMvc.perform(get("/employees/delete/1"))
 					.andExpect(status().is3xxRedirection())
-					.andExpect(redirectedUrl("/show_employees/"));
+					.andExpect(redirectedUrl("/index/"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
 
 		verify(this.employeeRepository).deleteById(1L);
 	}
+
+	/*
 
 	@Test
 	public void shouldShowFilteredEmployees() {
