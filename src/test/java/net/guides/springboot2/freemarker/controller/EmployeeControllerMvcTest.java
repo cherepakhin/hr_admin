@@ -210,11 +210,6 @@ public class EmployeeControllerMvcTest {
 		verify(this.employeeRepository).save(updatedEmployee);
 	}
 
-	/*
-
-
-
-
 	@Test
 	public void shouldDeleteEmployeeAndRedirect() {
 		Position position = new Position(1L, "Developer");
@@ -238,6 +233,7 @@ public class EmployeeControllerMvcTest {
 		verify(this.employeeRepository).deleteById(1L);
 	}
 
+	/*
 	@Test
 	public void deleteEmployeeFromShowEmployeesAndRedirect() {
 		Position position = new Position(1L, "Developer");
