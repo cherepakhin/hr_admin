@@ -87,7 +87,6 @@ public class EmployeeControllerMvcTest {
 		emp1.setId(1L);
 		Employee emp2 = new Employee("Firstname2", "Lastname2", "empl2@example.com", position);
 		emp2.setId(2L);
-//		Page<Employee> page = new PageImpl<>(Arrays.asList(emp1, emp2), PageRequest.of(0, 10, Sort.by("id")), 1);
 		Page<Employee> employeePage = new PageImpl<>(asList(emp1, emp2), PageRequest.of(0, 10), 2);
 		when(this.employeeRepository.findAll(any(Pageable.class))).thenReturn(employeePage);
 
@@ -107,11 +106,6 @@ public class EmployeeControllerMvcTest {
 					.andExpect(model().attribute("totalElements", 2L))
 					.andExpect(model().attribute("employees", asList(emp1, emp2)))
 					.andDo(print());
-
-//					.andExpect(model().attribute("employees"), v "[Employee{id=1, firstName='Firstname1', lastName='Lastname1', email='empl1@example.com', position=Position{id=1, name='Developer'}}, Employee{id=2, firstName='Firstname2', lastName='Lastname2', email='empl2@example.com', position=Position{id=1, name='Developer'}}]"))
-//					.andExpect(model().attribute("employees", "[Employee{id=1, firstName='Firstname1', lastName='Lastname1', email='empl1@example.com', position=Position{id=1, name='Developer'}}, Employee{id=2, firstName='Firstname2', lastName='Lastname2', email='empl2@example.com', position=Position{id=1, name='Developer'}}]"))
-//					.andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname1")))
-//					.andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname2")));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
