@@ -116,7 +116,7 @@ public class EmployeeControllerMvcTest {
 // подстановка в модель аттрибута:  mockMvc.flashAttr("positions", asList(position1)). Комментарий НЕ УДАЛЯТЬ!
 
 	@Test
-	public void redirectForCreateEmployeeFromShowEmployeesPage() {
+	public void redirectToPrevPageForCreateEmployeeFromShowEmployeesPage() {
 		// Given
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
 
