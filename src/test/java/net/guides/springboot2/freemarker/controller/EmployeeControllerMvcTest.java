@@ -95,9 +95,6 @@ public class EmployeeControllerMvcTest {
 		verify(this.employeeRepository, times(1)).findAll(any(Pageable.class));
 	}
 
-// подстановка в модель аттрибута:  mockMvc.flashAttr("positions", asList(position1)). Комментарий НЕ УДАЛЯТЬ!
-
-	/*
 	@Test
 	public void shouldShowCreateForm() {
 		// Given
@@ -115,6 +112,10 @@ public class EmployeeControllerMvcTest {
 
 		verify(this.positionRepository, times(1)).findAll();
 	}
+
+// подстановка в модель аттрибута:  mockMvc.flashAttr("positions", asList(position1)). Комментарий НЕ УДАЛЯТЬ!
+
+	/*
 
 	@Test
 	public void createEmployeeAndRedirect() {
