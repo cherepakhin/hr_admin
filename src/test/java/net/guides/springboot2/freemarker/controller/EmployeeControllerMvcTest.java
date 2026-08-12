@@ -24,11 +24,14 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Arrays.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(
@@ -95,19 +98,24 @@ public class EmployeeControllerMvcTest {
 
 		try {
 			// When & Then
-			mockMvc.perform(get("/employees/"))
+			ResultActions resultActions = mockMvc.perform(get("/employees/"))
 					.andExpect(status().isOk())
 					.andExpect(view().name("index"))
 					.andExpect(model().attributeExists("employees"))
 					.andExpect(model().attribute("currentPage", 0))
 					.andExpect(model().attribute("totalPages", 1))
 					.andExpect(model().attribute("totalElements", 2L))
-					.andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname1")))
-					.andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname2")));
+					.andExpect(model().attribute("employees", asList(emp1, emp2)))
+					.andDo(print());
+
+//					.andExpect(model().attribute("employees"), v "[Employee{id=1, firstName='Firstname1', lastName='Lastname1', email='empl1@example.com', position=Position{id=1, name='Developer'}}, Employee{id=2, firstName='Firstname2', lastName='Lastname2', email='empl2@example.com', position=Position{id=1, name='Developer'}}]"))
+//					.andExpect(model().attribute("employees", "[Employee{id=1, firstName='Firstname1', lastName='Lastname1', email='empl1@example.com', position=Position{id=1, name='Developer'}}, Employee{id=2, firstName='Firstname2', lastName='Lastname2', email='empl2@example.com', position=Position{id=1, name='Developer'}}]"))
+//					.andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname1")))
+//					.andExpect(content().string(org.hamcrest.Matchers.containsString("Firstname2")));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
-//		verify(this.employeeRepository, times(1)).findAll(any(Pageable.class));
+		verify(this.employeeRepository, times(1)).findAll(any(Pageable.class));
 	}
 /*
 	@Test
