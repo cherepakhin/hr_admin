@@ -135,11 +135,8 @@ public class EmployeeControllerMvcTest {
 		verify(this.employeeRepository, times(1)).save(employee);
 	}
 
-	/*
-
-
 	@Test
-	public void createEmployeeAndRedirectForEmptyURL() {
+	public void createEmployeeAndRedirectForEmptyPreviousURL() {
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
 
 		try {
@@ -151,6 +148,8 @@ public class EmployeeControllerMvcTest {
 			fail(e.getMessage()) ;
 		}
 	}
+
+	/*
 
 	@Test
 	public void shouldShowEditFormForExistingEmployee() {
