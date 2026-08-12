@@ -201,11 +201,11 @@ public class EmployeeController {
 	}
 
 	// Отображение формы фильтра
-	@GetMapping("/filter")
+	@GetMapping("/filter_employees")
 	public String showFilterPage(Model model) {
 		log.info("showFilterPage");
 		model.addAttribute("positions", positionRepository.findAll());
-		return NamesView.FILTER_EMPLOYEE;
+		return NamesView.FILTER_EMPLOYEES;
 	}
 
 	// Показать всех сотрудников с фильтрацией

@@ -45,7 +45,7 @@
         </a>
 
         <!-- Filter Button -->
-        <a href="${springMacroRequestContext.contextPath}/employees/filter"
+        <a href="${springMacroRequestContext.contextPath}/employees/filter_employees"
            class="flex items-center px-3 py-3 text-gray-700 font-medium transition rounded-none hover:bg-gray-200 hover:text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <title>Найти сотрудников</title>
