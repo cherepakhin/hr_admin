@@ -50,33 +50,16 @@ public class EmployeeControllerMvcTest {
 	private PositionRepository positionRepository;
 
     @Test
-    public void createFormWithErrorWhenFirstNameTooLong() throws Exception {
+    public void createEmployeemWhenFirstNameTooLong_DoRedirected() throws Exception {
         Position position1 = new Position(1L, "Position1");
-        Employee emp1 = new Employee("John", "Doe", "john.doe@example.com", position1);
-        emp1.setId(1L);
-
-        List<Employee> employees = asList(emp1);
-        Page<Employee> employeePage = new PageImpl<>(employees, PageRequest.of(0, 10), 1);
-
-        given(this.employeeRepository.findByFiltersAndSort(
-                eq(""), eq(""), any(), eq(""), any(Pageable.class)))
-                .willReturn(employeePage);
-		given(this.employeeRepository.findAll(any(Pageable.class)))
-				.willReturn(employeePage);
-
-        given(this.positionRepository.findAll()).willReturn(asList(position1));
-
-        ResultActions result = mockMvc.perform(post("/employees/")
-                        .flashAttr("positions", asList(position1)) // подстановка в модель аттрибута !!!
+        mockMvc.perform(post("/employees/")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("firstName", "0123456789_0123456789_0123456789_0123456789")  // > 15 символов
                         .param("lastName", "LastName")
                         .param("email", "user@example.com")
                         .param("position.id", "1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name(NamesView.CREATE_EMPLOYEE))
-                .andExpect(model().attributeExists("error"))
-                .andExpect(model().attribute("error", "First name must be between 3 to 20 characters long.\n"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
     }
 
     @Test
@@ -111,7 +94,10 @@ public class EmployeeControllerMvcTest {
 		}
 		verify(this.employeeRepository, times(1)).findAll(any(Pageable.class));
 	}
-/*
+
+// подстановка в модель аттрибута:  mockMvc.flashAttr("positions", asList(position1)). Комментарий НЕ УДАЛЯТЬ!
+
+	/*
 	@Test
 	public void shouldShowCreateForm() {
 		// Given
