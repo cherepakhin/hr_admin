@@ -115,26 +115,28 @@ public class EmployeeControllerMvcTest {
 
 // подстановка в модель аттрибута:  mockMvc.flashAttr("positions", asList(position1)). Комментарий НЕ УДАЛЯТЬ!
 
-	/*
-
 	@Test
-	public void createEmployeeAndRedirect() {
+	public void redirectForCreateEmployeeFromShowEmployeesPage() {
 		// Given
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
 
 		try {
-			mockMvc.perform(get("/show_employees")); // set previous page (return page)
+			// set previous page (return page)
+			mockMvc.perform(get("/show_employees"));
 			// When & Then
 			mockMvc.perform(post("/employees/")
 							.flashAttr("employee", employee))
 					.andExpect(status().is3xxRedirection())
-					.andExpect(redirectedUrl("/show_employees"));
+					.andExpect(redirectedUrl("/"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
 
 		verify(this.employeeRepository, times(1)).save(employee);
 	}
+
+	/*
+
 
 	@Test
 	public void createEmployeeAndRedirectForEmptyURL() {
