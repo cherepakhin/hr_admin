@@ -149,10 +149,8 @@ public class EmployeeControllerMvcTest {
 		}
 	}
 
-	/*
-
 	@Test
-	public void shouldShowEditFormForExistingEmployee() {
+	public void showEditFormForEmployee() {
 		// Given
 		Position position = new Position(1L, "Developer");
 		Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
@@ -175,6 +173,9 @@ public class EmployeeControllerMvcTest {
 		verify(this.positionRepository, times(1)).findAll();
 		verify(this.employeeRepository, times(1)).findById(1L);
 	}
+
+	/*
+
 
 	@Test
 	public void shouldReturn404WhenEditEmployeeNotFound() {
