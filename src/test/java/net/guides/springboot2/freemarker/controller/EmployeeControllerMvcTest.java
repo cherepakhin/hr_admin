@@ -191,10 +191,6 @@ public class EmployeeControllerMvcTest {
 		assertEquals("Request processing failed: java.lang.IllegalArgumentException: Employee not exist with id=999", excp.getMessage());
 	}
 
-	/*
-
-
-
 	@Test
 	public void shouldUpdateEmployeeAndRedirect() {
 		// Given
@@ -206,13 +202,18 @@ public class EmployeeControllerMvcTest {
 			mockMvc.perform(post("/employees/update/1")
 							.flashAttr("employee", updatedEmployee))
 					.andExpect(status().is3xxRedirection())
-					.andExpect(redirectedUrl("/employees/show_employees"));
+					.andExpect(redirectedUrl("/"));
 		} catch (Exception e) {
 			fail(e.getMessage()) ;
 		}
 
 		verify(this.employeeRepository).save(updatedEmployee);
 	}
+
+	/*
+
+
+
 
 	@Test
 	public void shouldDeleteEmployeeAndRedirect() {
