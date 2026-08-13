@@ -13,6 +13,7 @@ import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.List;
@@ -209,11 +210,13 @@ public class EmployeeControllerMvcTest {
     public void shouldDeleteEmployeeAndRedirect() {
         Position position = new Position(1L, "Developer");
         Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
-        employee.setId(1L);
+        Long EMPLOYEE_ID = 1L;
+        employee.setId(EMPLOYEE_ID);
 
         given(this.employeeRepository.findById(1L)).willReturn(Optional.of(employee));
 
         Page<Employee> page = new PageImpl<Employee>(List.of(employee));
+        given(this.employeeRepository.existsById(EMPLOYEE_ID)).willReturn(true);
         given(this.employeeRepository.findAll(any(Pageable.class))).willReturn(page);
 
         try {
@@ -232,11 +235,13 @@ public class EmployeeControllerMvcTest {
     public void deleteEmployeeFromShowEmployeesAndRedirect() {
         Position position = new Position(1L, "Developer");
         Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
-        employee.setId(1L);
+        Long EMPLOYEE_ID = 1L;
+        employee.setId(EMPLOYEE_ID);
 
         doNothing().when(this.employeeRepository).deleteById(1L);
 
         Page<Employee> page = new PageImpl<Employee>(List.of(employee));
+        given(this.employeeRepository.existsById(EMPLOYEE_ID)).willReturn(true);
         given(this.employeeRepository.findAll(any(), any(Sort.class))).willReturn(List.of(employee));
         given(this.employeeRepository.findByFiltersAndSort(any(), any(), any(), any(), any())).willReturn(page);
         given(this.positionRepository.findAll()).willReturn(List.of(position));
@@ -272,6 +277,50 @@ public class EmployeeControllerMvcTest {
         verify(this.positionRepository, times(1)).findAll();
     }
 
+    // сгенерировано gigacode
+	@Test
+	public void shouldDeleteEmployeeIfExists() {
+		// Given
+		Long id = 1L;
+		given(this.employeeRepository.existsById(id)).willReturn(true);
+		doNothing().when(this.employeeRepository).deleteById(id);
+
+		// When & Then
+		try {
+			ModelAndView result = mockMvc.perform(get("/employees/delete/" + id))
+					.andExpect(status().is3xxRedirection())
+					.andExpect(redirectedUrl("/index/"))
+					.andReturn().getModelAndView();
+
+			assertNotNull(result);
+			assertEquals("redirect:/index/", result.getViewName());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+
+		verify(this.employeeRepository, times(1)).existsById(id);
+		verify(this.employeeRepository, times(1)).deleteById(id);
+	}
+
+    // сгенерировано gigacode
+	@Test
+	public void shouldThrowExceptionWhenDeleteNonExistentEmployee() {
+		// Given
+		Long id = 999L;
+		given(this.employeeRepository.existsById(id)).willReturn(false);
+
+		// When & Then
+		Exception exception = null;
+		try {
+			mockMvc.perform(get("/employees/delete/" + id));
+		} catch (Exception e) {
+			exception = e;
+		}
+
+		assertNotNull(exception);
+		assertTrue(exception.getMessage().contains("Employee not exist with id=" + id));
+		verify(this.employeeRepository, never()).deleteById(any());
+	}
 
     /*
         @Test

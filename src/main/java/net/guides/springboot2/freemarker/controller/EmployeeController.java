@@ -154,11 +154,13 @@ public class EmployeeController {
 
 	@GetMapping("/delete/{id}")
 	public ModelAndView deleteEmployee(@PathVariable Long id, Model model) {
-		// TODO: проверка на существование
-		// if(id == null) {
-		//	throw new Exception("id is null for /delete/{id}");
-		// }
 		log.info("deleteEmployee");
+
+		// Проверка существования сотрудника перед удалением
+		if (!employeeRepository.existsById(id)) {
+			throw new IllegalArgumentException("Employee not exist with id=" + id);
+		}
+
 		employeeRepository.deleteById(id);
 		log.info("/employees/delete/{}", id);
 		log.info("currentIndexPage: {}", currentIndexPage);
@@ -174,7 +176,6 @@ public class EmployeeController {
 			return mv;
 		}
 	}
-
 	protected void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
 		if (sortField.isEmpty()) {
 			sortField = defaultSortField;
