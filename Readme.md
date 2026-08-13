@@ -1087,3 +1087,40 @@ systemctl start hr_admin.service
 ````
 
 (скачал откуда-то)
+
+Итоговые правила (prompt: "покажи rules для агента"):
+
+````text
+# HR Admin Rules
+
+## Архитектура
+- Используй слоистую архитектуру: controller, service, repository, model, dto
+- Бизнес-логика должна находиться в service-слое
+- Controller не должен напрямую обращаться к repository
+- Названия методов должны быть глаголами в форме "глагол + объект" (например: `createEmployee`, `deletePosition`)
+
+## Тестирование
+- Для всех новых публичных методов создавай unit-тесты
+- Для API-изменений добавляй интеграционные тесты
+- Используй существующий стиль тестов проекта (JUnit 5 + Mockito)
+- Тесты пишутся в snake_case или camelCase для методов (например: `shouldListEmployeesWithPagination`, `create_employee_and_redirect`)
+
+## Безопасность
+- Не читай и не изменяй файлы `.env`, `credentials.json`, `secrets.yaml`
+- Не выводи секреты и токены в ответах
+- При изменении авторизации указывай возможные риски
+
+## Код-стайль (AGENTS.md)
+- Индентация: 4 пробела
+- Максимальная длина строки: 120 символов
+- Используй IntelliJ IDEA default code style для Java
+- Используем Lombok: `@RequiredArgsConstructor` для DI, `@Slf4j` для логирования
+- Предпочитаем инициализацию final полей через конструктор
+- Избегай `var` — предпочитай явные типы
+- Избегай мутаций объектов, особенно в foreach и Stream API
+- Используй ранний выход (early return) где возможно
+- Избегай методов с `throws` — используй unchecked exceptions
+- Контроллеры называются `...Controller`, сервисы — `...Service`, репозитории — `...Repository`
+- Для шаблонов используем FreeMarker с расширением `.ftlh`
+- View-имена храним в интерфейсе `NamesView`
+````
