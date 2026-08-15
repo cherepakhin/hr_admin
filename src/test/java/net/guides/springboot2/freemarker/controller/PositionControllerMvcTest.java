@@ -227,4 +227,25 @@ public class PositionControllerMvcTest {
 		assertNotNull(exception);
 		assertEquals("Request processing failed: jakarta.validation.ConstraintViolationException: listPositions.direction: Направление должно быть 'asc' или 'desc'", exception.getMessage());
 	}
+
+	@Test
+	public void shouldReturnBadRequestWhenSrtFieldEqNameIsInvalid() {
+		// Given
+		given(this.positionRepository.findAllAndSort(any(Sort.class)))
+				.willReturn(List.of(new Position(1L, "Developer")));
+
+		// When & Then
+		Exception exception = null;
+		try {
+			mockMvc.perform(get("/positions/")
+							.param("sortField", "invalid_name")
+							.param("direction", "asc"))
+					.andExpect(status().isBadRequest());
+		} catch (Exception e) {
+			exception = e;
+		}
+
+		assertNotNull(exception);
+		assertEquals("Request processing failed: jakarta.validation.ConstraintViolationException: listPositions.sortField: Направление должно быть 'id' или 'name'", exception.getMessage());
+	}
 }

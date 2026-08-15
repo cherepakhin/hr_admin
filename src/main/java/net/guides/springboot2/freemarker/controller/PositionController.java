@@ -40,7 +40,9 @@ public class PositionController {
 	// GET /positions/ - отображение списка
 	@RequestMapping("/")
 	public String listPositions(Model model,
-								@RequestParam(defaultValue = "name") String sortField,
+								@RequestParam(defaultValue = "name")
+								@Pattern(regexp = "^(id|name)$", message = "Направление должно быть 'id' или 'name'")
+								String sortField,
 
 								@RequestParam(defaultValue = "asc")
 								@Pattern(regexp = "^(asc|desc)$", message = "Направление должно быть 'asc' или 'desc'")
