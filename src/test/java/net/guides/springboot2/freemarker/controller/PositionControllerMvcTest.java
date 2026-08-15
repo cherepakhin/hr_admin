@@ -8,16 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
@@ -205,5 +206,25 @@ public class PositionControllerMvcTest {
 
 		ModelAndView model = result.getModelAndView();
 		assertTrue(model.getModel().containsKey("error"));
+	}
+
+	@Test
+	public void shouldReturnBadRequestWhenDirectionIsInvalid() {
+		// Given
+		given(this.positionRepository.findAllAndSort(any(Sort.class)))
+				.willReturn(List.of(new Position(1L, "Developer")));
+
+		// When & Then
+		Exception exception = null;
+		try {
+			mockMvc.perform(get("/positions/")
+							.param("direction", "invalid_direction"))
+					.andExpect(status().isBadRequest());
+		} catch (Exception e) {
+			exception = e;
+		}
+
+		assertNotNull(exception);
+		assertEquals("Request processing failed: jakarta.validation.ConstraintViolationException: listPositions.direction: Направление должно быть 'asc' или 'desc'", exception.getMessage());
 	}
 }

@@ -1,6 +1,7 @@
 package net.guides.springboot2.freemarker.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
@@ -12,12 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //TODO: добавить валидацию
+@Validated
 @Controller
 @RequestMapping("/positions")
 public class PositionController {
@@ -38,7 +41,10 @@ public class PositionController {
 	@RequestMapping("/")
 	public String listPositions(Model model,
 								@RequestParam(defaultValue = "name") String sortField,
-								@RequestParam(defaultValue = "asc") String direction) {
+
+								@RequestParam(defaultValue = "asc")
+								@Pattern(regexp = "^(asc|desc)$", message = "Направление должно быть 'asc' или 'desc'")
+								String direction) {
 		log.info("get all positions");
 		log.info("sortField {}", sortField);
 		log.info("direction {}", direction);
@@ -59,8 +65,8 @@ public class PositionController {
 		//ModelAndView mv = new ModelAndView();
 		//mv.setViewName(NamesView.POSITIONS);
 		model.addAttribute("positions", positions);
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("direction", direction);
+		model.addAttribute("sortField", sortField); // для указания поля по которому сортируем
+		model.addAttribute("direction", direction); // для указания направления сортировки
 		return "show_positions";
 		// return mv;
 	}
@@ -169,7 +175,7 @@ public class PositionController {
 		//mv.setViewName(NamesView.POSITIONS);
 		//mv.addObject("positions", positions);
 		//return NamesView.POSITIONS;
-		 return "redirect:/positions/";
+		return "redirect:/positions/";
 //		return NamesView.POSITIONS;
 		//return mv;
 
