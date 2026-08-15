@@ -1,6 +1,7 @@
 package net.guides.springboot2.freemarker.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
@@ -65,7 +66,7 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/new")
-	public String showCreateForm(Model model) {
+	public String showCreateForm(@NotNull Model model) {
 		log.info("showCreateForm");
 		model.addAttribute("employee", new Employee());
 		model.addAttribute("positions", positionRepository.findAll());

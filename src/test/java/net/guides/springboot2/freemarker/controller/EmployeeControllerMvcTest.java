@@ -322,39 +322,39 @@ public class EmployeeControllerMvcTest {
 		verify(this.employeeRepository, never()).deleteById(any());
 	}
 
-    /*
-        @Test
-        public void shouldListEmployeesWithPagination() {
-            // Given
-            Position position = new Position(1L, "Developer");
-            Employee emp1 = new Employee("Firstname1", "Lastname1", "empl1@example.com", position);
-            emp1.setId(1L);
-            Employee emp2 = new Employee("Firstname2", "Lastname2", "empl2@example.com", position);
-            emp2.setId(2L);
-            Page<Employee> employeePage = new PageImpl<>(asList(emp1, emp2), PageRequest.of(0, 10), 2);
-            when(this.employeeRepository.findAll(any(Pageable.class))).thenReturn(employeePage);
+    @Test
+    public void refreshEmployeesWithSortingAndPagination() {
+        // Given
+        Position position = new Position(1L, "Developer");
+        Employee emp1 = new Employee("Firstname1", "Lastname1", "empl1@example.com", position);
+        emp1.setId(1L);
+        Employee emp2 = new Employee("Firstname2", "Lastname2", "empl2@example.com", position);
+        emp2.setId(2L);
+        Page<Employee> employeePage = new PageImpl<>(asList(emp1, emp2), PageRequest.of(0, 10), 2);
+        when(this.employeeRepository.findAll(any(Pageable.class))).thenReturn(employeePage);
 
-            given(this.employeeRepository.findByFiltersAndSort(
-                    eq(""), eq(""), any(), eq(""), any(Pageable.class)))
-                    .willReturn(employeePage);
-            given(employeeRepository.findAll(any(PageRequest.class))).willReturn(employeePage);
+        given(this.employeeRepository.findByFiltersAndSort(
+                eq(""), eq(""), any(), eq(""), any(Pageable.class)))
+                .willReturn(employeePage);
+        given(employeeRepository.findAll(any(PageRequest.class))).willReturn(employeePage);
 
-            try {
-                // When & Then
-                ResultActions resultActions = mockMvc.perform(get("/employees/"))
-                        .andExpect(status().isOk())
-                        .andExpect(view().name("index"))
-                        .andExpect(model().attributeExists("employees"))
-                        .andExpect(model().attribute("currentPage", 0))
-                        .andExpect(model().attribute("totalPages", 1))
-                        .andExpect(model().attribute("totalElements", 2L))
-                        .andExpect(model().attribute("employees", asList(emp1, emp2)))
-                        .andDo(print());
-            } catch (Exception e) {
-                fail(e.getMessage()) ;
-            }
-            verify(this.employeeRepository, times(1)).findAll(any(Pageable.class));
+        try {
+            // When & Then
+            ResultActions resultActions = mockMvc.perform(get("/employees/"))
+                    .andExpect(status().isOk())
+                    .andExpect(view().name("index"))
+                    .andExpect(model().attributeExists("employees"))
+                    .andExpect(model().attribute("currentPage", 0))
+                    .andExpect(model().attribute("totalPages", 1))
+                    .andExpect(model().attribute("totalElements", 2L))
+                    .andExpect(model().attribute("employees", asList(emp1, emp2)))
+                    .andDo(print());
+        } catch (Exception e) {
+            fail(e.getMessage()) ;
         }
+        verify(this.employeeRepository, times(1)).findAll(any(Pageable.class));
+    }
+    /*
 
      */
 	/*
