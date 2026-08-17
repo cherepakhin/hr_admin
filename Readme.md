@@ -1124,3 +1124,5 @@ systemctl start hr_admin.service
 - Для шаблонов используем FreeMarker с расширением `.ftlh`
 - View-имена храним в интерфейсе `NamesView`
 ````
+
+Из GigaIde в облаке https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/
