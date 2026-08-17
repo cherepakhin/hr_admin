@@ -163,4 +163,11 @@
 			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+		<repository>
+			<id>ru.perm.v</id> <!-- by this id take name/pass from ~/.m2/settings.xml-->
+			<name>My Repository</name>
+			<url>http://192.168.1.20:8081/repository/ru.perm.v</url>
+		</repository>
+	</distributionManagement>
 </project>
