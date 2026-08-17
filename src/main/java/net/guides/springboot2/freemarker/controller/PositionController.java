@@ -1,9 +1,6 @@
 package net.guides.springboot2.freemarker.controller;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Valid;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
+import jakarta.validation.*;
 import jakarta.validation.constraints.Pattern;
 import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
@@ -22,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-//TODO: добавить валидацию
-@Validated
+@Validated // добавляем валидацию
 @Controller
 @RequestMapping("/positions")
 public class PositionController {
@@ -89,26 +86,24 @@ public class PositionController {
 
 	// POST /positions/ - обработка создания
 	@PostMapping("/")
-	public String createPosition(@Valid @ModelAttribute("position") Position position,
+	public String createPosition(@ModelAttribute("position") Position position,
 								 BindingResult bindingResult,  Model model) {
 		log.info("Create position: {}", position);
-		if (bindingResult.hasErrors()) { // в bindingResult результаты валидации
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<Position>> violations = validator.validate(position);
+		if(!violations.isEmpty()) {
+			String errors = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(", "));
 			log.info("Binding result: {}", bindingResult);
-			StringBuilder errors = new StringBuilder();
-			for(ObjectError error :  bindingResult.getAllErrors()) {
-				errors.append(error.getDefaultMessage()).append("\n");
-				log.error(error.getDefaultMessage());
-			}
 			// find in create_position.ftlh by name="name" (<input ... name="name")
 			model.addAttribute("name", position.getName());
-			model.addAttribute("error", errors.toString()); // <p class="text-red-600 text-xs mt-1">${error}</p>
+			model.addAttribute("error_for_name", errors); // <p class="text-red-600 text-xs mt-1">${error}</p>
 			return NamesView.CREATE_POSITION;
 		}
 		if (positionRepository.existsByName(position.getName())) {
 			log.error(String.format("Должность с названием '%s' уже существует.", position.getName()));
 			model.addAttribute("name", position.getName());
-			model.addAttribute("position", position);
-			model.addAttribute("error", "Должность с таким названием уже существует.");
+			model.addAttribute("error_for_name", "Должность с таким названием уже существует.");
 			return NamesView.CREATE_POSITION;
 		}
 		position.setId(positionRepository.getNextId());
@@ -128,32 +123,30 @@ public class PositionController {
 	// POST /positions/update/{id} - обработка обновления
 	@PostMapping("/update/{id}")
 	public String updatePosition(@PathVariable Long id,
-								 @Valid @ModelAttribute Position position,
-								 BindingResult bindingResult, Model model) {
-		// Обработка ошибок @Valid. Ошибки @Valid сохраняются в объекте bindingResult.
-		String errors = "";
+								 @ModelAttribute Position position,
+								 Model model) {
 		log.info("Update position: {}", position);
-		if (bindingResult.hasErrors()) {
-			log.info("Binding result: {}", bindingResult);
-			for (ObjectError error : bindingResult.getAllErrors()) {
-				errors += error.getDefaultMessage() + "\n";
-				log.error(error.getDefaultMessage());
-			}
+		// Первый УРОВЕНЬ проверки - обработка ошибок @Size и т.п.
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<Position>> violations = validator.validate(position);
+		if(!violations.isEmpty()) {
+			String errors = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(", "));
 			model.addAttribute("name", position.getName());
 			model.addAttribute("error_for_name", errors);
 			position.setId(id); // Восстановление id для формы
 			return NamesView.EDIT_POSITION;
 		}
-
+		// Второй УРОВЕНЬ проверки. Backend проверка.
+		// (existsByName для этого метода не очень актуален, более актуален для ввода новой должности, оставлен для демонстрации)
 		if (positionRepository.existsByName(position.getName())) {
+			// Обработка backend ошибки
 			log.error("Position with name {} already exists", position.getName());
 			model.addAttribute("name", position.getName());
 			model.addAttribute("error_for_name", "Должность с таким названием УЖЕ существует.");
-			//bindingResult.rejectValue("name", "error_for_name", "Должность с таким названием УЖЕ существует.");
-			position.setId(id); // Восстанавливаю id для формы
-			return NamesView.EDIT_POSITION;
-		}
-		if (bindingResult.hasErrors()) {
+			// Другой способ сообщения об ошибке:
+			// Метод rejectValue() — мощный инструмент для реализации сложной бизнес-логики валидации.
+			// bindingResult.rejectValue("name", "error_for_name", "Должность с таким названием УЖЕ существует.");
 			position.setId(id); // Восстановление id для формы
 			return NamesView.EDIT_POSITION;
 		}
