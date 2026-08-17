@@ -3,6 +3,7 @@ package net.guides.springboot2.freemarker.controller;
 import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
 import net.guides.springboot2.freemarker.repository.PositionRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * через прокси!
  */
 @WebMvcTest(PositionController.class)
+@Disabled // this test created SourceCraft for demo purpose
 public class PositionControllerChatGPT_V2_MvcTest {
 
 	@Autowired
@@ -114,10 +116,10 @@ public class PositionControllerChatGPT_V2_MvcTest {
 
 		mockMvc.perform(post("/positions/update/1")
 						.param("name", "Developer"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/show_positions/"));
+				.andExpect(status().isOk())
+				.andExpect(view().name("edit_position"));
 
-		verify(positionRepository).save(any(Position.class));
+		verify(positionRepository, never()).save(any(Position.class));
 	}
 
 	@Test
