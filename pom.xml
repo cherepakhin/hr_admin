@@ -10,7 +10,7 @@
 
 	<groupId>ru.perm.v</groupId>
 	<artifactId>hr-admin</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 	<name>hr-admin</name>
 	<packaging>jar</packaging>
 
