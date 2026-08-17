@@ -54,8 +54,8 @@ public class EmployeeControllerMvcTest {
                         .param("lastName", "LastName")
                         .param("email", "user@example.com")
                         .param("position.id", "1"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("create_employee"));
     }
 
     @Test
