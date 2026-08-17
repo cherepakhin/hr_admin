@@ -1,6 +1,9 @@
 package net.guides.springboot2.freemarker.controller;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import jakarta.validation.constraints.Pattern;
 import net.guides.springboot2.freemarker.model.Position;
 import net.guides.springboot2.freemarker.repository.EmployeeRepository;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 //TODO: добавить валидацию
 @Validated
@@ -30,6 +34,7 @@ public class PositionController {
 	private final PositionRepository positionRepository;
 	private final EmployeeRepository employeeRepository;
 
+	private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 	// Используем внедрение через конструктор (рекомендуется)
 	@Autowired
 	public PositionController(PositionRepository positionRepository, EmployeeRepository employeeRepository) {
@@ -84,7 +89,7 @@ public class PositionController {
 
 	// POST /positions/ - обработка создания
 	@PostMapping("/")
-	public String createPosition(@Valid @ModelAttribute Position position,
+	public String createPosition(@Valid @ModelAttribute("position") Position position,
 								 BindingResult bindingResult,  Model model) {
 		log.info("Create position: {}", position);
 		if (bindingResult.hasErrors()) { // в bindingResult результаты валидации
@@ -125,10 +130,10 @@ public class PositionController {
 	public String updatePosition(@PathVariable Long id,
 								 @Valid @ModelAttribute Position position,
 								 BindingResult bindingResult, Model model) {
-		// Обработка ошибок @Valid
+		// Обработка ошибок @Valid. Ошибки @Valid сохраняются в объекте bindingResult.
+		String errors = "";
 		if (bindingResult.hasErrors()) {
 			log.info("Binding result: {}", bindingResult);
-			String errors = "";
 			for (ObjectError error : bindingResult.getAllErrors()) {
 				errors += error.getDefaultMessage() + "\n";
 				log.error(error.getDefaultMessage());
