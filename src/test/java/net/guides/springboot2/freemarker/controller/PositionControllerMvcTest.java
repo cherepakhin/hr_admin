@@ -128,8 +128,8 @@ public class PositionControllerMvcTest {
 		// When & Then
 		mockMvc.perform(post("/positions/update/" + ID_POSITION)
 						.param("name", NAME_POSITION))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/show_positions/"));
+				.andExpect(status().isOk())
+				.andExpect(view().name("edit_position"));
 	}
 
 	@Test
