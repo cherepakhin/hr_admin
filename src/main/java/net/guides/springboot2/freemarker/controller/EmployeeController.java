@@ -1,6 +1,9 @@
 package net.guides.springboot2.freemarker.controller;
 
-import jakarta.validation.Valid;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.NotNull;
 import net.guides.springboot2.freemarker.model.Employee;
 import net.guides.springboot2.freemarker.model.Position;
@@ -15,13 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 //TODO: добавить валидацию
@@ -29,27 +29,27 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/employees")
 public class EmployeeController {
-	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
-	private String currentIndexPage = "/";
+    private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
+    private String currentIndexPage = "/";
 
-	private static final  String defaultSortField = Fields.ID;
+    private static final String defaultSortField = Fields.ID;
 
-	@Autowired
-	private EmployeeRepository employeeRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
-	@Autowired
-	private PositionRepository positionRepository;
+    @Autowired
+    private PositionRepository positionRepository;
 
-	@GetMapping("/")
-	public String listEmployees(Model model,
-								@RequestParam(defaultValue = "0") int page,
-								@RequestParam(defaultValue = "10") int size,
-								@RequestParam(defaultValue = "id") String sortField,
-								@RequestParam(defaultValue = "asc") String direction
+    @GetMapping("/")
+    public String listEmployees(Model model,
+                                @RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "10") int size,
+                                @RequestParam(defaultValue = "id") String sortField,
+                                @RequestParam(defaultValue = "asc") String direction
 
-	) {
-		log.info("listEmployees. page: {}, sortField: {}, direction: {}", page, sortField, direction);
-		this.refreshEmployees(model, page, size, sortField, direction);
+    ) {
+        log.info("listEmployees. page: {}, sortField: {}, direction: {}", page, sortField, direction);
+        this.refreshEmployees(model, page, size, sortField, direction);
 
 		/*
 		if (currentIndexPage.equals("/show_employees")) {
@@ -59,244 +59,251 @@ public class EmployeeController {
 			currentIndexPage = "/employees/index";
 		}
 		*/
-		log.info("/employees");
-		log.info("/ -> {}", currentIndexPage);
-		currentIndexPage = "/";
-		return "index";
-	}
+        log.info("/employees");
+        log.info("/ -> {}", currentIndexPage);
+        currentIndexPage = "/";
+        return "index";
+    }
 
-	@GetMapping("/new")
-	public String showCreateForm(@NotNull Model model) {
-		log.info("showCreateForm");
-		model.addAttribute("employee", new Employee());
-		model.addAttribute("positions", positionRepository.findAll());
-		log.info("/employees/new: from page={}", currentIndexPage);
-		return NamesView.CREATE_EMPLOYEE;
-	}
+    @GetMapping("/new")
+    public String showCreateForm(@NotNull Model model) {
+        log.info("showCreateForm");
+        model.addAttribute("employee", new Employee());
+        model.addAttribute("positions", positionRepository.findAll());
+        log.info("/employees/new: from page={}", currentIndexPage);
+        return NamesView.CREATE_EMPLOYEE;
+    }
 
-/* Пример валидации из https://sky.pro/wiki/java/validatsiya-form-v-spring-mvc-bez-hibernate-luchshiy-metod/
-	@PostMapping("/submit")
-	public String submitForm(@Valid @ModelAttribute("formData") FormData formData, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return "formPage";
-		}
-		// Ваша бизнес-логика находится здесь.
-		return "successPage";
-	}
-*/
-	@PostMapping("/")
-	public String createEmployee(@Valid @ModelAttribute Employee employee,
-								 BindingResult bindingResult,  Model model) {
-		if (bindingResult.hasErrors()) {
-			log.info("Binding result: {}", bindingResult);
-			StringBuilder errors = new StringBuilder();
-			for(ObjectError error :  bindingResult.getAllErrors()) {
-				errors.append(error.getDefaultMessage()).append("\n");
-				log.error(error.getDefaultMessage());
-			}
-			// find in create_position.ftlh by name="name" (<input ... name="name")
-			model.addAttribute("firstName", employee.getFirstName());
-			model.addAttribute("error", errors.toString()); // <p class="text-red-600 text-xs mt-1">${error}</p>
-			return NamesView.CREATE_EMPLOYEE;
-		}
-		log.info("createEmployee {}:", employee);
-		employeeRepository.save(employee);
+    /* Пример валидации из https://sky.pro/wiki/java/validatsiya-form-v-spring-mvc-bez-hibernate-luchshiy-metod/
+        @PostMapping("/submit")
+        public String submitForm(@Valid @ModelAttribute("formData") FormData formData, BindingResult bindingResult) {
+            if (bindingResult.hasErrors()) {
+                return "formPage";
+            }
+            // Ваша бизнес-логика находится здесь.
+            return "successPage";
+        }
+    */
+    @PostMapping("/")
+    public String createEmployee(@ModelAttribute Employee employee, Model model) {
+        log.info("createEmployee {}:", employee);
+        model.addAttribute("positions", positionRepository.findAll());
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Employee>> violations = validator.validate(employee);
+        if (!violations.isEmpty()) {
+            Map<String, String> errors = new HashMap<>();
+            violations.stream().forEach(
+                    v -> {
+                        log.error("Validation error v.getPropertyPath(): {}", v.getPropertyPath());
+                        log.error("Validation error v.getMessage(): {}", v.getMessage());
+                        errors.put(v.getPropertyPath().toString(), v.getMessage());
+                        model.addAttribute("error_for_" + v.getPropertyPath(), v.getMessage());
+                    }
+            );
+            model.addAttribute("employee", employee);
+            return NamesView.CREATE_EMPLOYEE;
+        }
 
-		log.info("post /employees/: from page={}", currentIndexPage);
+        log.info("createEmployee {}:", employee);
+        employeeRepository.save(employee);
 
-		return "redirect:" + currentIndexPage;
-	}
+        log.info("post /employees/: from page={}", currentIndexPage);
 
-	@PostMapping("")
-	public String createEmployeeForEmptyURL(@ModelAttribute Employee employee) {
-		return "redirect:" + "/employees/";
-	}
+        return "redirect:" + currentIndexPage;
+    }
 
-	@GetMapping("/edit/{id}")
-	public String showEditForm(@PathVariable("id") Long id, Model model) {
-		log.info("showEditForm");
-		Optional<Employee> optional = employeeRepository.findById(id);
-		log.info("/employees/edit/{id}: from page={}", currentIndexPage);
-		if (optional.isPresent()) {
-			log.info("Edit employee = {}", optional.get());
-			model.addAttribute("employee", optional.get());
-			model.addAttribute("positions", positionRepository.findAll());
-			model.addAttribute("prevPage", currentIndexPage);
-			return NamesView.EDIT_EMPLOYEE;
-		}
-		throw new IllegalArgumentException("Employee not exist with id=" + id);
-	}
+    @PostMapping("")
+    public String createEmployeeForEmptyURL(@ModelAttribute Employee employee) {
+        return "redirect:" + "/employees/";
+    }
 
-	// POST from edit_employee.ftl:
-	//    <form action="/employees/update/${employee.id}" method="post">
-	//        <input type="hidden" name="id" value="${employee.id}" />
-	//        <div>
-	//            <label >Имя</label>
-	//            <input name="firstName" value="${employee.firstName}" /> <-- field NAME link to  = "firstName" (employee.firstName)
-	//        </div>
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        log.info("showEditForm");
+        Optional<Employee> optional = employeeRepository.findById(id);
+        log.info("/employees/edit/{id}: from page={}", currentIndexPage);
+        if (optional.isPresent()) {
+            log.info("Edit employee = {}", optional.get());
+            model.addAttribute("employee", optional.get());
+            model.addAttribute("positions", positionRepository.findAll());
+            model.addAttribute("prevPage", currentIndexPage);
+            return NamesView.EDIT_EMPLOYEE;
+        }
+        throw new IllegalArgumentException("Employee not exist with id=" + id);
+    }
 
-	@PostMapping("/update/{id}")
-	public String updateEmployee(@PathVariable("id") Long id,
-								 @ModelAttribute Employee employee,
-								 Model model) {
-		log.info("updateEmployee");
-		employee.setId(id);
-		employeeRepository.save(employee);
-		log.info("/employees/update/ from currentIndexPage:{}", currentIndexPage);
-		log.info("Update employee = {}", employee);
-		if (currentIndexPage.equals("/show_employees")) {
-			currentIndexPage = "/employees" + currentIndexPage;
-			log.info("New currentIndexPage:{}", currentIndexPage);
-		}
+    // POST from edit_employee.ftl:
+    //    <form action="/employees/update/${employee.id}" method="post">
+    //        <input type="hidden" name="id" value="${employee.id}" />
+    //        <div>
+    //            <label >Имя</label>
+    //            <input name="firstName" value="${employee.firstName}" /> <-- field NAME link to  = "firstName" (employee.firstName)
+    //        </div>
 
-		log.info("redirect:{}", currentIndexPage);
-		return "redirect:" + currentIndexPage;
-	}
+    @PostMapping("/update/{id}")
+    public String updateEmployee(@PathVariable("id") Long id,
+                                 @ModelAttribute Employee employee,
+                                 Model model) {
+        log.info("updateEmployee");
+        employee.setId(id);
+        employeeRepository.save(employee);
+        log.info("/employees/update/ from currentIndexPage:{}", currentIndexPage);
+        log.info("Update employee = {}", employee);
+        if (currentIndexPage.equals("/show_employees")) {
+            currentIndexPage = "/employees" + currentIndexPage;
+            log.info("New currentIndexPage:{}", currentIndexPage);
+        }
 
-	@GetMapping("/delete/{id}")
-	public ModelAndView deleteEmployee(@PathVariable Long id, Model model) {
-		log.info("deleteEmployee");
+        log.info("redirect:{}", currentIndexPage);
+        return "redirect:" + currentIndexPage;
+    }
 
-		// Проверка существования сотрудника перед удалением
-		if (!employeeRepository.existsById(id)) {
-			throw new IllegalArgumentException("Employee not exist with id=" + id);
-		}
+    @GetMapping("/delete/{id}")
+    public ModelAndView deleteEmployee(@PathVariable Long id, Model model) {
+        log.info("deleteEmployee");
 
-		employeeRepository.deleteById(id);
-		log.info("/employees/delete/{}", id);
-		log.info("currentIndexPage: {}", currentIndexPage);
-		if (currentIndexPage.contains("/show_employees")) {
-			ModelAndView mv = new ModelAndView(NamesView.SHOW_EMPLOYEES);
-			mv.clear();
-			mv.setViewName("redirect:/" + NamesView.SHOW_EMPLOYEES + "/");
-			return mv;
-		} else {
-			ModelAndView mv = new ModelAndView(NamesView.SHOW_EMPLOYEES);
-			mv.clear();
-			mv.setViewName("redirect:/" + NamesView.INDEX + "/");
-			return mv;
-		}
-	}
-	protected void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
-		if (sortField.isEmpty()) {
-			sortField = defaultSortField;
-		}
+        // Проверка существования сотрудника перед удалением
+        if (!employeeRepository.existsById(id)) {
+            throw new IllegalArgumentException("Employee not exist with id=" + id);
+        }
 
-		Sort.Direction directionSort;
-		if (direction.equals(Direction.DESC)) {
-			directionSort = Sort.Direction.DESC;
-		} else {
-			directionSort = Sort.Direction.ASC;
-		}
+        employeeRepository.deleteById(id);
+        log.info("/employees/delete/{}", id);
+        log.info("currentIndexPage: {}", currentIndexPage);
+        if (currentIndexPage.contains("/show_employees")) {
+            ModelAndView mv = new ModelAndView(NamesView.SHOW_EMPLOYEES);
+            mv.clear();
+            mv.setViewName("redirect:/" + NamesView.SHOW_EMPLOYEES + "/");
+            return mv;
+        } else {
+            ModelAndView mv = new ModelAndView(NamesView.SHOW_EMPLOYEES);
+            mv.clear();
+            mv.setViewName("redirect:/" + NamesView.INDEX + "/");
+            return mv;
+        }
+    }
 
-		log.info("refreshEmployees.sortField: {}", sortField);
-		log.info("refreshEmployees.directionSort: {}", directionSort);
-		Sort sort = Sort.by(directionSort, sortField);
-		Pageable pageable = PageRequest.of(page, size, sort);
-		Page<Employee> employeePage = employeeRepository.findAll(pageable);
-		model.addAttribute("employees", employeePage.getContent());
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("direction", directionSort);
-		model.addAttribute("currentPage", employeePage.getNumber());
-		model.addAttribute("totalPages", employeePage.getTotalPages());
-		model.addAttribute("totalElements", employeePage.getTotalElements());
-	}
+    protected void refreshEmployees(Model model, int page, int size, String sortField, String direction) {
+        if (sortField.isEmpty()) {
+            sortField = defaultSortField;
+        }
 
-	// Отображение формы фильтра
-	@GetMapping("/filter_employees")
-	public String showFilterPage(Model model) {
-		log.info("showFilterPage");
-		model.addAttribute("positions", positionRepository.findAll());
-		return NamesView.FILTER_EMPLOYEES;
-	}
+        Sort.Direction directionSort;
+        if (direction.equals(Direction.DESC)) {
+            directionSort = Sort.Direction.DESC;
+        } else {
+            directionSort = Sort.Direction.ASC;
+        }
 
-	// Показать всех сотрудников с фильтрацией
-	@GetMapping("/show_employees")
-	public String showAllEmployees(
-			Model model,
-			@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size,
-			@RequestParam(required = false, defaultValue = "") String firstName,
-			@RequestParam(required = false, defaultValue = "") String lastName,
-			@RequestParam(required = false, defaultValue = "") String email,
-			@RequestParam(required = false, defaultValue = "-1") Long positionId,
-			@RequestParam(required = false, defaultValue = "lastName") String sortField,
-			@RequestParam(required = false, defaultValue = "asc") String direction
-	) {
-		log.info("showAllEmployees");
-		log.info("firstName: {}", firstName);
-		log.info("lastName: {}", lastName);
-		log.info("email: {}", email);
-		log.info("positionId: {}", positionId);
-		log.info("sortField: {}", sortField);
-		log.info("direction: {}", direction);
+        log.info("refreshEmployees.sortField: {}", sortField);
+        log.info("refreshEmployees.directionSort: {}", directionSort);
+        Sort sort = Sort.by(directionSort, sortField);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<Employee> employeePage = employeeRepository.findAll(pageable);
+        model.addAttribute("employees", employeePage.getContent());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("direction", directionSort);
+        model.addAttribute("currentPage", employeePage.getNumber());
+        model.addAttribute("totalPages", employeePage.getTotalPages());
+        model.addAttribute("totalElements", employeePage.getTotalElements());
+    }
 
-		currentIndexPage = "/" + NamesView.SHOW_EMPLOYEES;
+    // Отображение формы фильтра
+    @GetMapping("/filter_employees")
+    public String showFilterPage(Model model) {
+        log.info("showFilterPage");
+        model.addAttribute("positions", positionRepository.findAll());
+        return NamesView.FILTER_EMPLOYEES;
+    }
 
-		// Сортировка. Уже не нужно, т.е. определено в параметрах и вообще вся логика уже есть в форме
-		//if (sortField == null || sortField.isEmpty()) {
-		//	sortField = Fields.ID;
-		//	log.info("SET sortField: {}", sortField);
-		//}
+    // Показать всех сотрудников с фильтрацией
+    @GetMapping("/show_employees")
+    public String showAllEmployees(
+            Model model,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "") String firstName,
+            @RequestParam(required = false, defaultValue = "") String lastName,
+            @RequestParam(required = false, defaultValue = "") String email,
+            @RequestParam(required = false, defaultValue = "-1") Long positionId,
+            @RequestParam(required = false, defaultValue = "lastName") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String direction
+    ) {
+        log.info("showAllEmployees");
+        log.info("firstName: {}", firstName);
+        log.info("lastName: {}", lastName);
+        log.info("email: {}", email);
+        log.info("positionId: {}", positionId);
+        log.info("sortField: {}", sortField);
+        log.info("direction: {}", direction);
 
-		// default defined in param
-		//if (direction == null || direction.isEmpty()) {
-		//	direction = Direction.ASC;
-		//	log.info("SET DEFAULT direction: {}", direction);
-		//}
-		// TODO: В запрос включены все должности, если не задан поиск по конкретной, хочется динамический sql
-		// при этом sql запрос будет position_id in (все id должностей)
-		// динамический sql в планах, см. как сделать в проекте для МТС
-		List<Long> positions = positionRepository.findAll().stream().map(Position::getId).collect(Collectors.toList());
-		log.debug("positions: {}", positions);
-		// если задана позиция, то в списке должностей оставить только ее
-		// иначе выбирать по всем позициям
-		if (!positionId.equals(-1L)) {
-			positions = positions.stream().filter(p -> p.equals(positionId)).toList();
-		}
-		// for position sort by 'name'
-		if(sortField.equals("position")) {
-			sortField ="position.name";
-		}
-		// define sort direction by field
-		log.info("sortField: {}", sortField);
-		log.info("direction: {}", direction);
-		// direction.equals("desc") - значения "desc" или "asc" - задано в форме
-		Sort sort = Sort.by(direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortField);
-		Pageable pageable = PageRequest.of(page, size, sort);
-		log.info("pageable:");
-		log.info(pageable.toString());
-		Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(
-				firstName, lastName, positions, email, pageable);
+        currentIndexPage = "/" + NamesView.SHOW_EMPLOYEES;
 
-		model.addAttribute("employees", employeePage.getContent());
-		model.addAttribute("currentPage", employeePage.getNumber());
-		model.addAttribute("totalPages", employeePage.getTotalPages());
-		model.addAttribute("totalElements", employeePage.getTotalElements());
+        // Сортировка. Уже не нужно, т.е. определено в параметрах и вообще вся логика уже есть в форме
+        //if (sortField == null || sortField.isEmpty()) {
+        //	sortField = Fields.ID;
+        //	log.info("SET sortField: {}", sortField);
+        //}
 
-		model.addAttribute("firstName", firstName);
-		model.addAttribute("lastName", lastName);
-		model.addAttribute("email", email);
+        // default defined in param
+        //if (direction == null || direction.isEmpty()) {
+        //	direction = Direction.ASC;
+        //	log.info("SET DEFAULT direction: {}", direction);
+        //}
+        // TODO: В запрос включены все должности, если не задан поиск по конкретной, хочется динамический sql
+        // при этом sql запрос будет position_id in (все id должностей)
+        // динамический sql в планах, см. как сделать в проекте для МТС
+        List<Long> positions = positionRepository.findAll().stream().map(Position::getId).collect(Collectors.toList());
+        log.debug("positions: {}", positions);
+        // если задана позиция, то в списке должностей оставить только ее
+        // иначе выбирать по всем позициям
+        if (!positionId.equals(-1L)) {
+            positions = positions.stream().filter(p -> p.equals(positionId)).toList();
+        }
+        // for position sort by 'name'
+        if (sortField.equals("position")) {
+            sortField = "position.name";
+        }
+        // define sort direction by field
+        log.info("sortField: {}", sortField);
+        log.info("direction: {}", direction);
+        // direction.equals("desc") - значения "desc" или "asc" - задано в форме
+        Sort sort = Sort.by(direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortField);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        log.info("pageable:");
+        log.info(pageable.toString());
+        Page<Employee> employeePage = employeeRepository.findByFiltersAndSort(
+                firstName, lastName, positions, email, pageable);
 
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("direction", direction);
+        model.addAttribute("employees", employeePage.getContent());
+        model.addAttribute("currentPage", employeePage.getNumber());
+        model.addAttribute("totalPages", employeePage.getTotalPages());
+        model.addAttribute("totalElements", employeePage.getTotalElements());
 
-		return NamesView.SHOW_EMPLOYEES;
-	}
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("email", email);
 
-	public EmployeeRepository getEmployeeRepository() {
-		return employeeRepository;
-	}
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("direction", direction);
 
-	public void setEmployeeRepository(@Autowired EmployeeRepository employeeRepository) {
-		this.employeeRepository = employeeRepository;
-	}
+        return NamesView.SHOW_EMPLOYEES;
+    }
 
-	public PositionRepository getPositionRepository() {
-		return positionRepository;
-	}
+    public EmployeeRepository getEmployeeRepository() {
+        return employeeRepository;
+    }
 
-	public void setPositionRepository(@Autowired PositionRepository positionRepository) {
-		this.positionRepository = positionRepository;
-	}
+    public void setEmployeeRepository(@Autowired EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    public PositionRepository getPositionRepository() {
+        return positionRepository;
+    }
+
+    public void setPositionRepository(@Autowired PositionRepository positionRepository) {
+        this.positionRepository = positionRepository;
+    }
 }

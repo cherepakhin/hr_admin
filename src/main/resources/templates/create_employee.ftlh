@@ -45,7 +45,11 @@
                             class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500"
                             required
                             autofocus
+                            value="${employee.firstName}"
                         />
+                        <#if error_for_firstName??>
+                            <p class="text-red-600 text-xs mt-1">${error_for_firstName}</p>
+                        </#if>
                     </div>
 
                     <!-- Last Name -->
@@ -56,7 +60,11 @@
                             name="lastName"
                             class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500"
                             required
+                            value="${employee.lastName}"
                         />
+                        <#if error_for_lastName??>
+                            <p class="text-red-600 text-xs mt-1">${error_for_lastName}</p>
+                        </#if>
                     </div>
 
                     <!-- Email -->
@@ -68,7 +76,11 @@
                             type="email"
                             class="w-full border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-0 focus:ring-sky-500 focus:border-sky-500"
                             required
+                            value="${employee.email}"
                         />
+                        <#if error_for_email??>
+                            <p class="text-red-600 text-xs mt-1">${error_for_email}</p>
+                        </#if>
                     </div>
 
                     <!-- Position -->

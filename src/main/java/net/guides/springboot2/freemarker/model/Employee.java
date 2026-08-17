@@ -11,10 +11,12 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Size(min = 3, max = 15, message = "First name must be between 3 to 20 characters long.")
-	private String firstName;
-	private String lastName;
-	private String email;
+	@Size(min = 3, max = 15, message = "Имя должно быть от 3 до 15 символов")
+	private String firstName = "";
+	@Size(min = 3, max = 20, message = "Фамилия должна быть от 3 до 20 символов")
+	private String lastName = "";
+	@Size(min = 5, max = 20, message = "Email должен быть указан")
+	private String email = "";
 	@ManyToOne(fetch = FetchType.EAGER) // EAGER!!! - атрибут нужен всегда, нет смысла его делать lazy
 	@JoinColumn(name = "position_id", nullable = false)
 	private Position position = new Position(-1L, "");
