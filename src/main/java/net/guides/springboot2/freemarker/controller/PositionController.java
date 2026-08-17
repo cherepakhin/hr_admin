@@ -132,6 +132,7 @@ public class PositionController {
 								 BindingResult bindingResult, Model model) {
 		// Обработка ошибок @Valid. Ошибки @Valid сохраняются в объекте bindingResult.
 		String errors = "";
+		log.info("Update position: {}", position);
 		if (bindingResult.hasErrors()) {
 			log.info("Binding result: {}", bindingResult);
 			for (ObjectError error : bindingResult.getAllErrors()) {
@@ -139,13 +140,16 @@ public class PositionController {
 				log.error(error.getDefaultMessage());
 			}
 			model.addAttribute("name", position.getName());
-			model.addAttribute("error", errors);
+			model.addAttribute("error_for_name", errors);
 			position.setId(id); // Восстановление id для формы
 			return NamesView.EDIT_POSITION;
 		}
 
-		if (!positionRepository.existsByName(position.getName())) {
-			bindingResult.rejectValue("name", "error.position", "Должность с таким ID и названием НЕ существует.");
+		if (positionRepository.existsByName(position.getName())) {
+			log.error("Position with name {} already exists", position.getName());
+			model.addAttribute("name", position.getName());
+			model.addAttribute("error_for_name", "Должность с таким названием УЖЕ существует.");
+			//bindingResult.rejectValue("name", "error_for_name", "Должность с таким названием УЖЕ существует.");
 			position.setId(id); // Восстанавливаю id для формы
 			return NamesView.EDIT_POSITION;
 		}
