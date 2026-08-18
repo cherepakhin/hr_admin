@@ -87,7 +87,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>net.guides.springboot2.freemarker.SpringBootFreemarkerApplication</mainClass>
+					<mainClass>ru.perm.v.hr_admin.SpringBootFreemarkerApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>

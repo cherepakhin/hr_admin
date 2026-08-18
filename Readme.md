@@ -96,7 +96,7 @@ public class ProductController {
 
 В этом проекте возвращаются имена __view__. 
 
-Внедрение значений в html файлы осуществляется через __Model__ [EmployeeController.java](src/main/java/net/guides/springboot2/freemarker/controller/EmployeeController.java) и 
+Внедрение значений в html файлы осуществляется через __Model__ [EmployeeController.java](src/main/java/ru/perm/v/hr_admin/controller/EmployeeController.java) и 
 возврат имени view (не ModelAndVew) 
 
 ````java
