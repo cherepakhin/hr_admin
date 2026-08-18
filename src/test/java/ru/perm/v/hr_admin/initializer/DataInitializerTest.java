@@ -23,31 +23,33 @@ public class DataInitializerTest {
 
     @Test
     public void initializePositions() {
-        long positionCount = positionRepository.count();
+        long positionCount = this.positionRepository.count();
 
 		assertThat(positionCount).isEqualTo(4);
 
-		assertThat(positionRepository.findById(1L)).isPresent();
-		assertThat(positionRepository.findById(2L)).isPresent();
-		assertThat(positionRepository.findById(3L)).isPresent();
-		assertThat(positionRepository.findById(4L)).isPresent();
+		assertThat(this.positionRepository.findById(1L)).isPresent();
+		assertThat(this.positionRepository.findById(2L)).isPresent();
+		assertThat(this.positionRepository.findById(3L)).isPresent();
+		assertThat(this.positionRepository.findById(4L)).isPresent();
 
-		assertThat(positionRepository.findById(1L).get().getName()).isEqualTo("Директор");
-		assertThat(positionRepository.findById(2L).get().getName()).isEqualTo("Бухгалтер");
-		assertThat(positionRepository.findById(3L).get().getName()).isEqualTo("Рабочий");
+		assertThat(this.positionRepository.findById(1L).get().getName()).isEqualTo("Директор");
+		assertThat(this.positionRepository.findById(2L).get().getName()).isEqualTo("Бухгалтер");
+		assertThat(this.positionRepository.findById(3L).get().getName()).isEqualTo("Рабочий");
+        assertThat(this.positionRepository.findById(3L).get().getName()).isEqualTo("Рабочий");
     }
 
     @Test
     public void shouldInitializeEmployeesWhenEmpty() {
-        long employeeCount = employeeRepository.count();
-        Iterable<Employee> allEmployees = employeeRepository.findAll();
+        long employeeCount = this.employeeRepository.count();
+        Iterable<Employee> allEmployees = this.employeeRepository.findAll();
 
         assertThat(employeeCount).isEqualTo(14);
+        assertThat(allEmployees).hasSize(14);
 
-        Employee ivanov = employeeRepository.findByFirstNameAndLastName("Иван", "Иванов").orElse(null);
-        Employee petrova = employeeRepository.findByFirstNameAndLastName("Мария", "Петрова").orElse(null);
-        Employee sidorov = employeeRepository.findByFirstNameAndLastName("Алексей", "Сидоров").orElse(null);
-        Employee kuznecova = employeeRepository.findByFirstNameAndLastName("Елена", "Кузнецова").orElse(null);
+        Employee ivanov = this.employeeRepository.findByFirstNameAndLastName("Иван", "Иванов").orElse(null);
+        Employee petrova = this.employeeRepository.findByFirstNameAndLastName("Мария", "Петрова").orElse(null);
+        Employee sidorov = this.employeeRepository.findByFirstNameAndLastName("Алексей", "Сидоров").orElse(null);
+        Employee kuznecova = this.employeeRepository.findByFirstNameAndLastName("Елена", "Кузнецова").orElse(null);
 
         assertThat(ivanov).isNotNull();
         assertThat(petrova).isNotNull();
@@ -59,7 +61,7 @@ public class DataInitializerTest {
         assertThat(sidorov.getPosition().getName()).isEqualTo("Директор");
         assertThat(kuznecova.getPosition().getName()).isEqualTo("Бухгалтер");
 
-        Employee maria = employeeRepository.findByEmail("maria@example.com").orElse(null);
+        Employee maria = this.employeeRepository.findByEmail("maria@example.com").orElse(null);
 
 		assertThat(maria).isNotNull();
 		assertThat(maria.getFirstName()).isEqualTo("Мария");
@@ -70,9 +72,9 @@ public class DataInitializerTest {
 
     @Test
     public void shouldNotReinitializeDataWhenPositionsExist() {
-        positionRepository.save(new Position(99L, "Test Position"));
+        this.positionRepository.save(new Position(99L, "Test Position"));
 
-        long countAfterInit = positionRepository.count();
+        long countAfterInit = this.positionRepository.count();
 
         assertThat(countAfterInit).isEqualTo(5);
     }
@@ -80,13 +82,13 @@ public class DataInitializerTest {
     @Test
     public void saveEmployeeWithNewPosition() {
         Position pos = new Position();
-		pos.setId(positionRepository.getNextId());
+		pos.setId(this.positionRepository.getNextId());
         pos.setName("Developer");
-        pos = positionRepository.save(pos);
+        pos = this.positionRepository.save(pos);
 
-        employeeRepository.save(new Employee("Test", "User", "test@example.com", pos));
+        this.employeeRepository.save(new Employee("Test", "User", "test@example.com", pos));
 
-        long employeeCount = employeeRepository.count();
+        long employeeCount = this.employeeRepository.count();
 
         assertThat(employeeCount).isEqualTo(15L);
     }

@@ -26,11 +26,11 @@ public class DataInitializer implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		Position nullPosition = null;
+		Position nullPosition;
 		Position director = null;
 		Position accounter = null;
 		Position worker = null;
-		Position forTest = null;
+		Position forTest;
 		if (this.positionRepository.count() == 0) {
 			log.info("Initialize positions");
 			nullPosition = this.positionRepository.save(new Position(-1L, "------"));

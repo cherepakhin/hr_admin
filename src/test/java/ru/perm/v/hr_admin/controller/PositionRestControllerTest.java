@@ -23,7 +23,7 @@ class PositionRestControllerTest {
 		Long EMPLOYEE_ID = 10L;
 		employee1.setId(EMPLOYEE_ID);
 
-		Position position = new Position();
+        var position = new Position();
 		Long POSITION_ID = 20L;
 		position.setId(POSITION_ID);
 		List<Employee> employees = List.of(employee1);

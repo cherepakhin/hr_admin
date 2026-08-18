@@ -7,8 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PositionRepositoryTest {
@@ -20,7 +19,7 @@ class PositionRepositoryTest {
     void findAll() {
         List<Position> positions = positionRepository.findAll();
 
-        assertTrue(positions.size() > 0);
+        assertEquals(true, !positions.isEmpty());
         assertEquals(new Position(2L, "Бухгалтер"), positions.get(0));
     }
 
@@ -30,5 +29,10 @@ class PositionRepositoryTest {
 
         assertEquals(1, positions.size());
         assertEquals("Директор", positions.get(0).getName());
+    }
+
+    @Test
+    public void shouldReturnFalseWhenNameIsNull() {
+        assertFalse(positionRepository.existsByName(null));
     }
 }

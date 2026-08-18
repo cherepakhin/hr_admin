@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static jakarta.validation.Validation.buildDefaultValidatorFactory;
+
 @Validated // добавляем валидацию
 @Controller
 @RequestMapping("/positions")
@@ -30,7 +32,7 @@ public class PositionController {
 	private final PositionRepository positionRepository;
 	private final EmployeeRepository employeeRepository;
 
-	private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+	private final Validator validator = buildDefaultValidatorFactory().getValidator();
 	// Используем внедрение через конструктор (рекомендуется)
 	@Autowired
 	public PositionController(PositionRepository positionRepository, EmployeeRepository employeeRepository) {
@@ -88,7 +90,7 @@ public class PositionController {
 	public String createPosition(@ModelAttribute("position") Position position,
 								 BindingResult bindingResult,  Model model) {
 		log.info("Create position: {}", position);
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		ValidatorFactory factory = buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		Set<ConstraintViolation<Position>> violations = validator.validate(position);
 		if(!violations.isEmpty()) {
@@ -126,7 +128,7 @@ public class PositionController {
 								 Model model) {
 		log.info("Update position: {}", position);
 		// Первый УРОВЕНЬ проверки - обработка ошибок @Size и т.п.
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		ValidatorFactory factory = buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		Set<ConstraintViolation<Position>> violations = validator.validate(position);
 		if(!violations.isEmpty()) {
@@ -156,6 +158,7 @@ public class PositionController {
 
 	// GET /positions/delete/{id} - удаление
 
+	//TODO: не сделано deletePosition
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String deletePosition(@PathVariable Long id) {
 		// Проверка на возможность удаления уже сделана в форме и в PositionRestController и здесь не делается

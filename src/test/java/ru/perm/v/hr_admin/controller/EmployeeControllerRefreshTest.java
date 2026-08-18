@@ -1,31 +1,23 @@
 package ru.perm.v.hr_admin.controller;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.*;
+import org.springframework.ui.Model;
 import ru.perm.v.hr_admin.model.Employee;
 import ru.perm.v.hr_admin.model.Position;
 import ru.perm.v.hr_admin.repository.EmployeeRepository;
 import ru.perm.v.hr_admin.repository.PositionRepository;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.*;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.ui.Model;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 public class EmployeeControllerRefreshTest {
-
-	@Autowired
-	private MockMvc mockMvc;
 
 	@Autowired
 	private EmployeeController employeeController;
@@ -37,10 +29,10 @@ public class EmployeeControllerRefreshTest {
 	private PositionRepository positionRepository;
 
 	@Test
-	public void refreshEmployeesWithSortingAndPagination() throws Exception {
+	public void refreshEmployeesWithSortingAndPagination() {
 		// Given
 		Position dev = new Position(1L, "Developer");
-		List<Position> positions = Arrays.asList(dev);
+		List<Position> positions = List.of(dev);
 		when(positionRepository.findAll()).thenReturn(positions);
 
 		Employee emp1 = new Employee(1L, "John", "Doe", "john@example.com", dev);
@@ -63,13 +55,13 @@ public class EmployeeControllerRefreshTest {
 	}
 
 	@Test
-	public void shouldApplyDescSortingInRefreshEmployees() throws Exception {
+	public void shouldApplyDescSortingInRefreshEmployees() {
 		// Given
 		Position dev = new Position(1L, "Developer");
-		when(positionRepository.findAll()).thenReturn(Arrays.asList(dev));
+		when(positionRepository.findAll()).thenReturn(List.of(dev));
 
 		Employee employee1 = new Employee(100L, "Alice", "Brown", "alice@example.com", dev);
-		Page<Employee> page = new PageImpl<>(Arrays.asList(employee1), PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "lastName")), 1);
+		Page<Employee> page = new PageImpl<>(List.of(employee1), PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "lastName")), 1);
 
 		when(employeeRepository.findAll(any(Pageable.class))).thenReturn(page);
 
@@ -85,13 +77,13 @@ public class EmployeeControllerRefreshTest {
 	}
 
 	@Test
-	public void shouldUseDefaultSortIfEmpty() throws Exception {
+	public void shouldUseDefaultSortIfEmpty() {
 		// Given
 		Position dev = new Position(1L, "Developer");
-		when(positionRepository.findAll()).thenReturn(Arrays.asList(dev));
+		when(positionRepository.findAll()).thenReturn(List.of(dev));
 
 		Employee emp = new Employee("Bob", "Lee", "bob@example.com", dev);
-		Page<Employee> page = new PageImpl<>(Arrays.asList(emp), PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "id")), 1);
+		Page<Employee> page = new PageImpl<>(List.of(emp), PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "id")), 1);
 
 		when(employeeRepository.findAll(any(Pageable.class))).thenReturn(page);
 

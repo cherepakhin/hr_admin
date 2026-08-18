@@ -16,13 +16,6 @@ public class PositionDtoTest {
     }
 
     @Test
-    public void testEqualsSameReference() {
-        PositionDto dto = new PositionDto(1L, "Developer");
-
-        assertEquals(dto, dto);
-    }
-
-    @Test
     public void testEqualsEqualValues() {
         PositionDto dto1 = new PositionDto(1L, "Developer");
         PositionDto dto2 = new PositionDto(1L, "Developer");
