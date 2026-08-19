@@ -18,6 +18,9 @@
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-2">
 
     <!-- Edit employee page -->
+    <!-- Include Sidebar Fragment -->
+    <#include "fragments/sidebar.ftl">
+    <!-- End Include Sidebar Fragment -->
 
     <div class="w-full max-w-lg bg-white shadow-xl border border-gray-100">
         <div class="bg-sky-900 px-3 py-3 text-white text-center">
@@ -65,5 +68,9 @@
         </form>
     </div>
 <!--  Для отладки истории <div>contextPath:${springMacroRequestContext.contextPath} PrevPage:${prevPage}</div> -->
+
+    <!-- Include Bottom Navigation Fragment (mobile only) -->
+    <#include "fragments/bottom-navigation.ftl">
+    <!-- End Include Bottom Navigation Fragment -->
 </body>
 </html>

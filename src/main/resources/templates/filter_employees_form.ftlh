@@ -29,7 +29,7 @@
     <!-- End Include Sidebar Fragment -->
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <div class="flex-1 flex flex-col overflow-hidden pb-20">
 
          <div class="bg-sky-900 px-6 logo-padding text-white text-left py-4">
              <h2 class="text-2xl font-semibold">Найти сотрудников</h2>
@@ -93,5 +93,9 @@
             </div>
         </main>
     </div>
+
+    <!-- Include Bottom Navigation Fragment (mobile only) -->
+    <#include "fragments/bottom-navigation.ftl">
+    <!-- End Include Bottom Navigation Fragment -->
 </body>
 </html>

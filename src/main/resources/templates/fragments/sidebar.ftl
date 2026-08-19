@@ -1,14 +1,13 @@
 <!-- Sidebar fragment -->
-<div id="sidebar" class="bg-white shadow-lg flex flex-col border-r border-gray-100 transition-all duration-300 overflow-hidden relative"
-     x-data="sidebar()"
-     :class="{ 'w-64': open, 'w-16': !open }">
+<div id="sidebar" class="hidden md:flex bg-white shadow-lg flex flex-col border-r border-gray-100 transition-all duration-300 overflow-hidden relative"
+     style="width: 16rem;">
 
     <!-- Logo -->
     <div class="px-4 py-4 text-center border-b border-gray-100 flex items-center justify-center logo-padding">
         <div class="w-8 h-8 bg-sky-900 text-white flex items-center justify-center font-bold rounded">
             HR
         </div>
-        <span x-show="open" class="ml-3 text-2xl font-semibold text-sky-900 whitespace-nowrap">
+        <span id="sidebar-text" class="ml-3 text-2xl font-semibold text-sky-900 whitespace-nowrap">
             Отдел кадров
         </span>
     </div>
@@ -33,7 +32,7 @@
                     </g>
                 </g>
             </svg>
-            <span x-show="open" class="ml-3 whitespace-nowrap">Сотрудники</span>
+            <span class="sidebar-text ml-3 whitespace-nowrap">Сотрудники</span>
         </a>
         <a href="${springMacroRequestContext.contextPath}/employees/new"
            class="flex items-center px-3 py-3 text-gray-700 font-medium transition rounded-none hover:bg-gray-200 hover:text-gray-700">
@@ -41,7 +40,7 @@
                 <title>Добавить нового сотрудника</title>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>
-            <span x-show="open" class="ml-3 whitespace-nowrap">Добавить</span>
+            <span class="sidebar-text ml-3 whitespace-nowrap">Добавить</span>
         </a>
 
         <!-- Filter Button -->
@@ -51,7 +50,7 @@
                 <title>Найти сотрудников</title>
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21l-4.486-4.494M19 10.5a8.5 8.5 0 1 1-17 0a8.5 8.5 0 0 1 17 0Z"/>
             </svg>
-            <span x-show="open" class="ml-3 whitespace-nowrap">Найти</span>
+            <span class="sidebar-text ml-3 whitespace-nowrap">Найти</span>
         </a>
 
         <a href="${springMacroRequestContext.contextPath}/employees/show_employees"
@@ -60,7 +59,7 @@
                 <title>Список сотрудников</title>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-            <span x-show="open" class="ml-3 whitespace-nowrap">Сотрудники (табл.)</span>
+            <span class="sidebar-text ml-3 whitespace-nowrap">Сотрудники (табл.)</span>
         </a>
 
         <a href="${springMacroRequestContext.contextPath}/positions/"
@@ -69,40 +68,52 @@
               <title>Должности</title>
               <path d="M20.5,4H18.71L16.85,2.15A.36.36,0,0,0,16.69,2a.43.43,0,0,0-.19,0h-9a.43.43,0,0,0-.19,0,.36.36,0,0,0-.16.11L5.29,4H3.5A1.5,1.5,0,0,0,2,5.5v13A1.5,1.5,0,0,0,3.5,20H10l1.6,1.83a.51.51,0,0,0,.76,0L14,20H20.5A1.5,1.5,0,0,0,22,18.5V5.5A1.5,1.5,0,0,0,20.5,4ZM12.29,8h-.58l-1.5-1.5.5-.5h2.58l.5.5Zm1-3H10.71l-2-2h6.58Zm.92.5L16.5,3.21,17.79,4.5,15.5,6.79ZM7.5,3.21,9.79,5.5,8.5,6.79,6.21,4.5ZM3.5,19a.5.5,0,0,1-.5-.5V5.5A.5.5,0,0,1,3.5,5H5.29L8.15,7.85a.48.48,0,0,0,.7,0l.65-.64,1.43,1.43L8,17.34a.51.51,0,0,0,.09.49l1,1.17ZM12,20.74,9.06,17.39,11.86,9h.28l2.8,8.39Zm9-2.24a.5.5,0,0,1-.5.5H14.85l1-1.17a.51.51,0,0,0,.09-.49l-2.9-8.7L14.5,7.21l.65.64a.48.48,0,0,0,.7,0L18.71,5H20.5a.5.5,0,0,1,.5.5Z"/>
            </svg>
-           <span x-show="open" class="ml-3 whitespace-nowrap">Должности</span>
+           <span class="sidebar-text ml-3 whitespace-nowrap">Должности</span>
         </a>
 
         <!-- Collapse Sidebar Button -->
-        <a type="button"
-           @click="toggle()"
+        <a id="sidebar-toggle" type="button"
            class="flex items-center px-3 py-3 text-gray-700 font-medium transition rounded-none hover:bg-gray-200 hover:text-gray-700 cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <title>Открыть панель</title>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 toggle-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 6H3m18 0l-4 4m4-4l-4-4M3 18h18M3 18l4 4m-4-4l4-4"/>
             </svg>
-            <span x-show="open" class="ml-3 whitespace-nowrap">Скрыть панель</span>
+            <span class="sidebar-text ml-3 whitespace-nowrap toggle-text">Скрыть панель</span>
         </a>
     </nav>
 </div>
+<!-- END of the sidebar fragment -->
 
 <script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('sidebar', () => ({
-        open: true,
+(function() {
+    var sidebar = document.getElementById('sidebar');
+    var texts = document.querySelectorAll('.sidebar-text');
+    var toggle = document.getElementById('sidebar-toggle');
+    var toggleText = document.querySelector('.toggle-text');
+    var toggleIcon = document.querySelector('.toggle-icon');
+    var isOpen = localStorage.getItem('sidebarOpen') !== 'false';
 
-        init() {
-            // Восстанавливаем состояние из localStorage
-            const saved = localStorage.getItem('sidebarOpen');
-            this.open = saved ? JSON.parse(saved) : true;
-        },
-
-        toggle() {
-            this.open = !this.open;
-            // Сохраняем в localStorage
-            //localStorage.setItem('sidebarOpen', JSON.stringify(this.open));
-            localStorage.setItem('sidebarOpen', JSON.stringify(false));
+    function applyState(open) {
+        sidebar.style.width = open ? '16rem' : '4rem';
+        for (var i = 0; i < texts.length; i++) {
+            texts[i].style.display = open ? '' : 'none';
         }
-    }));
-});
+        toggleText.textContent = open ? 'Скрыть панель' : 'Открыть панель';
+        // Переключаем иконку стрелок
+        if (open) {
+            toggleIcon.setAttribute('d', 'M21 6H3m18 0l-4 4m4-4l-4-4M3 18h18M3 18l4 4m-4-4l4-4');
+        } else {
+            toggleIcon.setAttribute('d', 'M11 18H3m18 0l-4-4m4 4l-4-4M3 6h18M3 6l4-4m-4 4l4-4');
+        }
+    }
+
+    applyState(isOpen);
+
+    if (toggle) {
+        toggle.addEventListener('click', function() {
+            isOpen = !isOpen;
+            localStorage.setItem('sidebarOpen', JSON.stringify(isOpen));
+            applyState(isOpen);
+        });
+    }
+})();
 </script>
-<!-- END of the sidebar fragment -->

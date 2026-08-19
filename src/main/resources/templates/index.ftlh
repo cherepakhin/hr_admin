@@ -76,7 +76,7 @@
         </header>
 
         <!-- Employee List -->
-        <main class="flex-1 p-6 overflow-y-auto">
+        <main class="flex-1 p-6 overflow-y-auto pb-20">
             <#if employees?has_content>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                     <#list employees as employee>
@@ -199,6 +199,10 @@
             </#if>
         </main>
     </div>
+
+    <!-- Include Bottom Navigation Fragment (mobile only) -->
+    <#include "fragments/bottom-navigation.ftl">
+    <!-- End Include Bottom Navigation Fragment -->
 
 <!-- Confirmation Modal -->
   <div id="deleteModal">

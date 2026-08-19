@@ -138,6 +138,8 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Disabled: spring-banner-plugin incompatible with Java 11 -->
+			<!--
 			<plugin>
 				<groupId>ch.acanda.maven</groupId>
 				<artifactId>spring-banner-plugin</artifactId>
@@ -145,13 +147,13 @@
 				<executions>
 					<execution>
 						<id>generate-spring-banner</id>
-						<phase>generate-resources</phase> <!--(1)-->
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration> <!--(2)-->
+				<configuration>
 					<text>${project.name}</text>
 					<outputDirectory>${project.build.outputDirectory}</outputDirectory>
 					<filename>banner.txt</filename>
@@ -161,6 +163,8 @@
 					<color>yellow</color>
 				</configuration>
 			</plugin>
+			-->
+
 		</plugins>
 	</build>
 	<distributionManagement>

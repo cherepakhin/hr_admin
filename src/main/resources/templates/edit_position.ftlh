@@ -23,7 +23,7 @@
     <!-- End Include Sidebar Fragment -->
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden p-6">
+    <div class="flex-1 flex flex-col overflow-hidden p-6 pb-20">
         <div class="max-w-md mx-auto bg-white shadow-xl overflow-hidden w-full">
             <div class="bg-sky-900 text-white p-6">
                 <h1 class="text-xl font-semibold">Редактировать должность</h1>
@@ -53,5 +53,9 @@
             </form>
         </div>
     </div>
+
+    <!-- Include Bottom Navigation Fragment (mobile only) -->
+    <#include "fragments/bottom-navigation.ftl">
+    <!-- End Include Bottom Navigation Fragment -->
 </body>
 </html>

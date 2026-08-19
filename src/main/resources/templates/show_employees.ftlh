@@ -106,7 +106,7 @@
     <!-- End Include Sidebar Fragment -->
 
     <!-- Main Content -->
-    <div class="flex flex-1 flex-col overflow-hidden">
+    <div class="flex flex-1 flex-col overflow-hidden pb-20">
         <!-- Header -->
         <div class="w-full mx-auto bg-white shadow-xl border border-gray-100">
             <div class="bg-sky-900 px-6 py-1 text-white text-left">
@@ -327,6 +327,10 @@
     }
 
 </script>
+
+    <!-- Include Bottom Navigation Fragment (mobile only) -->
+    <#include "fragments/bottom-navigation.ftl">
+    <!-- End Include Bottom Navigation Fragment -->
 </body>
 
 </html>
