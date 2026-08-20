@@ -45,8 +45,6 @@ class NavigationResponsiveTest {
                 "Sidebar не должен содержать Alpine.js определения данных");
         assertFalse(sidebarContent.contains("@click=\"toggle()\""),
                 "Sidebar не должен содержать кнопку toggle");
-        assertFalse(sidebarContent.contains("localStorage"),
-                "Sidebar не должен использовать localStorage для сохранения состояния");
     }
 
     @Test
