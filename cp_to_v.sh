@@ -1,1 +1,1 @@
-scp ~/prog/java/spring-boot/generated_boot_crud/hr-admin/target/hr-admin-0.0.7.jar vasi@v:/home/vasi/temp
+scp ~/prog/java/hr_admin/target/hr-admin-0.0.7.jar vasi@v:/home/vasi/temp
