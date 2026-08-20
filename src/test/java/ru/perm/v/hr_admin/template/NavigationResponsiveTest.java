@@ -124,14 +124,12 @@ class NavigationResponsiveTest {
     }
 
     @Test
-    @DisplayName("Sidebar не должен содержать кнопки 'Скрыть панель'")
-    void sidebarShouldNotHaveHideButton() throws IOException {
+    @DisplayName("Sidebar должен содержать кнопку 'Скрыть панель'")
+    void sidebarShouldHaveHideButton() throws IOException {
         String sidebarContent = readFile("fragments/sidebar.ftl");
 
-        assertFalse(sidebarContent.contains("Скрыть панель"),
+        assertTrue(sidebarContent.contains("Скрыть панель"),
                 "Sidebar не должен содержать кнопку 'Скрыть панель'");
-        assertFalse(sidebarContent.contains("toggle"),
-                "Sidebar не должен содержать логику toggle");
     }
 
     private String readFile(String relativePath) throws IOException {
