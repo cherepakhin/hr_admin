@@ -1128,5 +1128,3 @@ systemctl start hr_admin.service
 ````
 
 Из GigaIde в облаке https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/
-
-stage
