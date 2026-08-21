@@ -963,6 +963,20 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
  
 Стиль "gap-4" - уместить 4 элемента  
 
+### Экраны для мобильных устройств
+
+![doc/mobile_screens/all_employees.png](doc/mobile_screens/all_employees.png)
+
+![doc/mobile_screens/delete_employee.png](doc/mobile_screens/delete_employee.png)
+
+![doc/mobile_screens/find_employees.png](doc/mobile_screens/find_employees.png)
+
+![doc/mobile_screens/list_employees.png](doc/mobile_screens/list_employees.png)
+
+![doc/mobile_screens/new_employee.png](doc/mobile_screens/new_employee.png)
+
+![doc/mobile_screens/positions.png](doc/mobile_screens/positions.png)
+
 ### Включено логирование SQL запросов в application.yaml:
 
 ````yaml
