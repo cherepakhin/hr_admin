@@ -43,7 +43,7 @@
         <!-- Header -->
         <header class="bg-sky-900 shadow-sm border-b border-gray-100 all-employees text-white" style="padding-bottom: 0.75rem;">
             <div class="flex mobile-header justify-between items-center">
-                <h2 class="font-semibold px-2" style="font-size: 1.5rem; line-height: 1.75rem;">Все сотрудники</h2>
+                <h2 class="font-semibold px-2" style="font-size: 1.5rem; line-height: 1.75rem;">Сотрудники</h2>
                 <div class="flex mobile-sort-container justify-between items-center gap-2">
                     <a href="${springMacroRequestContext.contextPath}/employees/new"
                        class="text-1xl btn-dark-blue mobile-add-btn px-5 py-2 font-semibold shadow transition flex items-center gap-2 rounded-none hover:bg-sky-50 hover:text-sky-900 w-40">
