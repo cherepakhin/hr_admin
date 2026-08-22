@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh 'rm -rf hr_admin; git clone -b v0.0.7 https://github.com/cherepakhin/hr_admin'
+                sh 'rm -rf hr_admin; git clone https://github.com/cherepakhin/hr_admin'
             }
         }
 

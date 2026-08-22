@@ -210,6 +210,18 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 
 Так же есть [Jenkinsfile](Jenkinsfile)
 
+В Jenkinsfile клонирование из ветки __main__:
+
+````shell
+sh 'rm -rf hr_admin; git clone https://github.com/cherepakhin/hr_admin'
+````
+
+клонирование из ветки __v0.0.7__:
+
+````shell
+git clone -b v0.0.7 https://github.com/cherepakhin/hr_admin
+````
+
 ### Запуск
 
 ````shell
