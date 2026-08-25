@@ -1,5 +1,9 @@
 ### Заготовка для UI проектов со Spring Boot Web и FreeMarker
 
+- О проекте в общем
+
+
+
 Git репозиторий [https://github.com/cherepakhin/hr_admin.git](https://github.com/cherepakhin/hr_admin.git).
 
 Java 17:
@@ -988,6 +992,21 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
 ![doc/mobile_screens/new_employee.png](doc/mobile_screens/new_employee.png)
 
 ![doc/mobile_screens/positions.png](doc/mobile_screens/positions.png)
+
+Toolbar на больших экранах слева, на маленьких снизу. Сделано с помощью CSS.
+На самом деле, в программе есть две панели: __sidebar.ftl__ и __bottom-navigation.ftl__.
+Внимание на свойство __md__ (middle device). 
+Для больших экранов работает __sidebar.ftl__:
+__id="sidebar" class="hidden md:flex ..."__ - по умолчанию скрыто (__hidden__), но на открыто на средних и больше экранах (__md:flex__).
+
+Для маленьких экранов используется __bottom-navigation.ftl__: __class="md:hidden__ (__md__ - middle device) - скрыто на больших экранах.
+
+Совет из интернета: Часто к md:flex добавляют другие утилиты для тонкой настройки. Например:
+- md:shrink-0 — запрещает элементу сжиматься на средних и больших экранах.
+- md:w-48 — задаёт ширину 48 rem на средних экранах и выше.
+
+Другой способ адаптации к мобильным устройствам использовать свойство __Device__ из Spring MVC пример в проекте [https://github.com/cherepakhin/device-resolution](https://github.com/cherepakhin/device-resolution).
+Суть в том, что в контроллере мы можем определить, на каком устройстве работает пользователь и в зависимости от этого отдавать разные представления.
 
 ### Включено логирование SQL запросов в application.yaml:
 

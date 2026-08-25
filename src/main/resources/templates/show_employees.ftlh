@@ -101,7 +101,7 @@
 
 <body class="bg-gray-50 min-h-screen flex">
     <!-- Show employees page -->
-    <!-- Include Sidebar Fragment -->
+    <!-- Include Sidebar Fragment for not mobile devices -->
     <#include "fragments/sidebar.ftl">
     <!-- End Include Sidebar Fragment -->
 
