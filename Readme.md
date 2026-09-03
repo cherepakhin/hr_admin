@@ -1150,7 +1150,7 @@ Log файлы в /var/log/hradmin.stderr.log , /var/log/hradmin.stdout.log .
 
 ### Задание RULES для gigacode агента
 
-Правил находятся в файле [.gigacode/rules/hr_admin_rules.md](.gigacode/rules/hr_admin_rules)
+Правила находятся в файле [.gigacode/rules/hradmin_rules.md](.gigacode/rules/hradmin_rules)
 
 ````text
 # Правила проекта
