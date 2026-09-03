@@ -9,9 +9,9 @@
 	</parent>
 
 	<groupId>ru.perm.v</groupId>
-	<artifactId>hr-admin</artifactId>
-	<version>0.0.7</version>
-	<name>hr-admin</name>
+	<artifactId>hradmin</artifactId>
+	<version>0.0.8</version>
+	<name>hradmin</name>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -87,7 +87,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>ru.perm.v.hr_admin.SpringBootFreemarkerApplication</mainClass>
+					<mainClass>ru.perm.v.hradmin.SpringBootFreemarkerApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>

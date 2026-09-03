@@ -1,1 +1,1 @@
-scp ~/prog/java/hr_admin/target/hr-admin-0.0.7.jar vasi@v:/home/vasi/temp
+scp ~/prog/java/hr_admin/target/hradmin-0.0.7.jar vasi@v:/home/vasi/temp

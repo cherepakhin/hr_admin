@@ -1,0 +1,38 @@
+package ru.perm.v.hradmin.repository;
+
+import ru.perm.v.hradmin.model.Position;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+class PositionRepositoryTest {
+
+    @Autowired
+    PositionRepository positionRepository;
+
+    @Test
+    void findAll() {
+        List<Position> positions = positionRepository.findAll();
+
+        assertEquals(true, !positions.isEmpty());
+        assertEquals(new Position(2L, "Бухгалтер"), positions.get(0));
+    }
+
+    @Test
+    void findPositionByNameContainsIgnoreCase() {
+        List<Position> positions = positionRepository.findPositionByNameContainsIgnoreCase("директор");
+
+        assertEquals(1, positions.size());
+        assertEquals("Директор", positions.get(0).getName());
+    }
+
+    @Test
+    public void shouldReturnFalseWhenNameIsNull() {
+        assertFalse(positionRepository.existsByName(null));
+    }
+}

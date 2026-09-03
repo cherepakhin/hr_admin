@@ -2,7 +2,7 @@ server:
   port: 8088
   forward-headers-strategy: NATIVE
   servlet:
-    context-path: /hr_admin
+    context-path: /hradmin
 spring:
   freemarker:
     template-loader-path: classpath:/templates

@@ -12,11 +12,11 @@ Java 17:
 export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 ````
 
-Открыть [http://127.0.0.1:8088/hr_admin/](http://127.0.0.1:8088/hr_admin/)
+Открыть [http://127.0.0.1:8089/hradmin/](http://127.0.0.1:8089/hradmin/)
 
-URL для разработки [http://127.0.0.1:8088/hr_admin/employees/](http://127.0.0.1:8088/hr_admin/employees/)
+URL для разработки [http://127.0.0.1:8089/hradmin/employees/](http://127.0.0.1:8089/hradmin/employees/)
 
-Развернуто на [https://v.perm.ru/hr_admin/](https://v.perm.ru/hr_admin/).
+Развернуто на [https://v.perm.ru/hradmin/](https://v.perm.ru/hradmin/).
 
 Основная цель __ТОЛЬКО FRONTEND__.
 
@@ -100,7 +100,7 @@ public class ProductController {
 
 В этом проекте возвращаются имена __view__. 
 
-Внедрение значений в html файлы осуществляется через __Model__ [EmployeeController.java](src/main/java/ru/perm/v/hr_admin/controller/EmployeeController.java) и 
+Внедрение значений в html файлы осуществляется через __Model__ [EmployeeController.java](src/main/java/ru/perm/v/hradmin/controller/EmployeeController.java) и 
 возврат имени view (не ModelAndVew) 
 
 ````java
@@ -235,29 +235,29 @@ git clone -b v0.0.7 https://github.com/cherepakhin/hr_admin
 Запуск на другом порту:
 
 ````shell
-/usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/hr-admin-0.0.3.jar --server.port=8088
+/usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/hr-admin-0.0.3.jar --server.port=8089
 ````
 
 ### Использование
 
-Открыть [http://127.0.0.1:8088/hr_admin/employees/](http://127.0.0.1:8088/hr_admin/employees/)
+Открыть [http://127.0.0.1:8089/hradmin/employees/](http://127.0.0.1:8089/hradmin/employees/)
 
 (см. application.yaml)
 
 Для запуска выполнить на v.perm.ru:
 
 ````shell
-/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar ./hr-admin-0.0.3.jar  --server.port=8088
+/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar ./hr-admin-0.0.3.jar  --server.port=8089
 ````
 
-Открыть [https://v.perm.ru:8088/](https://v.perm.ru:8088/)
+Открыть [https://v.perm.ru:8089/](https://v.perm.ru:8089/)
 (проверено 29/03/26 на другом компьютере. Открывается с предупреждением о сертификате.)
 
 Ниже более лучший вариант без заморочек с сертификатами.
 
 ### Проброс через Apache HTTPS
 
-Размещено на [https://v.perm.ru/hr_admin/](https://v.perm.ru/hr_admin/)
+Размещено на [https://v.perm.ru/hradmin/](https://v.perm.ru/hradmin/)
 
 Работа через HTTPS сделана с помощью проксирования через apache2. В приложении никаких настроек на HTTPS __нет__.
 
@@ -265,35 +265,67 @@ git clone -b v0.0.7 https://github.com/cherepakhin/hr_admin
 
 Через __Apache proxy__ настройка проще. Примеры смотри в [doc/https/000-default-le-ssl.conf](doc/https/000-default-le-ssl.conf)
 
-Настройка apache2 (см. # Проксирование запросов для Spring Boot приложения hr_admin (работает по HTTP на localhost:8088)):
+Настройка apache2 (см. # Проксирование запросов для Spring Boot приложения hr_admin (работает по HTTP на localhost:8089)):
 
 ````text
-root@v:/etc/apache2/sites-enabled# cat 000-default-le-ssl.conf 
+root@v:/etc/apache2/sites-available# cat 000-default-le-ssl.conf 
 <IfModule mod_ssl.c>
     <VirtualHost *:443>
+	# The ServerName directive sets the request scheme, hostname and port that
+	# the server uses to identify itself. This is used when creating
+	# redirection URLs. In the context of virtual hosts, the ServerName
+	# specifies what hostname must appear in the request's Host: header to
+	# match this virtual host. For the default virtual host (this file) this
+	# value is not decisive as it is used as a last resort host regardless.
+	# However, you must set it for any further virtual host explicitly.
 	ServerName v.perm.ru
 
 	ServerAdmin vasi.che@gmail.com
 	DocumentRoot /var/www/main/
 
+	# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+	# error, crit, alert, emerg.
+	# It is also possible to configure the loglevel for particular
+	# modules, e.g.
 	LogLevel debug
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-    # Настройка HTTPS для Apache2
+	# For most configuration files from conf-available/, which are
+	# enabled or disabled at a global level, it is possible to
+	# include a line for only one particular virtual host. For example the
+	# following line enables the CGI configuration for this host only
+	# after it has been globally disabled with "a2disconf".
+	#Include conf-available/serve-cgi-bin.conf
+
+	ServerName v.perm.ru
 	SSLEngine on
 	
+	#SSLProxyEngine On
+	#ProxyPreserveHost on
+	#ProxyRequests off
+	
 	SSLCertificateFile /etc/letsencrypt/live/v.perm.ru/cert.pem
+	#SSLCertificateFile /etc/letsencrypt/live/v.perm.ru/cert.pem
 	SSLCertificateChainFile /etc/letsencrypt/live/v.perm.ru/fullchain.pem
 	SSLCertificateKeyFile /etc/letsencrypt/live/v.perm.ru/privkey.pem
 	SSLCACertificateFile /etc/letsencrypt/live/v.perm.ru/chain.pem
 	Include /etc/letsencrypt/options-ssl-apache.conf
 
-	# Проксирование запросов для Spring Boot приложения hr_admin (работает по HTTP на localhost:8088)
+
+	# Проксирование запросов на Spring Boot (работает по HTTP на localhost:8088)
 	ProxyPreserveHost On
-	ProxyPass /hr_admin http://192.168.1.20:8088/hr_admin
-	ProxyPassReverse /hr_admin http://192.168.1.20:8088/hr_admin
+	# hradmin
+	ProxyPass        /hradmin http://localhost:8989/hradmin
+	ProxyPassReverse /hradmin http://localhost:8989/hradmin
+
+	# wildfly HelloWorld
+	# https://v.perm.ru/wildfly/helloworld/HelloWorld
+	# Console WildFly not mapped (port 9990). Only local.
+	ProxyPass /wildfly/helloworld1 http://192.168.1.20:8080/helloworld1
+	ProxyPassReverse /wildfly/helloworld1 http://192.168.1.20:8080/helloworld1
+	
 	# Передача информации о протоколе (важно для Spring Boot)
 	RequestHeader set X-Forwarded-Proto https
 
@@ -302,11 +334,16 @@ root@v:/etc/apache2/sites-enabled# cat 000-default-le-ssl.conf
 	SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
 	ErrorLog ${APACHE_LOG_DIR}/spring-proxy-error.log
 	CustomLog ${APACHE_LOG_DIR}/spring-proxy.log combined
+
+	ProxyPass        /hradmin http://localhost:8989/hradmin
+	ProxyPassReverse /hradmin http://localhost:8989/hradmin
+
+	ProxyPreserveHost On
     </VirtualHost>
 </IfModule>
 ````
 
-Логи на сервере смотреть в v.perm.ru:/home/vasi/temp/hr_admin/hr_admin.log.
+Логи на сервере смотреть в v.perm.ru:/home/vasi/temp/hradmin/hradmin.log.
 
 ### Разное
 
@@ -789,12 +826,12 @@ public class SecurityConfig {
 	SSLCACertificateFile /etc/letsencrypt/live/v.perm.ru/chain.pem
 	Include /etc/letsencrypt/options-ssl-apache.conf
 
-	# Проксирование запросов на Spring Boot (работает по HTTP на localhost:8088)
-	# Снаружи доступно по https://v.perm.ru/hr_admin
+	# Проксирование запросов на Spring Boot (работает по HTTP на localhost:8089)
+	# Снаружи доступно по https://v.perm.ru/hradmin
 	# 192.168.1.20:8888 - адрес машнины во внутренней сети с запущенным сервисом 
 	ProxyPreserveHost On
-	ProxyPass /hr_admin http://192.168.1.20:8088
-	ProxyPassReverse /hr_admin http://192.168.1.20:8088
+	ProxyPass /hradmin http://192.168.1.20:8089
+	ProxyPassReverse /hradmin http://192.168.1.20:8089
 	# Передача информации о протоколе (важно для Spring Boot)
 	RequestHeader set X-Forwarded-Proto https
 
@@ -975,7 +1012,7 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
 
 ![doc/dialog_delete_position.png](doc/dialog_delete_position.png)
 
-[HTML код страницы с диалогом подтверждения удаления и комментариями](doc/view-source_127.0.0.1_8088_hr_admin_positions_.html)
+[HTML код страницы с диалогом подтверждения удаления и комментариями](doc/view-source_127.0.0.1_8089_hr_admin_positions_.html)
  
 Стиль "gap-4" - уместить 4 элемента  
 
@@ -1037,29 +1074,26 @@ Hibernate:
 
 Описано здесь [Autostart сервиса в linux](https://v.perm.ru/index.php/instrumenty-devops/autostart-service).
 
-Создать файл hr_admin.service в /etc/systemd:
+Создать файл __/usr/lib/systemd/system/hradmin.service__:
+v:/usr/lib/systemd/system# cat hradmin.service
 
 ````text
 [Unit]
-Description=HR admin
+Description=hradmin
 Wants=network-online.target
 After=network-online.target
 [Service]
 Type=simple
 User=vasi
 Group=vasi
-ExecReload=/bin/kill -HUP 
-ExecStart=/home/vasi/temp/hr_admin.sh
-SyslogIdentifier=hr_admin
+ExecReload=/bin/kill -HUP
+ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /home/vasi/temp/hradmin-0.0.7.jar --server.port=8989
+SyslogIdentifier=hradmin
+StandardOutput=file:/var/log/hradmin.stdout.log
+StandardError=file:/var/log/hradmin.stderr.log
 Restart=always
 [Install]
 WantedBy=multi-user.target
-````
-
-/home/vasi/temp/hr_admin.sh:
-
-````shell
-/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /home/vasi/temp/hr-admin-0.0.5.jar --server.port=8088
 ````
 
 Перечитать сервисы:
@@ -1071,14 +1105,16 @@ sudo systemctl daemon-reload
 Включить сервис:
 
 ````shell
-systemctl enable hr_admin.service
+systemctl enable hradmin.service
 ````
 
 Запустить сервис:
 
 ````shell
-systemctl start hr_admin.service
+systemctl start hradmin.service
 ````
+
+Log файлы в /var/log/hradmin.stderr.log , /var/log/hradmin.stdout.log .
 
 ### Подключение к MCP сервису для VS Code
 
@@ -1172,7 +1208,7 @@ systemctl start hr_admin.service
 - View-имена храним в интерфейсе `NamesView`
 ````
 
-Из GigaIde в облаке https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8088/hr_admin/
+Из GigaIde в облаке https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8089/hr_admin/https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8089/hr_admin/
 
 ### Ввод голосом
 

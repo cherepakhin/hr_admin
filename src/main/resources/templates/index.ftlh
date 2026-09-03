@@ -6,8 +6,8 @@
     <title>Employees - HR Admin</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/hr_admin/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/hr_admin/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/hradmin/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/hradmin/favicon.ico" type="image/x-icon">
 
     <!-- Tailwind CSS via CDN -->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
@@ -28,7 +28,7 @@
         }
 
     </style>
-    <link href="${springMacroRequestContext.contextPath}/css/hr_admin.css" rel="stylesheet">
+    <link href="${springMacroRequestContext.contextPath}/css/hradmin.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50 min-h-screen flex">

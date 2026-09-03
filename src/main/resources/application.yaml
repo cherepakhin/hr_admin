@@ -1,8 +1,8 @@
 server:
-  port: 8088
+  port: 8989
   forward-headers-strategy: NATIVE
   servlet:
-    context-path: /hr_admin
+    context-path: /hradmin
 spring:
   freemarker:
     template-loader-path: classpath:/templates
@@ -27,4 +27,4 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: trace
   file:
-    name: /home/vasi/temp/hr_admin/hr_admin.log
+    name: /home/vasi/temp/hradmin/hradmin.log
