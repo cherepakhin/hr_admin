@@ -12,7 +12,7 @@ Java 17:
 export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 ````
 
-Открыть [http://127.0.0.1:8089/hradmin/](http://127.0.0.1:8089/hradmin/)
+Открыть [http://127.0.0.1:8989/hradmin/](http://127.0.0.1:8989/hradmin/)
 
 URL для разработки [http://127.0.0.1:8089/hradmin/employees/](http://127.0.0.1:8089/hradmin/employees/)
 
