@@ -26,7 +26,6 @@
     <div class="flex-1 flex flex-col overflow-hidden">
         <div class="bg-sky-900 px-6 logo-padding text-white text-left py-4">
             <h2 class="text-2xl font-semibold">Изменить информацию о сотруднике</h2>
-            <p class="text-sky-200">Update employee information</p>
         </div>
         <div class="w-full mx-0 bg-white shadow-xl border border-gray-100 all-employees px-0">
             <div class="p-0 overflow-x-auto"> <!-- old variant p-6 -->
