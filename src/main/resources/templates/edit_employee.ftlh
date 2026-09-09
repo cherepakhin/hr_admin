@@ -12,7 +12,7 @@
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>body{font-family:'Inter',sans-serif;}.btn-dark-blue{@apply bg-sky-900 hover:bg-sky-800 text-white;}</style>
+    <style>body{font-family:'Inter',sans-serif;}.btn-dark-blue{@apply bg-sky-900 hover:bg-sky-800;}</style>
     <link href="${springMacroRequestContext.contextPath}/css/hradmin.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 min-h-screen flex">
