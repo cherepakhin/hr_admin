@@ -96,7 +96,7 @@
                         </div>
                         <div class="flex justify-end gap-2">
                             <!-- Edit Button -->
-                            <!-- gap-1 расстояние между иконкой и текстом --->
+                            <!-- gap-1 расстояние между иконкой и текстом -->
                             <a href="${springMacroRequestContext.contextPath}/employees/edit/${employee.id}"
                                class="text-sky-900 hover:text-sky-700 hover:bg-gray-100 font-medium text-sm transition flex items-center gap-1 padding-1em">
                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -105,8 +105,7 @@
                                Изменить
                             </a>
                             <!-- Delete Employee with Confirmation -->
-                            <button type="button"
-                                    onclick="openDeleteModal('${springMacroRequestContext.contextPath}/employees/delete/${employee.id}', '${employee.lastName}')"
+                            <button onclick="openDeleteModal('${springMacroRequestContext.contextPath}/employees/delete/${employee.id}', '${employee.lastName}')"
                                 title="Удалить сотрудника"
                                 class="text-sky-900 hover:text-sky-700 hover:bg-gray-100 font-medium text-sm transition flex items-center gap-1 padding-left_top_right-1em">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -215,8 +214,8 @@
         </div>
         <p>Вы уверены, что хотите удалить <span id="deleteName" class="font-medium"></span>?</p>
         <div class="modal-actions">
-            <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
-            <button id="confirmDeleteBtn" type="button" onclick="deleteEmployee()" class="btn-delete">Удалить</button>
+            <button onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
+            <button id="confirmDeleteBtn" onclick="deleteEmployee()" class="btn-delete">Удалить</button>
         </div>
     </div>
   </div>

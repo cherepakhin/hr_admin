@@ -180,8 +180,7 @@
                                         </a>
 
                                         <!-- Delete Employee with Confirmation -->
-                                        <button type="button"
-                                                onclick="openDeleteModal('${springMacroRequestContext.contextPath}/employees/delete/${empl.id}', '${empl.lastName}')"
+                                        <button onclick="openDeleteModal('${springMacroRequestContext.contextPath}/employees/delete/${empl.id}', '${empl.lastName}')"
                                                 title="Удалить сотрудника"
                                                 class="text-sky-900 hover:text-sky-700 hover:bg-red-100 font-medium text-sm transition flex items-center gap-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
@@ -276,7 +275,7 @@
         </div>
         <p>Вы уверены, что хотите удалить <span id="deleteName" class="font-medium"></span>?</p>
         <div class="modal-actions">
-            <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
+            <button onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
             <button id="confirmDeleteBtn" type="button" onclick="deleteEmployee()" class="btn-delete">Удалить</button>
         </div>
     </div>
