@@ -72,13 +72,13 @@
         </a>
 
         <!-- Collapse Sidebar Button -->
-        <a id="sidebar-toggle" type="button"
+        <div id="sidebar-toggle"
            class="flex items-center px-3 py-3 text-gray-700 font-medium transition rounded-none hover:bg-gray-200 hover:text-gray-700 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 toggle-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 6H3m18 0l-4 4m4-4l-4-4M3 18h18M3 18l4 4m-4-4l4-4"/>
             </svg>
             <span class="sidebar-text ml-3 whitespace-nowrap toggle-text">Скрыть панель</span>
-        </a>
+        </div>
     </nav>
 </div>
 <!-- END of the sidebar fragment -->
