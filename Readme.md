@@ -2,8 +2,6 @@
 
 - О проекте в общем
 
-
-
 Git репозиторий [https://github.com/cherepakhin/hr_admin.git](https://github.com/cherepakhin/hr_admin.git).
 
 Java 17:
