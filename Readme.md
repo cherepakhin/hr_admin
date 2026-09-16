@@ -30,6 +30,7 @@
 [Подключение к MCP сервису для VS Code](#mcp_vscode)<br/>
 [Задание RULES для gigacode агента](#rules_agent)<br/>
 [Ввод голосом](#voice_input)<br/>
+[Об авторизации](#about_auth)<br/>
 
 <a id="about_project"></a>
 ### О проекте в общем
@@ -1282,3 +1283,23 @@ Log файлы в /var/log/hradmin.stderr.log , /var/log/hradmin.stdout.log .
 ### Ввод голосом
 
 На мобильных телефонах значения в текстовые поля можно вводить голосом при нажатии на иконку микрофона в правом верхнем углу клавиатуры.
+Немного подробнее в проекте [https://github.com/cherepakhin/voice_to_text](https://github.com/cherepakhin/voice_to_text).
+
+<a id="other_ui_project"></a>
+### Подобные проекты
+
+[https://v.perm.ru/shop/](https://v.perm.ru/shop)
+
+Перед использованием проекта, запустить проект. 
+
+<a id="about_auth"></a>
+### Об авторизации
+
+В этом проекте не реализована авторизация. и так много получилось.  
+Пример авторизации можно посмотреть в [https://github.com/cherepakhin/registration-login-springboot-security-thymeleaf](https://github.com/cherepakhin/registration-login-springboot-security-thymeleaf) 
+ или в проекте [https://github.com/cherepakhin/springboot-thymeleaf-security-demo](https://github.com/cherepakhin/springboot-thymeleaf-security-demo).
+
+<a id="load_files"></a>
+### Загрузка файлов
+
+В этом проекте не реализована загрузка файлов. Пример можно посмотреть в [https://github.com/cherepakhin/spring_boot_mvc_upload_files](https://github.com/cherepakhin/spring_boot_mvc_upload_files).
