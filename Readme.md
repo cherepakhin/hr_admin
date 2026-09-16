@@ -1296,7 +1296,7 @@ Log файлы в /var/log/hradmin.stderr.log , /var/log/hradmin.stdout.log .
 <a id="about_auth"></a>
 ### Об авторизации
 
-В этом проекте __НЕ__ реализована авторизация. и так много получилось.  
+В этом проекте __НЕ__ реализована авторизация, и так много получилось.  
 Пример авторизации можно посмотреть в [https://github.com/cherepakhin/registration-login-springboot-security-thymeleaf](https://github.com/cherepakhin/registration-login-springboot-security-thymeleaf) 
  или в проекте [https://github.com/cherepakhin/springboot-thymeleaf-security-demo](https://github.com/cherepakhin/springboot-thymeleaf-security-demo).
 
