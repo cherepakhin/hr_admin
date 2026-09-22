@@ -12,7 +12,7 @@
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>body{font-family:'Inter',sans-serif;}.btn-dark-blue{@apply bg-sky-900 hover:bg-sky-800 text-white;}</style>
+    <style>body{font-family:'Inter',sans-serif;}.btn-dark-blue{@apply bg-sky-900 hover:bg-sky-800;}</style>
     <link href="${springMacroRequestContext.contextPath}/css/hradmin.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 min-h-screen flex">
@@ -26,7 +26,6 @@
     <div class="flex-1 flex flex-col overflow-hidden">
         <div class="bg-sky-900 px-6 logo-padding text-white text-left py-4">
             <h2 class="text-2xl font-semibold">Изменить информацию о сотруднике</h2>
-            <p class="text-sky-200">Update employee information</p>
         </div>
         <div class="w-full mx-0 bg-white shadow-xl border border-gray-100 all-employees px-0">
             <div class="p-0 overflow-x-auto"> <!-- old variant p-6 -->

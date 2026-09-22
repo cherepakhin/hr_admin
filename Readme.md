@@ -1,8 +1,40 @@
 ### Заготовка для UI проектов со Spring Boot Web и FreeMarker
 
-- О проекте в общем
+[О проекте в общем](#about_project)<br/>
+[Экраны](#screens)<br/>
+[Создание maven wrapper](#maven_wrapper)<br/>
+[ModelAndView](#model_and_view)<br/>
+[Тестирование](#testing)<br/>
+[Покрытие тестами](#test_coverage)<br/>
+[Сборка](#build)<br/>
+[Запуск](#start)<br/>
+[Использование](#use)<br/>
+[Проброс через Apache HTTPS](#map_https)<br/>
+[Разное](#other)<br/>
+[О Freemarker](#freemarker)<br/>
+[О HTTPS](#https_create)<br/>
+[Перенаправление HTTPS трафика через apache2](#map_to_apache2)<br/>
+[Ссылки](#links)<br/>
+[Разное](#comments)<br/>
+[Стили](#styles)<br/>
+[Тестирование снаружи](#test_out)<br/>
+[TODO](#todo)<br/>
+[Удаление в JS](#delete_js)<br/>
+[Ветки](#branches)<br/>
+[История](#history)<br/>
+[PageSpeedInsights - Инструмент тестирования скорости загрузки и __качества__ html разметки](#PageSpeedInsights)<br/>
+[Диалоги](#dialogs)<br/>
+[Экраны для мобильных устройств](#mobile_screens)<br/>
+[Включение логирование SQL запросов в application.yaml](#sql_logs)<br/>
+[Запуск как сервис в Linux](#linux_service)<br/>
+[Подключение к MCP сервису для VS Code](#mcp_vscode)<br/>
+[Задание RULES для gigacode агента](#rules_agent)<br/>
+[Ввод голосом](#voice_input)<br/>
+[Об авторизации](#about_auth)<br/>
+[Загрузка файлов](#load_files)<br/>
 
-
+<a id="about_project"></a>
+### О проекте в общем
 
 Git репозиторий [https://github.com/cherepakhin/hr_admin.git](https://github.com/cherepakhin/hr_admin.git).
 
@@ -28,6 +60,8 @@ URL для разработки [http://127.0.0.1:8089/hradmin/employees/](http:
 - тесты в __BDD__ стиле с __Mockito__ в EmployeeControllerTest.java
 - __DataJpaTest__ в EmployeeRepositoryTest.java
 
+<a id="screens"></a>
+### Экраны
 Основной экран в виде карточек:
 
 ![doc/hr_admin.png](doc/hr_admin.png)
@@ -58,6 +92,7 @@ URL для разработки [http://127.0.0.1:8089/hradmin/employees/](http:
 
 Экранные формы для мобильных устройств: [doc/mobile_screens/](doc/mobile_screens/)
 
+<a id="maven_wrapper"></a>
 ### Создание maven wrapper
 
 ````shell
@@ -76,6 +111,8 @@ Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "6.14.0-37-generic", arch: "amd64", family: "unix"
 
 ````
+
+<a id="model_and_view"></a>
 ### ModelAndView
 
 В стандартном подходе Spring Boot Web должны возвращаться __ModelAndView__:
@@ -171,6 +208,7 @@ public class ProductController {
 ...
 ````
 
+<a id="testing"></a>
 ### Тестирование
 
 ````shell
@@ -190,6 +228,7 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 				.param("position.id", "1"));
 ````
 
+<a id="test_coverage"></a>
 ### Покрытие тестами
 
 Подключен плагин JaCoCo report для создания отчета покрытия тестами.
@@ -202,6 +241,7 @@ export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 
 Отчет в [target/site/jacoco/index.html](target/site/jacoco/index.html).
 
+<a id="build"></a>
 ### Сборка
 
 ````shell
@@ -226,6 +266,7 @@ sh 'rm -rf hr_admin; git clone https://github.com/cherepakhin/hr_admin'
 git clone -b v0.0.7 https://github.com/cherepakhin/hr_admin
 ````
 
+<a id="start"></a>
 ### Запуск
 
 ````shell
@@ -238,6 +279,7 @@ git clone -b v0.0.7 https://github.com/cherepakhin/hr_admin
 /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java -jar target/hr-admin-0.0.3.jar --server.port=8089
 ````
 
+<a id="use"></a>
 ### Использование
 
 Открыть [http://127.0.0.1:8089/hradmin/employees/](http://127.0.0.1:8089/hradmin/employees/)
@@ -255,6 +297,7 @@ git clone -b v0.0.7 https://github.com/cherepakhin/hr_admin
 
 Ниже более лучший вариант без заморочек с сертификатами.
 
+<a id="map_https"></a>
 ### Проброс через Apache HTTPS
 
 Размещено на [https://v.perm.ru/hradmin/](https://v.perm.ru/hradmin/)
@@ -345,6 +388,7 @@ root@v:/etc/apache2/sites-available# cat 000-default-le-ssl.conf
 
 Логи на сервере смотреть в v.perm.ru:/home/vasi/temp/hradmin/hradmin.log.
 
+<a id="other"></a>
 ### Разное
 
 SQL запросы логируются. Для этого сделена настройка:
@@ -363,6 +407,7 @@ spring.jpa.properties.hibernate.format_sql=true
 В контроллерах использовать __RequestMapping__ вместо __GetMapping__. Почему? 
 Потому что здесь не простой REST Controller, а управление страницами. Методы те же, но нужна дополнительная функциональность типа "redirect". 
 
+<a id="freemarker"></a>
 ### О Freemarker
 
 [https://habr.com/ru/articles/420549/](https://habr.com/ru/articles/420549/)
@@ -549,6 +594,8 @@ __id__ и __value__ - параметры макроса (value="-" - значе�
 
 Расширения файлов freemarket должны быть __ftlh__. С расширением .ftlh автоматически активируется защита от XSS-атаксов (HTML-автоэкранирование).
 
+
+<a id="https_create"></a>
 ### HTTPS
 
 ````shell
@@ -779,8 +826,13 @@ public class SecurityConfig {
 }
 ````
 
-### Перенаправление трафика через apache2
-000-default-le-ssl.conf:
+<a id="map_to_apache2"></a>
+### Перенаправление HTTPS трафика через apache2
+
+Чтобы не устанавливать сертификаты на каждое приложение на хосте, можно перенаправлять трафик через apache2, который уже имеет сертификаты.
+
+В настройках apache2 есть подобный файл /etc/apache2/sites-available/000-default-ssl.conf. В нем установлены настройки для перенаправления трафика. Пример:
+
 ````text
 <IfModule mod_ssl.c>
     <VirtualHost *:443>
@@ -846,11 +898,13 @@ public class SecurityConfig {
 
 Полностью в [doc/https/000-default-le-ssl.conf](doc/https/000-default-le-ssl.conf)
 
+<a id="links"></a>
 ### Ссылки
 
 [FreeMarker шаблоны (habr)](https://habr.com/ru/articles/420549/)
 [Альтернатива Freemarker - Velocity](https://velocity.apache.org/).
 
+<a id="comments"></a>
 ### Примечания
 
 <div class="rounded-md"> - скругленный углы
@@ -873,6 +927,7 @@ verify(this.employeeRepository, times(1)).findByFiltersAndSort(eq("firstName1"),
 
 [Диалоговое окно подтверждения](https://dev.to/andypeters/creating-a-modal-dialog-in-tailwindcss-and-alpinejs-bc5)
 
+<a id="styles"></a>
 ### Стили
 
 - py-2 = padding 8 px (*4)
@@ -900,10 +955,12 @@ __justify-end__ - работает по другому принципу, чем 
     </tr>
 ````
 
+<a id="test_out"></a>
 ### Тестирование снаружи
 
 Screen shot tool URL [https://iotools.cloud/tool/website-screenshot/](https://iotools.cloud/tool/website-screenshot/)
 
+<a id="todo"></a>
 ### TODO
 
 Мелкий шрифт на пагинации на телефоне.
@@ -921,7 +978,8 @@ Today is a wonderful day.
 </#compress>
 ````
 
-### Удаление
+<a id="delete_js"></a>
+### Удаление в JS
 
 Выполнение DELETE запроса (совет [отсюда](https://stackoverflow.com/questions/24256051/delete-or-put-methods-in-thymeleaf)):
 
@@ -947,10 +1005,15 @@ Today is a wonderful day.
 ````
 
 
-### Ветки
+<a id="history"></a>
+### История
 
+Ветки:<br/>
 v0.0.5 - работает CRUD (особенно удаление) позиций и сотрудников.
+v0.0.8 - все работает, выложено и проверено на v.perm.ru.
+v0.0.9 - исправления по замечаниям после проверки на [https://validator.w3.org](https://validator.w3.org).
 
+<a id="other"></a>
 ### Разное
 
 Нормально работает tools из браузера
@@ -962,6 +1025,7 @@ v0.0.5 - работает CRUD (особенно удаление) позици�
 - [https://screenshot.guru/](https://screenshot.guru/)
 - [https://iotools.cloud/tool/website-screenshot/](https://iotools.cloud/tool/website-screenshot/)
 
+<a id="PageSpeedInsights"></a>
 ### PageSpeedInsights
 
 __PageSpeedInsights__ - Инструмент тестирования скорости загрузки и __качества__ html разметки [https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&form_factor=desktop](https://pagespeed.web.dev/analysis/https-v-perm-ru-hr_admin/wlfhga6g6l?hl=ru&form_factor=desktop)
@@ -983,6 +1047,7 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
 
 Просмотр commits  на github [https://github.com/cherepakhin/hr_admin/commits/v0.0.5](https://github.com/cherepakhin/hr_admin/commits/v0.0.5)
 
+<a id="dialogs"></a>
 ### Диалоги
 
 Простой диалог с сообщением:
@@ -1016,6 +1081,7 @@ __PageSpeedInsights__ - Инструмент тестирования скоро
  
 Стиль "gap-4" - уместить 4 элемента  
 
+<a id="mobile_screens"></a>
 ### Экраны для мобильных устройств
 
 ![doc/mobile_screens/all_employees.png](doc/mobile_screens/all_employees.png)
@@ -1045,7 +1111,8 @@ __id="sidebar" class="hidden md:flex ..."__ - по умолчанию скрыт
 Другой способ адаптации к мобильным устройствам использовать свойство __Device__ из Spring MVC пример в проекте [https://github.com/cherepakhin/device-resolution](https://github.com/cherepakhin/device-resolution).
 Суть в том, что в контроллере мы можем определить, на каком устройстве работает пользователь и в зависимости от этого отдавать разные представления.
 
-### Включено логирование SQL запросов в application.yaml:
+<a id="sql_logs"></a>
+### Включение логирование SQL запросов в application.yaml:
 
 ````yaml
 logging:
@@ -1070,6 +1137,7 @@ Hibernate:
 23:54:07.301+05:00  INFO 16885 --- [           main] n.g.s.f.initializer.DataInitializer      : Test data added.
 ````
 
+<a id="linux_service"></a>
 ### Запуск как сервис в Linux
 
 Описано здесь [Autostart сервиса в linux](https://v.perm.ru/index.php/instrumenty-devops/autostart-service).
@@ -1116,6 +1184,7 @@ systemctl start hradmin.service
 
 Log файлы в /var/log/hradmin.stderr.log , /var/log/hradmin.stdout.log .
 
+<a id="mcp_vscode"></a>
 ### Подключение к MCP сервису для VS Code
 
 Создать каталог .codeassistant в каталоге проекта. В нем создать файл mcp.json:
@@ -1148,6 +1217,7 @@ Log файлы в /var/log/hradmin.stderr.log , /var/log/hradmin.stdout.log .
 }
 ````
 
+<a id="rules_agent"></a>
 ### Задание RULES для gigacode агента
 
 Правила находятся в файле [.gigacode/rules/hradmin_rules.md](.gigacode/rules/hradmin_rules)
@@ -1210,6 +1280,27 @@ Log файлы в /var/log/hradmin.stderr.log , /var/log/hradmin.stdout.log .
 
 Из GigaIde в облаке https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8089/hr_admin/https://gigaide-dc9f0332-248f-4c32-954e-d029312d17ee.containerapps.ru/proxy/8089/hr_admin/
 
+<a id="voice_input"></a>
 ### Ввод голосом
 
 На мобильных телефонах значения в текстовые поля можно вводить голосом при нажатии на иконку микрофона в правом верхнем углу клавиатуры.
+Немного подробнее в проекте [https://github.com/cherepakhin/voice_to_text](https://github.com/cherepakhin/voice_to_text).
+
+<a id="other_ui_project"></a>
+### Подобные проекты
+
+[https://v.perm.ru/shop/](https://v.perm.ru/shop)
+
+Перед использованием проекта, запустить проект. 
+
+<a id="about_auth"></a>
+### Об авторизации
+
+В этом проекте __НЕ__ реализована авторизация, и так много получилось.  
+Пример авторизации можно посмотреть в [https://github.com/cherepakhin/registration-login-springboot-security-thymeleaf](https://github.com/cherepakhin/registration-login-springboot-security-thymeleaf) 
+ или в проекте [https://github.com/cherepakhin/springboot-thymeleaf-security-demo](https://github.com/cherepakhin/springboot-thymeleaf-security-demo).
+
+<a id="load_files"></a>
+### Загрузка файлов
+
+В этом проекте __НЕ__ реализована загрузка файлов. Пример можно посмотреть в [https://github.com/cherepakhin/spring_boot_mvc_upload_files](https://github.com/cherepakhin/spring_boot_mvc_upload_files).

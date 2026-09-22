@@ -168,8 +168,7 @@
                                     </a>
                                     <!-- Delete Position with Confirmation -->
                                     <!-- onclick="openDeleteModal(${position.id})" -->
-                                    <button type="button"
-                                        onclick="canDeletePosition(${position.id}, '${position.name}')";
+                                    <button onclick="canDeletePosition(${position.id}, '${position.name}')";
                                         title="Удалить должность"
                                         class="text-sky-900 hover:text-sky-700 hover:bg-red-100 font-medium text-sm transition flex items-center gap-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
@@ -196,14 +195,14 @@
             </div>
             <p>Вы уверены, что хотите удалить "<span id="deleteName" class="font-medium"></span>"?</p>
             <div class="modal-actions">
-                <button type="button" onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
+                <button onclick="closeDeleteModal()" class="btn-cancel">Отмена</button>
                 <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. НО НЕ ОБНОВЛЯЕТСЯ !!! ПОСЛЕ УДАЛЕНИЯ-->
                 <!-- не важно что onclick="deletePosition(4)", ссылка будет заменена в openDeleteModal -->
                 <!-- НЕ УДАЛЯТЬ. Оставить для примера -->
                 <!-- <button id="confirmDeleteBtn" type="button" onclick="deletePosition(4)" class="btn-delete">Удалить</button> -->
 
                 <!-- РАБОТАЕТ УДАЛЕНИЕ, ДИАЛОГ ЗАКРЫВАЕТСЯ. ОБНОВЛЕНИЕ ПОСЛЕ УДАЛЕНИЯ ПРОИСХОДИТ !!! -->
-                <!-- НЕ ВАЖНО !!! что href=".../delete/4",  ссылка будет заменена в  <button type="button" onclick="openDeleteModal({position.id})" См. выше в списке отображения должностей -->
+                <!-- НЕ ВАЖНО !!! что href=".../delete/4",  ссылка будет заменена в  <button onclick="openDeleteModal({position.id})" См. выше в списке отображения должностей -->
                 <a id='link_delete_a' class="btn-delete" href="${springMacroRequestContext.contextPath}/positions/delete/{position.id}">Удалить</a>
                 <!-- href будет установлено в async function openDeleteModal(id) (см.ниже) -->
                 <!--<a id='link_delete_a' class="btn-delete" href="">Delete</a>-->
@@ -222,7 +221,7 @@
             </div>
             <p>Не могу удалить, т.к. есть сотрудники с этой должностью. Сначала нужно перевести их на другую должность.</p>
             <div class="modal-actions">
-                <button type="button" onclick="closeCanNotDeleteModal()" class="btn-cancel">Закрыть</button>
+                <button onclick="closeCanNotDeleteModal()" class="btn-cancel">Закрыть</button>
             </div>
         </div>
     </div>
