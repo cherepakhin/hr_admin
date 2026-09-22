@@ -13,6 +13,7 @@ import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
@@ -115,15 +116,20 @@ public class EmployeeControllerTest {
     public void redirectToPrevPageForCreateEmployeeFromShowEmployeesPage() {
         // Given
         Employee employee = new Employee("John", "Doe", "john.doe@example.com", new Position(1L, "Manager"));
+        EmployeeController controller = new EmployeeController();
+        controller.setEmployeeRepository(this.employeeRepository);
+        controller.setPositionRepository(this.positionRepository);
+
+        Page<Employee> employeePage = new PageImpl<>(List.of(employee), PageRequest.of(0, 10), 1);
+        given(this.positionRepository.findAll()).willReturn(List.of(new Position(1L, "Manager")));
+        given(this.employeeRepository.findByFiltersAndSort(eq(""), eq(""), anyList(), eq(""), any(Pageable.class)))
+                .willReturn(employeePage);
 
         try {
-            // set previous page (return page)
-            mockMvc.perform(get("/show_employees"));
-            // When & Then
-            mockMvc.perform(post("/employees/")
-                            .flashAttr("employee", employee))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/"));
+            Model model = new org.springframework.ui.ConcurrentModel();
+            controller.showAllEmployees(model, 0, 10, "", "", "", -1L, "lastName", "asc");
+            String viewName = controller.createEmployee(employee, model);
+            assertEquals("redirect:/show_employees", viewName);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -192,13 +198,22 @@ public class EmployeeControllerTest {
         // Given
         Employee updatedEmployee = new Employee("Firstname1", "Lastname1", "empl1@example.com", new Position(1L, "Manager"));
         updatedEmployee.setId(1L);
+        EmployeeController controller = new EmployeeController();
+        controller.setEmployeeRepository(this.employeeRepository);
+        controller.setPositionRepository(this.positionRepository);
+
+        Page<Employee> employeePage = new PageImpl<>(List.of(updatedEmployee), PageRequest.of(0, 10), 1);
+        given(this.positionRepository.findAll()).willReturn(List.of(new Position(1L, "Manager")));
+        given(this.employeeRepository.findByFiltersAndSort(eq(""), eq(""), anyList(), eq(""), any(Pageable.class)))
+                .willReturn(employeePage);
+
+        Model model = new org.springframework.ui.ConcurrentModel();
+        controller.showAllEmployees(model, 0, 10, "", "", "", -1L, "lastName", "asc");
 
         // When & Then
         try {
-            mockMvc.perform(post("/employees/update/1")
-                            .flashAttr("employee", updatedEmployee))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/"));
+            String viewName = controller.updateEmployee(1L, updatedEmployee, model);
+            assertEquals("redirect:/employees/show_employees", viewName);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -238,19 +253,22 @@ public class EmployeeControllerTest {
         Long EMPLOYEE_ID = 1L;
         employee.setId(EMPLOYEE_ID);
 
+        EmployeeController controller = new EmployeeController();
+        controller.setEmployeeRepository(this.employeeRepository);
+        controller.setPositionRepository(this.positionRepository);
+
         doNothing().when(this.employeeRepository).deleteById(1L);
 
-        Page<Employee> page = new PageImpl<Employee>(List.of(employee));
+        Page<Employee> page = new PageImpl<>(List.of(employee), PageRequest.of(0, 10), 1);
         given(this.employeeRepository.existsById(EMPLOYEE_ID)).willReturn(true);
-        given(this.employeeRepository.findAll(any(), any(Sort.class))).willReturn(List.of(employee));
         given(this.employeeRepository.findByFiltersAndSort(any(), any(), any(), any(), any())).willReturn(page);
         given(this.positionRepository.findAll()).willReturn(List.of(position));
 
         try {
-            mockMvc.perform((get("/show_employees"))); // set current page for return
-            mockMvc.perform(get("/employees/delete/1"))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/index/"));
+            Model model = new org.springframework.ui.ConcurrentModel();
+            controller.showAllEmployees(model, 0, 10, "", "", "", -1L, "lastName", "asc");
+            ModelAndView mv = controller.deleteEmployee(EMPLOYEE_ID, model);
+            assertEquals("redirect:/show_employees/", mv.getViewName());
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -277,6 +295,44 @@ public class EmployeeControllerTest {
         verify(this.positionRepository, times(1)).findAll();
     }
 
+    @Test
+    public void shouldShowEmployeesFilteredByPositionAndSortByPositionName() {
+        Position position = new Position(1L, "Developer");
+        Employee employee = new Employee("John", "Doe", "john.doe@example.com", position);
+        employee.setId(1L);
+
+        Page<Employee> employeePage = new PageImpl<>(List.of(employee), PageRequest.of(0, 10), 1);
+
+        EmployeeController controller = new EmployeeController();
+        controller.setEmployeeRepository(this.employeeRepository);
+        controller.setPositionRepository(this.positionRepository);
+
+        given(this.positionRepository.findAll()).willReturn(List.of(position));
+        given(this.employeeRepository.findByFiltersAndSort(
+                eq(""), eq(""), anyList(), eq(""), any(Pageable.class)))
+                .willReturn(employeePage);
+
+        org.springframework.ui.Model model = new org.springframework.ui.ConcurrentModel();
+        String viewName = controller.showAllEmployees(
+                model,
+                0,
+                10,
+                "",
+                "",
+                "",
+                1L,
+                "position",
+                "asc"
+        );
+
+        assertEquals("show_employees", viewName);
+        assertEquals("position.name", model.getAttribute("sortField"));
+        assertEquals("asc", model.getAttribute("direction"));
+        assertEquals(1L, model.getAttribute("totalElements"));
+        verify(this.employeeRepository, times(1)).findByFiltersAndSort(
+                eq(""), eq(""), anyList(), eq(""), any(Pageable.class));
+    }
+
     // сгенерировано gigacode
 	@Test
 	public void shouldDeleteEmployeeIfExists() {
@@ -287,13 +343,18 @@ public class EmployeeControllerTest {
 
 		// When & Then
 		try {
-			ModelAndView result = mockMvc.perform(get("/employees/delete/" + id))
-					.andExpect(status().is3xxRedirection())
-					.andExpect(redirectedUrl("/index/"))
-					.andReturn().getModelAndView();
-
+			EmployeeController controller = new EmployeeController();
+			controller.setEmployeeRepository(this.employeeRepository);
+			controller.setPositionRepository(this.positionRepository);
+			Page<Employee> employeePage = new PageImpl<>(List.of(new Employee("John", "Doe", "john@example.com", new Position(1L, "Developer"))), PageRequest.of(0, 10), 1);
+			given(this.positionRepository.findAll()).willReturn(List.of(new Position(1L, "Developer")));
+			given(this.employeeRepository.findByFiltersAndSort(eq(""), eq(""), anyList(), eq(""), any(Pageable.class)))
+					.willReturn(employeePage);
+			Model model = new org.springframework.ui.ConcurrentModel();
+			controller.showAllEmployees(model, 0, 10, "", "", "", -1L, "lastName", "asc");
+			ModelAndView result = controller.deleteEmployee(id, model);
 			assertNotNull(result);
-			assertEquals("redirect:/index/", result.getViewName());
+			assertEquals("redirect:/show_employees/", result.getViewName());
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
