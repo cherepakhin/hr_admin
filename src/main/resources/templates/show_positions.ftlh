@@ -143,15 +143,15 @@
                     <!-- Caption -->
                     <thead class="uppercase border-t border-gray-100 bg-gray-50">
                         <!-- Name -->
-                        <th class="px-6 py-09rem cursor-pointer group font-medium font-black"
+                        <th class="px-6 py-4 cursor-pointer group font-medium font-black"
                             onclick="window.location.href='?page=$sortField=name&direction=${(sortField == 'name' && direction = 'asc')?string('desc','asc')}'"
-                        >Должность<span class="text-gray-800 text-2xl">
+                        >Должность<span>
                                     <#if direction == "asc">↓</#if>
                                     <#if direction == "desc">↑</#if>
                                     </span>
                         </th>
                         <!-- Actions -->
-                        <th class="px-6 py-09rem cursor-pointer group font-medium font-black">Действия</th>
+                        <th class="px-6 py-4 cursor-pointer group font-medium font-black">Действия</th>
                     </thead> <!-- Caption -->
                     <tbody>
                         <!-- Position Details -->
