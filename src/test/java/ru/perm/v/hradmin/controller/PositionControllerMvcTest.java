@@ -1,5 +1,6 @@
 package ru.perm.v.hradmin.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import ru.perm.v.hradmin.model.Position;
 import ru.perm.v.hradmin.repository.EmployeeRepository;
 import ru.perm.v.hradmin.repository.PositionRepository;
@@ -14,10 +15,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -37,7 +42,7 @@ public class PositionControllerMvcTest {
 	private EmployeeRepository employeeRepository;
 
 	@Test
-	public void shouldListPositionsWithPagination() throws Exception {
+	public void shouldListPositions() throws Exception {
 		// Given
 		Position dev = new Position(1L, "Developer");
 		Position mgr = new Position(2L, "Manager");
@@ -49,9 +54,9 @@ public class PositionControllerMvcTest {
 				.andExpect(status().isOk())
 				.andExpect(view().name("show_positions"))
 				.andExpect(model().attributeExists("positions"))
-				.andExpect(model().attribute("positions", org.hamcrest.Matchers.hasSize(2)))
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Developer")))
-				.andExpect(content().string(org.hamcrest.Matchers.containsString("Manager")));
+				.andExpect(model().attribute("positions", hasSize(2)))
+				.andExpect(content().string(containsString("Developer")))
+				.andExpect(content().string(containsString("Manager")));
 	}
 
 	@Test
@@ -107,7 +112,7 @@ public class PositionControllerMvcTest {
 				.andExpect(status().isOk())
 				.andExpect(view().name("create_position"))
 				.andExpect(model().attributeExists("position"))
-				.andExpect(model().attribute("position", org.hamcrest.Matchers.is(org.hamcrest.Matchers.notNullValue())));
+				.andExpect(model().attribute("position", is(notNullValue())));
 	}
 
 	@Test
@@ -140,7 +145,7 @@ public class PositionControllerMvcTest {
 				.andExpect(model().attribute("name", NAME))
 				.andExpect(model().attribute("error_for_name", "Должность с таким названием уже существует."));
 
-		verify(positionRepository, org.mockito.Mockito.never()).save(any(Position.class));
+		verify(positionRepository, never()).save(any(Position.class));
 	}
 
 	@Test
@@ -155,9 +160,9 @@ public class PositionControllerMvcTest {
 				.andExpect(status().isOk())
 				.andExpect(view().name("create_position"))
 				.andExpect(model().attribute("name", SHORT_NAME))
-				.andExpect(model().attribute("error_for_name", org.hamcrest.Matchers.containsString("от 3 to 15 символов")));
+				.andExpect(model().attribute("error_for_name", containsString("от 3 to 15 символов")));
 
-		verify(positionRepository, org.mockito.Mockito.never()).save(any(Position.class));
+		verify(positionRepository, never()).save(any(Position.class));
 	}
 
 	@Test
@@ -180,15 +185,10 @@ public class PositionControllerMvcTest {
 		when(positionRepository.findById(999L)).thenReturn(Optional.empty());
 
 		// When & Then
-		Exception exception = null;
-		try {
-			mockMvc.perform(get("/positions/edit/999"));
-		} catch (Exception e) {
-			exception = e;
-		}
-
-		assertNotNull(exception);
-		assertThat(exception.getMessage()).isEqualTo("Request processing failed: java.lang.IllegalArgumentException: Invalid position ID: 999");
+		assertThatThrownBy(() -> mockMvc.perform(get("/positions/edit/999")))
+				.cause()
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessage("Invalid position ID: 999");
 	}
 
 	@Test
@@ -226,7 +226,7 @@ public class PositionControllerMvcTest {
 				.andExpect(model().attribute("name", DUPLICATE_NAME))
 				.andExpect(model().attribute("error_for_name", "Должность с таким названием УЖЕ существует."));
 
-		verify(positionRepository, org.mockito.Mockito.never()).save(any(Position.class));
+		verify(positionRepository, never()).save(any(Position.class));
 	}
 
 	@Test
@@ -244,9 +244,9 @@ public class PositionControllerMvcTest {
 				.andExpect(status().isOk())
 				.andExpect(view().name("edit_position"))
 				.andExpect(model().attribute("name", SHORT_NAME))
-				.andExpect(model().attribute("error_for_name", org.hamcrest.Matchers.containsString("от 3 to 15 символов")));
+				.andExpect(model().attribute("error_for_name", containsString("от 3 to 15 символов")));
 
-		verify(positionRepository, org.mockito.Mockito.never()).save(any(Position.class));
+		verify(positionRepository, never()).save(any(Position.class));
 	}
 
 	@Test
@@ -261,43 +261,23 @@ public class PositionControllerMvcTest {
 
 	@Test
 	public void shouldReturnBadRequestWhenDirectionIsInvalid() {
-		// Given
-		when(positionRepository.findAllAndSort(any(Sort.class)))
-				.thenReturn(List.of(new Position(1L, "Developer")));
-
 		// When & Then
-		Exception exception = null;
-		try {
-			mockMvc.perform(get("/positions/")
-							.param("direction", "invalid"));
-		} catch (Exception e) {
-			exception = e;
-		}
-
-		assertNotNull(exception);
-		assertThat(exception.getMessage()).contains("jakarta.validation.ConstraintViolationException");
-		assertThat(exception.getMessage()).contains("Направление должно быть 'asc' или 'desc'");
+		assertThatThrownBy(() -> mockMvc.perform(get("/positions/")
+						.param("direction", "invalid")))
+				.cause()
+				.isInstanceOf(ConstraintViolationException.class)
+				.hasMessageContaining("Направление должно быть 'asc' или 'desc'");
 	}
 
 	@Test
 	public void shouldReturnBadRequestWhenSortFieldIsInvalid() {
-		// Given
-		when(positionRepository.findAllAndSort(any(Sort.class)))
-				.thenReturn(List.of(new Position(1L, "Developer")));
-
 		// When & Then
-		Exception exception = null;
-		try {
-			mockMvc.perform(get("/positions/")
-							.param("sortField", "invalid")
-							.param("direction", "asc"));
-		} catch (Exception e) {
-			exception = e;
-		}
-
-		assertNotNull(exception);
-		assertThat(exception.getMessage()).contains("jakarta.validation.ConstraintViolationException");
-		assertThat(exception.getMessage()).contains("Направление должно быть 'id' или 'name'");
+		assertThatThrownBy(() -> mockMvc.perform(get("/positions/")
+						.param("sortField", "invalid")
+						.param("direction", "asc")))
+				.cause()
+				.isInstanceOf(ConstraintViolationException.class)
+				.hasMessageContaining("Направление должно быть 'id' или 'name'");
 	}
 
 	@Test
@@ -309,6 +289,6 @@ public class PositionControllerMvcTest {
 		mockMvc.perform(get("/positions/"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("show_positions"))
-				.andExpect(model().attribute("positions", org.hamcrest.Matchers.hasSize(0)));
+				.andExpect(model().attribute("positions", hasSize(0)));
 	}
 }

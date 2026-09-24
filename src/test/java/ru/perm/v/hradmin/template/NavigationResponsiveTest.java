@@ -134,6 +134,8 @@ class NavigationResponsiveTest {
 
     private String readFile(String relativePath) throws IOException {
         String filePath = TEMPLATES_DIR + relativePath;
-        return new String(Files.readAllBytes(Paths.get(filePath)));
+        // Files.readString() по умолчанию читает в UTF-8, поэтому кириллица
+        // корректно декодируется независимо от file.encoding платформы.
+        return Files.readString(Paths.get(filePath));
     }
 }
