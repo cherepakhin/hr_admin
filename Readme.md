@@ -193,8 +193,14 @@ public class ProductController {
     }
 ````
 
-Обращение из __файлов шаблонов (*.ftlh)__ к ресурсам __src/resource/STATIC/__ происходит через переменную __springMacroRequestContext.contextPath__.
-Нужно для минимизации запросов к внешним ресурсам интернета (и прочим вопросам безопаснотси). 
+Обращение из __файлов шаблонов (*.ftlh)__ к ресурсам __src/resource/static/__ (__STATIC!!!__) происходит через переменную __springMacroRequestContext.contextPath__.
+__STATIC__ ресурсы копируются в корневую папку __classes__ проекта при сборке (см. jar). 
+Через эту переменную FreeMarker получает контекстный путь.
+
+````html
+<link href="${springMacroRequestContext.contextPath}/css/hradmin.css" rel="stylesheet">
+````
+
 Пример из [src/resource/templates/positions.ftlh](src/resource/templates/positions.ftlh):
 
 ````
