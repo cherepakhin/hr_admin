@@ -1,4 +1,4 @@
-#export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
-#export SERVER_SERVLET_CONTEXT_PATH=/hr_admin
-# -Dserver.servlet.context-path="/hr_admin"
+rem open http://127.0.0.1:8989/hradmin/
+set JAVA_HOME=C:\po\jvm\jdk17
+set SERVER_SERVLET_CONTEXT_PATH=/hradmin
 mvnw clean spring-boot:run

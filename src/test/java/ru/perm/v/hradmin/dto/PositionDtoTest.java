@@ -16,6 +16,14 @@ public class PositionDtoTest {
     }
 
     @Test
+    public void testEqualsHashCode1() {
+        PositionDto dto1 = new PositionDto(1L, "Developer");
+        PositionDto dto2 = new PositionDto(1L, "Developer");
+
+        assertEquals(dto1.hashCode(), dto2.hashCode());
+    }
+
+    @Test
     public void testEqualsEqualValues() {
         PositionDto dto1 = new PositionDto(1L, "Developer");
         PositionDto dto2 = new PositionDto(1L, "Developer");
