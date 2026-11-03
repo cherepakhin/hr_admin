@@ -6,8 +6,8 @@
     <title>Фильтр сотрудников</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/hradmin/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/hradmin/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="${springMacroRequestContext.contextPath}/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="${springMacroRequestContext.contextPath}/favicon.ico" type="image/x-icon">
 
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>

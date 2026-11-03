@@ -6,8 +6,8 @@
     <title>Positions - HR Admin</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/hradmin/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/hradmin/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="${springMacroRequestContext.contextPath}/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="${springMacroRequestContext.contextPath}/favicon.ico" type="image/x-icon">
 
     <!-- Tailwind CSS via CDN -->
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
