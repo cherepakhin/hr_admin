@@ -8,6 +8,7 @@
     <!-- Favicon -->
     <link rel="icon" href="${springMacroRequestContext.contextPath}/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="${springMacroRequestContext.contextPath}/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="${springMacroRequestContext.contextPath}/favicon.ico">
 
     <!-- Tailwind CSS via CDN -->
     <script src="${springMacroRequestContext.contextPath}/js/tailwind.js"></script>

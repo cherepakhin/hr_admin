@@ -1310,3 +1310,9 @@ Log файлы в /var/log/hradmin.stderr.log , /var/log/hradmin.stdout.log .
 ### Загрузка файлов
 
 В этом проекте __НЕ__ реализована загрузка файлов. Пример можно посмотреть в [https://github.com/cherepakhin/spring_boot_mvc_upload_files](https://github.com/cherepakhin/spring_boot_mvc_upload_files).
+
+### Иконка для iphone
+
+````text
+<link rel="apple-touch-icon" href="${springMacroRequestContext.contextPath}/favicon.ico">
+````
