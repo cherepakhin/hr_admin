@@ -138,7 +138,7 @@ OS name: "linux", version: "6.14.0-37-generic", arch: "amd64", family: "unix"
 			</plugin>
 ````
 
-Можно запустить через:
+Можно запустить через [./checkstyle.sh](./checkstyle.sh):
 
 ````shell
 ./mvnw checkstyle:check
