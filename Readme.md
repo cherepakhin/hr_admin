@@ -4,6 +4,7 @@
 [Экраны](#screens)<br/>
 [Создание maven wrapper](#maven_wrapper)<br/>
 [ModelAndView](#model_and_view)<br/>
+[CheckStyle](#checkstyle)<br/>
 [Тестирование](#testing)<br/>
 [Покрытие тестами](#test_coverage)<br/>
 [Сборка](#build)<br/>
@@ -110,6 +111,45 @@ Java version: 17.0.17, vendor: Ubuntu, runtime: /usr/lib/jvm/java-17-openjdk-amd
 Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "6.14.0-37-generic", arch: "amd64", family: "unix"
 
+````
+
+<a id="checkstyle"></a>
+### CheckStyle
+
+Для проверки стиля кода используется плагин __maven-checkstyle-plugin__. Включен в __pom.xml__.
+
+````xml
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
+				</configuration>
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+````
+
+Можно запустить через:
+
+````shell
+./mvnw checkstyle:check
+````
+
+Результат в консоли:
+
+````text
+[INFO] --- checkstyle:3.6.0:check (default-cli) @ hradmin ---
+[INFO] You have 0 Checkstyle violations.
+[INFO] ------------------------------------------------------------------------
 ````
 
 <a id="model_and_view"></a>
