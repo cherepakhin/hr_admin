@@ -172,9 +172,8 @@
                                     <td class="px-6 py-05rem">${empl.position.name}</td>
                                     <td class="px-6 py-05rem flex justify-left gap-2">
                                         <a href="${springMacroRequestContext.contextPath}/employees/edit/${empl.id}"
-                                           class="action-edit inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-sky-100 transition"
-                                           title="Изменить">
-                                            <svg class="action-icon" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
+                                           class="text-sky-900 hover:text-sky-700 hover:bg-sky-100 font-medium text-sm transition flex items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="-4 -4 30 30" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                             </svg>
                                         </a>
