@@ -58,14 +58,14 @@ public class EmployeeController {
         log.info("listEmployees. page: {}, sortField: {}, direction: {}", page, sortField, direction);
         this.refreshEmployees(model, page, size, sortField, direction);
 
-		/*
-		if (currentIndexPage.equals("/show_employees")) {
-			currentIndexPage = "/employees" + currentIndexPage;
-			log.info("New currentIndexPage:{}", currentIndexPage);
-		} else {
-			currentIndexPage = "/employees/index";
-		}
-		*/
+        /*
+        if (currentIndexPage.equals("/show_employees")) {
+            currentIndexPage = "/employees" + currentIndexPage;
+            log.info("New currentIndexPage:{}", currentIndexPage);
+        } else {
+            currentIndexPage = "/employees/index";
+        }
+        */
         log.info("/employees");
         log.info("/ -> {}", currentIndexPage);
         currentIndexPage = "/";
@@ -251,14 +251,14 @@ public class EmployeeController {
 
         // Сортировка. Уже не нужно, т.е. определено в параметрах и вообще вся логика уже есть в форме
         //if (sortField == null || sortField.isEmpty()) {
-        //	sortField = Fields.ID;
-        //	log.info("SET sortField: {}", sortField);
+        //    sortField = Fields.ID;
+        //    log.info("SET sortField: {}", sortField);
         //}
 
         // default defined in param
         //if (direction == null || direction.isEmpty()) {
-        //	direction = Direction.ASC;
-        //	log.info("SET DEFAULT direction: {}", direction);
+        //    direction = Direction.ASC;
+        //    log.info("SET DEFAULT direction: {}", direction);
         //}
         // TODO: В запрос включены все должности, если не задан поиск по конкретной, хочется динамический sql
         // при этом sql запрос будет position_id in (все id должностей)

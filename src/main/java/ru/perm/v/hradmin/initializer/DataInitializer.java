@@ -16,49 +16,49 @@ import static java.lang.String.format;
 @Component
 public class DataInitializer implements CommandLineRunner {
 
-	private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
+    private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
 
-	@Autowired
-	private EmployeeRepository employeeRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
-	@Autowired
-	private PositionRepository positionRepository;
+    @Autowired
+    private PositionRepository positionRepository;
 
-	@Override
-	public void run(String... args) {
-		Position nullPosition;
-		Position director = null;
-		Position accounter = null;
-		Position worker = null;
-		Position forTest;
-		if (this.positionRepository.count() == 0) {
-			log.info("Initialize positions");
-			nullPosition = this.positionRepository.save(new Position(-1L, "------"));
-			log.info("Saved nullPosition: {}", nullPosition );
-			director = this.positionRepository.save(new Position(1L, "Директор"));
-			log.info("Saved director: {}", director );
-			accounter = this.positionRepository.save(new Position(2L, "Бухгалтер"));
-			log.info("Saved accounter: {}", accounter );
-			worker = this.positionRepository.save(new Position(3L, "Рабочий"));
-			log.info("Saved worker: {}", worker );
-			forTest = this.positionRepository.save(new Position(4L, "Для тестов"));
-			log.info("Saved forTest: {}", forTest );
-		}
+    @Override
+    public void run(String... args) {
+        Position nullPosition;
+        Position director = null;
+        Position accounter = null;
+        Position worker = null;
+        Position forTest;
+        if (this.positionRepository.count() == 0) {
+            log.info("Initialize positions");
+            nullPosition = this.positionRepository.save(new Position(-1L, "------"));
+            log.info("Saved nullPosition: {}", nullPosition );
+            director = this.positionRepository.save(new Position(1L, "Директор"));
+            log.info("Saved director: {}", director );
+            accounter = this.positionRepository.save(new Position(2L, "Бухгалтер"));
+            log.info("Saved accounter: {}", accounter );
+            worker = this.positionRepository.save(new Position(3L, "Рабочий"));
+            log.info("Saved worker: {}", worker );
+            forTest = this.positionRepository.save(new Position(4L, "Для тестов"));
+            log.info("Saved forTest: {}", forTest );
+        }
 
-		if (this.employeeRepository.count() == 0) {
-			log.info("Initialize employees");
-			this.employeeRepository.save(new Employee("Иван", "Иванов", "ivan@example.com", director));
-			this.employeeRepository.save(new Employee("Мария", "Петрова", "maria@example.com", accounter));
-			this.employeeRepository.save(new Employee("Алексей", "Сидоров", "alex@example.com", director));
-			this.employeeRepository.save(new Employee("Елена", "Кузнецова", "elena@example.com", accounter));
+        if (this.employeeRepository.count() == 0) {
+            log.info("Initialize employees");
+            this.employeeRepository.save(new Employee("Иван", "Иванов", "ivan@example.com", director));
+            this.employeeRepository.save(new Employee("Мария", "Петрова", "maria@example.com", accounter));
+            this.employeeRepository.save(new Employee("Алексей", "Сидоров", "alex@example.com", director));
+            this.employeeRepository.save(new Employee("Елена", "Кузнецова", "elena@example.com", accounter));
 
-			for (int i = 0; i < 10; i++) {
-				this.employeeRepository.save(new Employee("Name " + i, "Lastname " + i, format("emp%s@example.com", i), worker));
-			}
-			log.info("Test data added.");
-		} else {
-			log.info("The database already contains data. Initialization has been skipped.");
-		}
+            for (int i = 0; i < 10; i++) {
+                this.employeeRepository.save(new Employee("Name " + i, "Lastname " + i, format("emp%s@example.com", i), worker));
+            }
+            log.info("Test data added.");
+        } else {
+            log.info("The database already contains data. Initialization has been skipped.");
+        }
 
-	}
+    }
 }

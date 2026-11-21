@@ -21,25 +21,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/positions/")
 public class PositionRestController {
-	private static final Logger log = LoggerFactory.getLogger(PositionController.class);
+    private static final Logger log = LoggerFactory.getLogger(PositionController.class);
 
-	private final PositionRepository positionRepository;
-	private final EmployeeRepository employeeRepository;
+    private final PositionRepository positionRepository;
+    private final EmployeeRepository employeeRepository;
 
-	@Autowired
-	public PositionRestController(PositionRepository positionRepository, EmployeeRepository employeeRepository) {
-		this.positionRepository = positionRepository;
-		this.employeeRepository=employeeRepository;
-	}
+    @Autowired
+    public PositionRestController(PositionRepository positionRepository, EmployeeRepository employeeRepository) {
+        this.positionRepository = positionRepository;
+        this.employeeRepository=employeeRepository;
+    }
 
-	@GetMapping("/can_delete/{id}")
-	public String canDeletePosition(@PathVariable Long id, Model model) {
-		log.info("Verify delete position id: {}", id);
-		List<Employee> employees = employeeRepository.findAllByPosition(id);
-		if(employees.size()>0) {
-			return "{\"deleteable\": false}";
-		} else {
-			return "{\"deleteable\": true}";
-		}
-	}
+    @GetMapping("/can_delete/{id}")
+    public String canDeletePosition(@PathVariable Long id, Model model) {
+        log.info("Verify delete position id: {}", id);
+        List<Employee> employees = employeeRepository.findAllByPosition(id);
+        if(employees.size()>0) {
+            return "{\"deleteable\": false}";
+        } else {
+            return "{\"deleteable\": true}";
+        }
+    }
 }
