@@ -1,7 +1,15 @@
 package ru.perm.v.hradmin.controller;
 
-import jakarta.validation.*;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMethod;
 import ru.perm.v.hradmin.model.Position;
 import ru.perm.v.hradmin.repository.EmployeeRepository;
 import ru.perm.v.hradmin.repository.PositionRepository;
@@ -13,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +99,7 @@ public class PositionController {
 		log.info("Create position: {}", position);
 		ValidatorFactory factory = buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<Position>> violations = validator.validate(position);
+		Set<ConstraintViolation<ru.perm.v.hradmin.model.Position>> violations = validator.validate(position);
 		if(!violations.isEmpty()) {
 			String errors = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(", "));
 			log.info("Binding result: {}", bindingResult);

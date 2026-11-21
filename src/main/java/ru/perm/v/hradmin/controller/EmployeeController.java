@@ -18,12 +18,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import java.util.stream.Collectors;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 //TODO: добавить валидацию
 
 /**
@@ -46,7 +47,7 @@ public class EmployeeController {
     @Autowired
     private PositionRepository positionRepository;
 
-    @GetMapping("/")
+    @org.springframework.web.bind.annotation.GetMapping("/")
     public String listEmployees(Model model,
                                 @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "10") int size,
@@ -91,14 +92,16 @@ public class EmployeeController {
         }
     */
     @PostMapping("/")
-    public String createEmployee(@ModelAttribute Employee employee, Model model) {
+    public String createEmployee(@org.springframework.web.bind.annotation.ModelAttribute Employee employee, Model model) {
         log.info("createEmployee {}:", employee);
         model.addAttribute("positions", positionRepository.findAll());
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        Set<ConstraintViolation<Employee>> violations = validator.validate(employee);
+        java.util.Set<jakarta.validation.ConstraintViolation<ru.perm.v.hradmin.model.Employee>> violations = validator.validate(employee);
+
         if (!violations.isEmpty()) {
-            Map<String, String> errors = new HashMap<>();
+            // Обработка ошибок валидации и возврат в форму при наличии ошибок
+            java.util.Map<String, String> errors = new java.util.HashMap<>();
             violations.stream().forEach(
                     v -> {
                         log.error("Validation error v.getPropertyPath(): {}", v.getPropertyPath());
@@ -125,9 +128,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Long id, Model model) {
+    public String showEditForm(@org.springframework.web.bind.annotation.PathVariable("id") Long id, Model model) {
         log.info("showEditForm");
-        Optional<Employee> optional = employeeRepository.findById(id);
+        java.util.Optional<ru.perm.v.hradmin.model.Employee> optional = employeeRepository.findById(id);
         log.info("/employees/edit/{id}: from page={}", currentIndexPage);
         if (optional.isPresent()) {
             log.info("Edit employee = {}", optional.get());
@@ -148,7 +151,7 @@ public class EmployeeController {
     //        </div>
 
     @PostMapping("/update/{id}")
-    public String updateEmployee(@PathVariable("id") Long id,
+    public String updateEmployee(@org.springframework.web.bind.annotation.PathVariable("id") Long id,
                                  @ModelAttribute Employee employee,
                                  Model model) {
         log.info("updateEmployee");
@@ -166,7 +169,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView deleteEmployee(@PathVariable Long id, Model model) {
+    public ModelAndView deleteEmployee(@org.springframework.web.bind.annotation.PathVariable Long id, Model model) {
         log.info("deleteEmployee");
 
         // Проверка существования сотрудника перед удалением
@@ -260,7 +263,7 @@ public class EmployeeController {
         // TODO: В запрос включены все должности, если не задан поиск по конкретной, хочется динамический sql
         // при этом sql запрос будет position_id in (все id должностей)
         // динамический sql в планах, см. как сделать в проекте для МТС
-        List<Long> positions = positionRepository.findAll().stream().map(Position::getId).collect(Collectors.toList());
+        java.util.List<Long> positions = positionRepository.findAll().stream().map(Position::getId).collect(Collectors.toList());
         log.debug("positions: {}", positions);
         // если задана позиция, то в списке должностей оставить только ее
         // иначе выбирать по всем позициям
