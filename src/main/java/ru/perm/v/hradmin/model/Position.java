@@ -14,19 +14,19 @@ import java.util.Objects;
 @Table(name = "positions")
 public class Position {
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@Size(min = 3, max = 15, message = "Название должности должно быть от 3 to 15 символов.")
+    @Size(min = 3, max = 15, message = "Название должности должно быть от 3 to 15 символов.")
     @Column(nullable = false, unique = true, length = 15)
     private String name = "";
 
     public Position() {}
 
-	public Position(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
+    public Position(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Position(String name) {
         this.name = name;
@@ -57,15 +57,15 @@ public class Position {
                 '}';
     }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Position position)) return false;
-		return Objects.equals(id, position.id) && Objects.equals(name, position.name);
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Position position)) return false;
+        return Objects.equals(id, position.id) && Objects.equals(name, position.name);
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, name);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 }

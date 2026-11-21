@@ -21,18 +21,18 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
     @Query("SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END FROM Position p WHERE LOWER(p.name) = LOWER(:name) AND p.id <> :id")
     boolean existsByNameAndIdNot(@Param("name") String name, @Param("id") Long id);
 
-	//  COALESCE -  Замена NULL на значение по умолчанию.
-	@Query("select COALESCE(max(id)+1, 1) from Position")
-	Long getNextId();
+    //  COALESCE -  Замена NULL на значение по умолчанию.
+    @Query("select COALESCE(max(id)+1, 1) from Position")
+    Long getNextId();
 
-	@Modifying
-	@Query("delete from Position where id= :id")
-	void sqlDeleteById(@Param("id") long positionId);
+    @Modifying
+    @Query("delete from Position where id= :id")
+    void sqlDeleteById(@Param("id") long positionId);
 
-	@Query("select p from Position p")
-	List<Position> findAllAndSort(Sort sort);
+    @Query("select p from Position p")
+    List<Position> findAllAndSort(Sort sort);
 
-	List<Position> findPositionByName(String name);
+    List<Position> findPositionByName(String name);
 
-	List<Position> findPositionByNameContainsIgnoreCase(String name);
+    List<Position> findPositionByNameContainsIgnoreCase(String name);
 }
